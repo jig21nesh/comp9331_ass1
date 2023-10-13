@@ -3,8 +3,9 @@ package org.example.server;
 import java.util.Map;
 
 public class CredentialLoader {
-    public void loadCredential(Map<String, String> credentailMap){
-        credentailMap.put("jiggy", "jiggy");
-        SystemMessages.successfulLoadingOfCredentails(credentailMap.size());
+    public void loadCredential(Map<String, String> credentialMap){
+        credentialMap.put("jiggy", "jiggy");
+        credentialMap.put("test","test");
+        System.out.println(SystemMessages.successfulLoadingOfCredentials(credentialMap.size()));
     }
 }

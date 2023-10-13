@@ -1,5 +1,6 @@
 package org.example.server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -7,13 +8,18 @@ import java.util.Map;
 
 public class Server {
     InputValidator inputValidator;
-    private static Map<String, String> credentailMap = new HashMap<>();
+
+    CredentialValidator credentialValidator;
+    private static final Map<String, String> credentialMap = new HashMap<>();
+
+    private static final Map<String, ActiveUser> activeUsersMap = new HashMap<>();
 
     int portNumber;
     int nofFailedAttempts;
 
     public Server(){
         inputValidator = new InputValidator();
+        credentialValidator = new CredentialValidator(credentialMap);
     }
 
     private void createSocketAndWaitForConnection(){
@@ -22,13 +28,16 @@ public class Server {
             while(true){
                 try {
                     Socket socket = serverSocket.accept();
+                    ClientHandler clientHandler = new ClientHandler(socket, credentialValidator, activeUsersMap);
+                    Thread clientThread = new Thread(clientHandler);
+                    clientThread.start();
 
                 } catch (IOException e) {
-
+                    System.out.println(e.getMessage());
                 }
             }
         }catch (Exception exception){
-
+            System.out.println(exception.getMessage());
         }
     }
 
@@ -37,6 +46,7 @@ public class Server {
             portNumber = Integer.parseInt(inputValues[0]);
             nofFailedAttempts = Integer.parseInt(inputValues[1]);
             System.out.println(SystemMessages.successfulStartMessage(portNumber, nofFailedAttempts));
+            this.createSocketAndWaitForConnection();
         }else{
             System.out.println(SystemMessages.USAGE_STRING);
             System.exit(0);
@@ -49,9 +59,9 @@ public class Server {
        }else{
            CredentialLoader credentialLoader = new CredentialLoader();
            try{
-               credentialLoader.loadCredential(credentailMap);
+               credentialLoader.loadCredential(credentialMap);
            }catch( Exception exception){
-               SystemMessages.failLoadingOfCredentails();
+               System.out.println(SystemMessages.failLoadingOfCredentials());
                System.exit(0);
            }
 

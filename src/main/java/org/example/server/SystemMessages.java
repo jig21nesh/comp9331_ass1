@@ -1,28 +1,49 @@
 package org.example.server;
 
 public class SystemMessages {
-    public static final String USAGE_STRING = "Usage is java server <PORT_NUMBER> <BLOCK_WAIT_TIME>";
+    public static final String USAGE_STRING = "Usage is java server <PORT_NUMBER> <NO_OF_FAIL_ATTEMPTS>";
 
-    public static final String portRangeMessage(int lowLimit, int highLimit ){
-        StringBuilder sb = new StringBuilder("Port number should be within the range of ").append(lowLimit).append(" and ").append(highLimit);
-        return sb.toString();
+    public static final String AUTHENTICATION_MESSAGE = "Please login";
+
+    public static String unknownError(){
+        return "Unexpected error!!!!";
     }
 
-    public static final String successfulStartMessage(int portNumber, int noOfFailedAttempt){
-        StringBuilder sb = new StringBuilder("Server started on port:  ").append(portNumber).append(" with number of failed attempt: ").append(noOfFailedAttempt);
-        return sb.toString();
+    public static  String portRangeMessage(int lowLimit, int highLimit ){
+        return "Port number should be within the range of " + lowLimit + " and " + highLimit;
     }
 
-    public static final String warningPortMessage(int lowLimit, int highLimit){
-        StringBuilder sb = new StringBuilder("Port number is valid but it is part of dynamic port. ").append("  Please use port between  ").append(lowLimit).append(" and ").append(highLimit);
-        return sb.toString();
+    public static  String successfulStartMessage(int portNumber, int noOfFailedAttempt){
+        return "Server started on port:  " + portNumber + " with number of failed attempt: " + noOfFailedAttempt;
     }
 
-    public static final String successfulLoadingOfCredentails(int size){
-        return size+" credentail have been loaded.";
+    public static  String warningPortMessage(int lowLimit, int highLimit){
+        return "Port number is valid but it is part of dynamic port. " + "  Please use port between  " + lowLimit + " and " + highLimit;
     }
 
-    public static final String failLoadingOfCredentails(){
-        return "Server is not able to load the credentails. It can't start. ";
+    public static  String successfulLoadingOfCredentials(int size){
+        return size+" credential have been loaded.";
+    }
+
+    public static String failLoadingOfCredentials(){
+        return "Server is not able to load the credential. It can't start. ";
+    }
+
+    public static  String welcomeMessage(String username){
+        return "Your credentials are correct - " + username + " Welcome to the server. ";
+    }
+
+    public static String invalidUsername(String username){
+        return  username+" is invalid";
+    }
+    public static String invalidPassword(int attempNumber){
+        return "Invalid Password "+attempNumber+". Please try again";
+    }
+
+    public static String commandList(){
+        return "Enter one of the following commands: \n" +
+                "/msgto \n" +
+                "/activeuser \n" +
+                "/logout";
     }
 }
