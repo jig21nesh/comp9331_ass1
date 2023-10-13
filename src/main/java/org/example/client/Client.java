@@ -34,9 +34,10 @@ public class Client {
             String password = localInputReader.readLine();
             writeToServer.println(password);
 
-            Thread messageReader = new Thread(new ServerMessageReaderThread(bufferedReaderFromSocket, socket));
+            ServerMessageReaderThread runnableObject = new ServerMessageReaderThread(bufferedReaderFromSocket, socket);
+            Thread messageReader = new Thread(runnableObject);
             messageReader.start();
-            this.waitAndProcessInput(socket, writeToServer, localInputReader);
+            this.waitAndProcessInput(socket, writeToServer, localInputReader, runnableObject);
             messageReader.join();
 
 
@@ -57,18 +58,21 @@ public class Client {
                     socket.close();
                 }
             }catch (Exception exception){
-                exception.printStackTrace();
+                System.out.println(exception.getMessage());
             }
         }
     }
 
-    private void waitAndProcessInput(Socket serverSocket, PrintWriter writeToServer, BufferedReader localInputReader) throws Exception{
+    private void waitAndProcessInput(Socket serverSocket, PrintWriter writeToServer, BufferedReader localInputReader, ServerMessageReaderThread thread) throws Exception{
         boolean keepRunning = true;
         String userInput;
         while(keepRunning){
             userInput = localInputReader.readLine();
             writeToServer.println(userInput);
             if ("/logout".equalsIgnoreCase(userInput)) {
+                if(!thread.isLogoutConfirmationReceived()){
+                    Thread.sleep(100); //TODO - Find a better way to handle this
+                }
                 keepRunning = false;
                 serverSocket.close();
             }

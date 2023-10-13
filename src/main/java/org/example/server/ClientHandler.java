@@ -61,7 +61,8 @@ public class ClientHandler implements Runnable{
                     printWriter.println(this.getActiveUserInformation(inputUsername));
                     printWriter.println(SystemMessages.commandList());
                 }else if("/logout".equalsIgnoreCase(clientInput)) {
-                    printWriter.println("Logout");
+                    this.logoutCleanUp(inputUsername);
+                    printWriter.println(SystemMessages.logoutMessage(inputUsername));
                 }else{
                     printWriter.println("Invalid command");
                     printWriter.println(SystemMessages.commandList());
@@ -76,6 +77,10 @@ public class ClientHandler implements Runnable{
     private synchronized void udpateActiveUsers(String username, String ipAddress, int portNumber){
         ActiveUser activeUser = new ActiveUser(username, new Date(), ipAddress, portNumber);
         activeUsersMap.put(username, activeUser);
+    }
+
+    private void logoutCleanUp(String username){
+        activeUsersMap.remove(username);
     }
 
     private String getActiveUserInformation(String username){

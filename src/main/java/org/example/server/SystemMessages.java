@@ -40,6 +40,10 @@ public class SystemMessages {
         return "Invalid Password "+attempNumber+". Please try again";
     }
 
+    public static String logoutMessage(String username){
+        return "GoodBye "+username;
+    }
+
     public static String commandList(){
         return "Enter one of the following commands: \n" +
                 "/msgto \n" +
