@@ -1,9 +1,18 @@
 package org.example.server;
 
 
+import java.util.regex.Pattern;
 
 public class InputValidator {
 
+
+    public boolean clientMessage(String message){
+        String messagePattenReg =
+                "^[A-Za-z0-9!@#$%.?,]+$";
+
+        Pattern messagePatten = Pattern.compile(messagePattenReg);
+        return messagePatten.matcher(message).matches();
+    }
 
     public boolean validateNumberOfAttempts(String input){
         return isValidInt(input);

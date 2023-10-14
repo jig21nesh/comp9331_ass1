@@ -47,7 +47,7 @@ public class ClientHandler implements Runnable{
             if(isValidUsername && isValidPassword){
                 printWriter.println(SystemMessages.welcomeMessage(inputUsername));
                 printWriter.println(SystemMessages.commandList());
-                this.udpateActiveUsers(inputUsername, socket.getInetAddress().getHostAddress(), socket.getPort());
+                this.updateActiveUsers(inputUsername, socket.getInetAddress().getHostAddress(), socket.getPort());
             }else if(!isValidUsername){
                 printWriter.println(SystemMessages.invalidUsername(inputUsername));
             }else {
@@ -55,7 +55,9 @@ public class ClientHandler implements Runnable{
             }
             String clientInput;
             while ((clientInput = bufferedReader.readLine()) != null) {
-                if ("/msgto".equalsIgnoreCase(clientInput)) {
+                if ("/msgto".startsWith(clientInput)) {
+                    MessageToProcessor processor = new MessageToProcessor(activeUsersMap);
+                    System.out.println(processor.sendMessage(clientInput).message);
                     printWriter.println("Message Received!");
                 }else if("/activeuser".equalsIgnoreCase(clientInput)) {
                     printWriter.println(this.getActiveUserInformation(inputUsername));
@@ -74,7 +76,8 @@ public class ClientHandler implements Runnable{
         }
     }
 
-    private synchronized void udpateActiveUsers(String username, String ipAddress, int portNumber){
+
+    private synchronized void updateActiveUsers(String username, String ipAddress, int portNumber){
         ActiveUser activeUser = new ActiveUser(username, new Date(), ipAddress, portNumber);
         activeUsersMap.put(username, activeUser);
     }
