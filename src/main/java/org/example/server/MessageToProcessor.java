@@ -41,7 +41,7 @@ public class MessageToProcessor {
     }
 
 
-    public MessageToStatuses isValidCommand(String input){
+    private MessageToStatuses isValidCommand(String input){
         String[] parts = input.split(" ");
         if (parts.length >= 3) {
             String command = parts[0];

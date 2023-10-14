@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/server/MessageToProcessorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/InputValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/InputValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -61,11 +60,11 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="org.example.client" />
       <recent name="org.example.server" />
+      <recent name="org.example.client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.client.Client" />
       <module name="ass1" />
@@ -107,21 +106,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ass1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.example.client" />
-      <option name="MAIN_CLASS_NAME" value="org.example.client.InputValidatorTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ass1" />
       <extension name="coverage">
@@ -138,20 +122,36 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ass1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example.server" />
+      <option name="MAIN_CLASS_NAME" value="org.example.server.MessageToProcessorTest" />
+      <option name="METHOD_NAME" value="shouldGetASuccessStatusIfInputIsValid" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.MessageParser" />
       <item itemvalue="Application.Server" />
       <item itemvalue="Application.Client" />
-      <item itemvalue="JUnit.InputValidatorTest" />
+      <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
       <item itemvalue="JUnit.InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
         <item itemvalue="Application.Client" />
         <item itemvalue="Application.MessageParser" />
         <item itemvalue="Application.Server" />
         <item itemvalue="JUnit.InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" />
-        <item itemvalue="JUnit.InputValidatorTest" />
       </list>
     </recent_temporary>
   </component>
@@ -166,7 +166,7 @@
       <workItem from="1697161891256" duration="7971000" />
       <workItem from="1697173567194" duration="3299000" />
       <workItem from="1697178737525" duration="98000" />
-      <workItem from="1697178843495" duration="19155000" />
+      <workItem from="1697178843495" duration="20289000" />
     </task>
     <servers />
   </component>
