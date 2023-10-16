@@ -20,11 +20,13 @@ public class Server {
     public Server(){
         inputValidator = new InputValidator();
         credentialValidator = new CredentialValidator(credentialMap);
+        new BlockedUserManagement();
     }
 
     private void createSocketAndWaitForConnection(){
         try{
             ServerSocket serverSocket = new ServerSocket(portNumber);
+
             while(true){
                 try {
                     Socket socket = serverSocket.accept();

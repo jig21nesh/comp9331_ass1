@@ -36,8 +36,8 @@ public class SystemMessages {
     public static String invalidUsername(String username){
         return  username+" is invalid";
     }
-    public static String invalidPassword(int attempNumber){
-        return "Invalid Password "+attempNumber+". Please try again";
+    public static String invalidPassword(){
+        return "Invalid Password. Please try again";
     }
 
     public static String logoutMessage(String username){

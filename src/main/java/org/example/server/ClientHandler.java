@@ -57,7 +57,8 @@ public class ClientHandler implements Runnable{
             }else if(!isValidUsername){
                 printWriter.println(SystemMessages.invalidUsername(inputUsername));
             }else {
-                printWriter.println(SystemMessages.invalidPassword(0));
+                printWriter.println(SystemMessages.invalidPassword());
+                System.out.println("Password is wrong!");
             }
             String clientInput;
             while ((clientInput = bufferedReader.readLine()) != null) {
