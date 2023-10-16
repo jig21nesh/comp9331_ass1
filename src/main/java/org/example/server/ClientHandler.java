@@ -14,16 +14,18 @@ public class ClientHandler implements Runnable{
 
     private final Map<String, ActiveUser> activeUsersMap;
 
+    private LogMessages logMessages;
+
     public ClientHandler(Socket socket, CredentialValidator credentialValidator, Map<String, ActiveUser> activeUsersMap){
         this.socket = socket;
         this.credentialValidator = credentialValidator;
         this.activeUsersMap = activeUsersMap;
+
+        logMessages = new LogMessages();
     }
 
 
-    private void messageTo(){
-        System.out.println("Managing message to command");
-    }
+
 
     @Override
     public void run() {
@@ -47,7 +49,8 @@ public class ClientHandler implements Runnable{
             if(isValidUsername && isValidPassword){
                 printWriter.println(SystemMessages.welcomeMessage(inputUsername));
                 printWriter.println(SystemMessages.commandList());
-                this.updateActiveUsers(inputUsername, socket.getInetAddress().getHostAddress(), socket.getPort());
+                this.updateActiveUsers(socket, inputUsername);
+                logMessages.userOnline(inputUsername);
             }else if(!isValidUsername){
                 printWriter.println(SystemMessages.invalidUsername(inputUsername));
             }else {
@@ -57,7 +60,8 @@ public class ClientHandler implements Runnable{
             while ((clientInput = bufferedReader.readLine()) != null) {
                 if ("/msgto".startsWith(clientInput)) {
                     MessageToProcessor processor = new MessageToProcessor(activeUsersMap);
-                    System.out.println(processor.sendMessage(clientInput).message);
+                    //TODO fix the logging and processor
+                    System.out.println(processor.sendMessage(clientInput).statusMessage);
                     printWriter.println("Message Received!");
                 }else if("/activeuser".equalsIgnoreCase(clientInput)) {
                     printWriter.println(this.getActiveUserInformation(inputUsername));
@@ -65,6 +69,7 @@ public class ClientHandler implements Runnable{
                 }else if("/logout".equalsIgnoreCase(clientInput)) {
                     this.logoutCleanUp(inputUsername);
                     printWriter.println(SystemMessages.logoutMessage(inputUsername));
+                    logMessages.userOffline(inputUsername);
                 }else{
                     printWriter.println("Invalid command");
                     printWriter.println(SystemMessages.commandList());
@@ -77,20 +82,29 @@ public class ClientHandler implements Runnable{
     }
 
 
-    private synchronized void updateActiveUsers(String username, String ipAddress, int portNumber){
-        ActiveUser activeUser = new ActiveUser(username, new Date(), ipAddress, portNumber);
+    private synchronized void updateActiveUsers(Socket clientSocket, String username){
+        ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date());
         activeUsersMap.put(username, activeUser);
     }
 
     private void logoutCleanUp(String username){
-        activeUsersMap.remove(username);
+        try{
+            ActiveUser loggingOutUser = activeUsersMap.get(username);
+            if(!loggingOutUser.getClientSocket().isClosed()){
+                System.out.println("Input stream ::"+loggingOutUser.getClientSocket().getInputStream().available());
+                loggingOutUser.getClientSocket().close();
+            }
+            activeUsersMap.remove(username);
+
+        }catch (Exception exception){
+            System.out.println(exception.getMessage());
+        }
+
     }
 
     private String getActiveUserInformation(String username){
         StringBuilder stringBuilder = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
-        System.out.println("Active user map size:: "+activeUsersMap.size());
-        System.out.println("Username requesting the information :: "+username);
+        //System.out.println("Active user map size:: "+activeUsersMap.size());
         if(activeUsersMap.containsKey(username) && activeUsersMap.size() == 1) {
             stringBuilder.append("no other active users");
             stringBuilder.append("\n");
@@ -102,9 +116,9 @@ public class ClientHandler implements Runnable{
                     stringBuilder.append(" ");
                     stringBuilder.append(entry.getValue().getIpAddress());
                     stringBuilder.append(" ");
-                    stringBuilder.append(entry.getValue().getPortNumber());
+                    stringBuilder.append(entry.getValue().getPort());
                     stringBuilder.append(" active since ");
-                    stringBuilder.append(dateFormat.format(entry.getValue().getLastActive()));
+                    stringBuilder.append(Config.dateFormat.format(entry.getValue().getLastActive()));
                     stringBuilder.append("\n");
                 }
             }

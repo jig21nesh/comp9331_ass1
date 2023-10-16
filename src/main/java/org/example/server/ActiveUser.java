@@ -1,20 +1,52 @@
 package org.example.server;
 
+import java.net.Socket;
 import java.util.Date;
 
 public class ActiveUser {
     private String username;
     private Date lastActive;
 
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
     private String ipAddress;
 
-    private int portNumber;
+    public String getIpAddress() {
+        return ipAddress;
+    }
 
-    public ActiveUser(String username, Date lastActive, String ipAddress, int portNumber){
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    private int port;
+
+
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+    Socket clientSocket;
+
+    public ActiveUser(Socket clientSocket, String username, Date lastActive){
+        this.clientSocket = clientSocket;
         this.username = username;
         this.lastActive = lastActive;
-        this.ipAddress = ipAddress;
-        this.portNumber = portNumber;
+        this.ipAddress = this.clientSocket.getInetAddress().getHostAddress();
+        this.port = this.clientSocket.getPort();
+
     }
 
     public String getUsername() {
@@ -33,23 +65,9 @@ public class ActiveUser {
         this.lastActive = lastActive;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public int getPortNumber() {
-        return portNumber;
-    }
-
-    public void setPortNumber(int portNumber) {
-        this.portNumber = portNumber;
-    }
 
     public String toString(){
-        return "Username: "+this.username+" IP Address: "+this.ipAddress+" Port Number: "+this.portNumber;
+        return "Username: "+this.username+" IP Address: "+this.ipAddress+" Port Number: "+this.getPort();
     }
 }

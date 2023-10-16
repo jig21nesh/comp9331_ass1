@@ -15,19 +15,19 @@ public class MessageToProcessor {
 
         SUCCESS(5, "Success");
         final int status;
-        final String message;
+        final String statusMessage;
 
-        MessageToStatuses(int status, String message){
+        MessageToStatuses(int status, String statusMessage){
             this.status = status;
-            this.message = message;
+            this.statusMessage = statusMessage;
         }
 
         public int getStatus() {
             return status;
         }
 
-        public String getMessage() {
-            return message;
+        public String getStatusMessage() {
+            return statusMessage;
         }
 
 
@@ -67,7 +67,7 @@ public class MessageToProcessor {
         if(status == MessageToStatuses.SUCCESS){
             System.out.println("Message sent successfully");
         }
-        System.out.println(status.getMessage());
+        System.out.println(status.getStatusMessage());
         return status;
     }
 }
