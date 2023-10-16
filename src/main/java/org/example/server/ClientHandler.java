@@ -49,6 +49,9 @@ public class ClientHandler implements Runnable{
             if(isValidUsername && isValidPassword){
                 printWriter.println(SystemMessages.welcomeMessage(inputUsername));
                 printWriter.println(SystemMessages.commandList());
+
+
+
                 this.updateActiveUsers(socket, inputUsername);
                 logMessages.userOnline(inputUsername);
             }else if(!isValidUsername){

@@ -16,6 +16,8 @@ public class ServerMessageReaderThread implements Runnable{
 
     private boolean logoutConfirmationReceived = false;
 
+    private boolean isWelcomeMessageReceived = false;
+
     public ServerMessageReaderThread(BufferedReader bufferedReaderFromSocket, Socket serverSocket){
         this.bufferedReaderFromSocket = bufferedReaderFromSocket;
         this.serverSocket = serverSocket;
@@ -27,9 +29,12 @@ public class ServerMessageReaderThread implements Runnable{
         try {
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
-                System.out.println(serverResponse);
+                System.out.println("serverResponse :::"+serverResponse);
                 if (serverResponse.contains("Goodbye!")) {
                     logoutConfirmationReceived = true;
+                }if(serverResponse.contains("Welcome")){
+                    System.out.println("received");
+                    isWelcomeMessageReceived = true;
                 }
             }
         } catch (IOException e) {

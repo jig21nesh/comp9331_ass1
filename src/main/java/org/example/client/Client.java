@@ -34,6 +34,8 @@ public class Client {
             String password = localInputReader.readLine();
             writeToServer.println(password);
 
+
+
             ServerMessageReaderThread runnableObject = new ServerMessageReaderThread(bufferedReaderFromSocket, socket);
             Thread messageReader = new Thread(runnableObject);
             messageReader.start();
