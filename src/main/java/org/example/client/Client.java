@@ -71,7 +71,7 @@ public class Client {
         while(keepRunning){
             Thread.sleep(100);
             if(thread.isInvalidPassword()){
-                System.out.println("Password: ");
+                System.out.print("Password: ");
             }
             userInput = localInputReader.readLine();
             writeToServer.println(userInput);
