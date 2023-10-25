@@ -69,6 +69,7 @@ public class Client {
         boolean keepRunning = true;
         String userInput;
         while(keepRunning){
+
             userInput = localInputReader.readLine();
             writeToServer.println(userInput);
             if ("/logout".equalsIgnoreCase(userInput)) {
@@ -77,6 +78,9 @@ public class Client {
                 }
                 keepRunning = false;
                 serverSocket.close();
+            }
+            if(thread.isInvalidPassword()){
+                System.out.println("Password: ");
             }
         }
     }

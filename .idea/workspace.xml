@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/BlockedUserManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/server/MessageToProcessorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/server/MessageToProcessorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,8 +152,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
         <item itemvalue="Application.MessageParser" />
         <item itemvalue="JUnit.InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" />
@@ -171,6 +172,12 @@
       <workItem from="1697173567194" duration="3299000" />
       <workItem from="1697178737525" duration="98000" />
       <workItem from="1697178843495" duration="22644000" />
+      <workItem from="1698214423117" duration="93000" />
+      <workItem from="1698214569979" duration="551000" />
+      <workItem from="1698215164738" duration="95000" />
+      <workItem from="1698215266851" duration="19000" />
+      <workItem from="1698215291662" duration="4311000" />
+      <workItem from="1698270152331" duration="1190000" />
     </task>
     <servers />
   </component>
@@ -187,5 +194,26 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -3,6 +3,7 @@ package org.example.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class Server {
     private void createSocketAndWaitForConnection(){
         try{
             ServerSocket serverSocket = new ServerSocket(portNumber);
+            //serverSocket.setSoTimeout(Config.SOCKET_ACCEPT_TIMEOUT);
 
             while(true){
                 try {
@@ -34,7 +36,8 @@ public class Server {
                     Thread clientThread = new Thread(clientHandler);
                     clientThread.start();
 
-                } catch (IOException e) {
+                } catch (SocketTimeoutException e) {
+                    //e.printStackTrace();
                     System.out.println(e.getMessage());
                 }
             }

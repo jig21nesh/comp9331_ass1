@@ -46,20 +46,27 @@ public class ClientHandler implements Runnable{
             boolean isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
 
 
-            if(isValidUsername && isValidPassword){
-                printWriter.println(SystemMessages.welcomeMessage(inputUsername));
-                printWriter.println(SystemMessages.commandList());
 
-
-
-                this.updateActiveUsers(socket, inputUsername);
-                logMessages.userOnline(inputUsername);
-            }else if(!isValidUsername){
-                printWriter.println(SystemMessages.invalidUsername(inputUsername));
-            }else {
-                printWriter.println(SystemMessages.invalidPassword());
-                System.out.println("Password is wrong!");
+            while(true){
+                if(isValidUsername && isValidPassword){
+                    printWriter.println(SystemMessages.welcomeMessage(inputUsername));
+                    printWriter.println(SystemMessages.commandList());
+                    this.updateActiveUsers(socket, inputUsername);
+                    logMessages.userOnline(inputUsername);
+                    break;
+                }else if(!isValidUsername){
+                    printWriter.println(SystemMessages.invalidUsername(inputUsername));
+                    inputUsername = bufferedReader.readLine();
+                    isValidUsername = credentialValidator.isValidUsername(inputUsername);
+                }else {
+                    printWriter.println(SystemMessages.invalidPassword());
+                    inputPassword = bufferedReader.readLine();
+                    isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
+                }
             }
+
+
+
             String clientInput;
             while ((clientInput = bufferedReader.readLine()) != null) {
                 if ("/msgto".startsWith(clientInput)) {

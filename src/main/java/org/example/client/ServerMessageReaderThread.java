@@ -18,6 +18,12 @@ public class ServerMessageReaderThread implements Runnable{
 
     private boolean isWelcomeMessageReceived = false;
 
+    public boolean isInvalidPassword() {
+        return isInvalidPassword;
+    }
+
+    private boolean isInvalidPassword = false;
+
     public ServerMessageReaderThread(BufferedReader bufferedReaderFromSocket, Socket serverSocket){
         this.bufferedReaderFromSocket = bufferedReaderFromSocket;
         this.serverSocket = serverSocket;
@@ -29,12 +35,13 @@ public class ServerMessageReaderThread implements Runnable{
         try {
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
-                System.out.println("serverResponse :::"+serverResponse);
+                System.out.println(serverResponse);
                 if (serverResponse.contains("Goodbye!")) {
                     logoutConfirmationReceived = true;
                 }if(serverResponse.contains("Welcome")){
-                    System.out.println("received");
                     isWelcomeMessageReceived = true;
+                }if(serverResponse.contains("Invalid Password")){
+                    isInvalidPassword = true;
                 }
             }
         } catch (IOException e) {
