@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +64,7 @@
       <recent name="org.example.client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.client.Client" />
       <module name="ass1" />
@@ -204,14 +199,18 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="3" />
+          <line>36</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
+          <line>67</line>
+          <properties class="org.example.client.Client" method="waitAndProcessInput">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

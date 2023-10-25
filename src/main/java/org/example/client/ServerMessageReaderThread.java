@@ -42,6 +42,9 @@ public class ServerMessageReaderThread implements Runnable{
                     isWelcomeMessageReceived = true;
                 }if(serverResponse.contains("Invalid Password")){
                     isInvalidPassword = true;
+
+                }else {
+                    isInvalidPassword = false;
                 }
             }
         } catch (IOException e) {
