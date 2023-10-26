@@ -70,6 +70,25 @@ public class Client {
         String userInput = null;
         while(keepRunning){
             Thread.sleep(100);
+            ClientState currentState = thread.getCurrentState();
+            switch(currentState){
+                case BLOCKED:
+                    System.out.println("You are blocked. Please try again later.");
+                    keepRunning = false;
+                    serverSocket.close();
+                    break;
+                case INVALID_PASSWORD:
+                    System.out.print("Password: ");
+                    userInput = localInputReader.readLine();
+                    break;
+                case INVALID_USERNAME:
+                    System.out.print("Username: ");
+                    userInput = localInputReader.readLine();
+                    break;
+                default:
+                    break;
+            }
+
             if(thread.isInvalidPassword() && !thread.isUserBlocked()){
                 System.out.print("Password: ");
                 userInput = localInputReader.readLine();

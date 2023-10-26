@@ -48,25 +48,18 @@ public class ServerMessageReaderThread implements Runnable{
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
                 System.out.println(serverResponse);
-                if(serverResponse.contains("blocked")){
-                    isUserBlocked = true;
-                }
-                if (serverResponse.contains("Goodbye!")) {
+                if (serverResponse.contains("blocked")) {
+                    currentState = ClientState.BLOCKED;
+                } else if (serverResponse.contains("Goodbye!")) {
                     logoutConfirmationReceived = true;
-                }if(serverResponse.contains("Welcome")){
-                    isWelcomeMessageReceived = true;
-                }if(serverResponse.contains("Invalid Password") && !serverResponse.contains("blocked")){
-                    isInvalidPassword = true;
-
-                }else {
-                    isInvalidPassword = false;
-                }
-                if(serverResponse.contains("username")){
-                    isInvalidUsername = true;
-
-                }else {
-                    isInvalidUsername = false;
-
+                } else if (serverResponse.contains("Welcome")) {
+                    currentState = ClientState.COMMAND;
+                } else if (serverResponse.contains("Invalid Password") && !serverResponse.contains("blocked")) {
+                    currentState = ClientState.INVALID_PASSWORD;
+                } else if (serverResponse.contains("username")) {
+                    currentState = ClientState.INVALID_USERNAME;
+                } else {
+                    currentState = ClientState.COMMAND;
                 }
             }
         } catch (IOException e) {
@@ -81,4 +74,12 @@ public class ServerMessageReaderThread implements Runnable{
     public boolean isWelcomeMessageReceived() {
         return this.isWelcomeMessageReceived;
     }
+
+    public ClientState getCurrentState() {
+        return currentState;
+    }
+
+    private ClientState currentState;
+
+
 }
