@@ -57,6 +57,7 @@ public class ServerMessageReaderThread implements Runnable{
 
                 }else {
                     isInvalidUsername = false;
+
                 }
             }
         } catch (IOException e) {

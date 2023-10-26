@@ -76,7 +76,7 @@ public class Client {
             if(thread.isInvalidUsername()){
                 System.out.print("Username: ");
                 thread.setInvalidUsername(false);
-                
+
             }
             userInput = localInputReader.readLine();
             writeToServer.println(userInput);

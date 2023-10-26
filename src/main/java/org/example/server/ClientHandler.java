@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable{
 
     private final Map<String, ActiveUser> activeUsersMap;
 
-    private LogMessages logMessages;
+    private final LogMessages logMessages;
 
     public ClientHandler(Socket socket, CredentialValidator credentialValidator, Map<String, ActiveUser> activeUsersMap){
         this.socket = socket;
@@ -58,7 +58,6 @@ public class ClientHandler implements Runnable{
                     printWriter.println(SystemMessages.invalidUsername(inputUsername));
                     inputUsername = bufferedReader.readLine();
                     isValidUsername = credentialValidator.isValidUsername(inputUsername);
-                    inputPassword = null;
                     wasUsernameInvalid = true;
                 }else {
                     if(!wasUsernameInvalid)
