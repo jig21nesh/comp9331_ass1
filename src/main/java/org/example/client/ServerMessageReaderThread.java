@@ -18,6 +18,12 @@ public class ServerMessageReaderThread implements Runnable{
 
     private boolean isWelcomeMessageReceived = false;
 
+    public boolean isUserBlocked() {
+        return isUserBlocked;
+    }
+
+    private boolean isUserBlocked = false;
+
     public boolean isInvalidPassword() {
         return isInvalidPassword;
     }
@@ -42,11 +48,14 @@ public class ServerMessageReaderThread implements Runnable{
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
                 System.out.println(serverResponse);
+                if(serverResponse.contains("blocked")){
+                    isUserBlocked = true;
+                }
                 if (serverResponse.contains("Goodbye!")) {
                     logoutConfirmationReceived = true;
                 }if(serverResponse.contains("Welcome")){
                     isWelcomeMessageReceived = true;
-                }if(serverResponse.contains("Invalid Password")){
+                }if(serverResponse.contains("Invalid Password") && !serverResponse.contains("blocked")){
                     isInvalidPassword = true;
 
                 }else {
@@ -67,5 +76,9 @@ public class ServerMessageReaderThread implements Runnable{
 
     public void setInvalidUsername(boolean b) {
         this.isInvalidUsername = b;
+    }
+
+    public boolean isWelcomeMessageReceived() {
+        return this.isWelcomeMessageReceived;
     }
 }

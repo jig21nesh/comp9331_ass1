@@ -50,4 +50,8 @@ public class SystemMessages {
                 "/activeuser \n" +
                 "/logout";
     }
+
+    public static String blockedMessage() {
+        return "Invalid Password. Your account has been blocked. Please try again later";
+    }
 }

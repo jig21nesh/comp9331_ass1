@@ -67,21 +67,25 @@ public class Client {
 
     private void waitAndProcessInput(Socket serverSocket, PrintWriter writeToServer, BufferedReader localInputReader, ServerMessageReaderThread thread) throws Exception{
         boolean keepRunning = true;
-        String userInput;
+        String userInput = null;
         while(keepRunning){
             Thread.sleep(100);
-            if(thread.isInvalidPassword()){
+            if(thread.isInvalidPassword() && !thread.isUserBlocked()){
                 System.out.print("Password: ");
+                userInput = localInputReader.readLine();
             }
             if(thread.isInvalidUsername()){
                 System.out.print("Username: ");
                 thread.setInvalidUsername(false);
+                userInput = localInputReader.readLine();
 
             }
-            userInput = localInputReader.readLine();
+            if(thread.isWelcomeMessageReceived()){
+                userInput = localInputReader.readLine();
+            }
             writeToServer.println(userInput);
 
-            if ("/logout".equalsIgnoreCase(userInput)) {
+            if ("/logout".equalsIgnoreCase(userInput) || thread.isUserBlocked()) {
                 if(!thread.isLogoutConfirmationReceived()){
                     Thread.sleep(100); //TODO - Find a better way to handle this
                 }

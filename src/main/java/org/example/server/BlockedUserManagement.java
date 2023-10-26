@@ -11,8 +11,16 @@ public class BlockedUserManagement implements Runnable{
     private static final HashMap<String, Long> blockedUsersList = new HashMap<>();
     private static volatile boolean checkerThreadCreated = false;
 
+    public int getAllowedFailedAttempts() {
+        return allowedFailedAttempts;
+    }
+
+    private final int allowedFailedAttempts;
+
     public BlockedUserManagement(){
+        allowedFailedAttempts = 3; // TODO get the value from console. This is a hard coded value for now.
         if (!checkerThreadCreated) {
+
             Thread thread = new Thread(this);
             thread.start();
             checkerThreadCreated = true;
@@ -24,6 +32,7 @@ public class BlockedUserManagement implements Runnable{
     }
 
     public void addBlockedUser(String username){
+        System.out.println("Blocking this user: "+username);
         blockedUsersList.put(username, System.currentTimeMillis());
     }
 

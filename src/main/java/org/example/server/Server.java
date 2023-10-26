@@ -1,6 +1,5 @@
 package org.example.server;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -11,6 +10,8 @@ public class Server {
     InputValidator inputValidator;
 
     CredentialValidator credentialValidator;
+
+    BlockedUserManagement blockedUserManagement;
     private static final Map<String, String> credentialMap = new HashMap<>();
 
     private static final Map<String, ActiveUser> activeUsersMap = new HashMap<>();
@@ -21,7 +22,7 @@ public class Server {
     public Server(){
         inputValidator = new InputValidator();
         credentialValidator = new CredentialValidator(credentialMap);
-        new BlockedUserManagement();
+        blockedUserManagement =  new BlockedUserManagement();
     }
 
     private void createSocketAndWaitForConnection(){
@@ -32,7 +33,7 @@ public class Server {
             while(true){
                 try {
                     Socket socket = serverSocket.accept();
-                    ClientHandler clientHandler = new ClientHandler(socket, credentialValidator, activeUsersMap);
+                    ClientHandler clientHandler = new ClientHandler(socket, credentialValidator, activeUsersMap, blockedUserManagement);
                     Thread clientThread = new Thread(clientHandler);
                     clientThread.start();
 

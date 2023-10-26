@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -16,10 +15,13 @@ public class ClientHandler implements Runnable{
 
     private final LogMessages logMessages;
 
-    public ClientHandler(Socket socket, CredentialValidator credentialValidator, Map<String, ActiveUser> activeUsersMap){
+    private final BlockedUserManagement blockedUserManagement;
+
+    public ClientHandler(Socket socket, CredentialValidator credentialValidator, Map<String, ActiveUser> activeUsersMap, BlockedUserManagement blockedUserManagement){
         this.socket = socket;
         this.credentialValidator = credentialValidator;
         this.activeUsersMap = activeUsersMap;
+        this.blockedUserManagement = blockedUserManagement;
 
         logMessages = new LogMessages();
     }
@@ -46,7 +48,7 @@ public class ClientHandler implements Runnable{
             boolean isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
 
             boolean wasUsernameInvalid = false;
-
+            int failedAttempts = 0;
             while(true){
                 if(isValidUsername && isValidPassword){
                     printWriter.println(SystemMessages.welcomeMessage(inputUsername));
@@ -64,6 +66,12 @@ public class ClientHandler implements Runnable{
                         printWriter.println(SystemMessages.invalidPassword());
                     inputPassword = bufferedReader.readLine();
                     isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
+                    failedAttempts++;
+                    if(failedAttempts == blockedUserManagement.getAllowedFailedAttempts()){
+                        blockedUserManagement.addBlockedUser(inputUsername);
+                        printWriter.println(SystemMessages.blockedMessage());
+                        break;
+                    }
                 }
             }
 
