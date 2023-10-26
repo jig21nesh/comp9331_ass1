@@ -34,7 +34,7 @@ public class SystemMessages {
     }
 
     public static String invalidUsername(String username){
-        return  username+" is invalid";
+        return  username+" is not a valid username. Please try again";
     }
     public static String invalidPassword(){
         return "Invalid Password. Please try again";

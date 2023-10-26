@@ -45,7 +45,7 @@ public class ClientHandler implements Runnable{
             boolean isValidUsername = credentialValidator.isValidUsername(inputUsername);
             boolean isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
 
-
+            boolean wasUsernameInvalid = false;
 
             while(true){
                 if(isValidUsername && isValidPassword){
@@ -58,8 +58,11 @@ public class ClientHandler implements Runnable{
                     printWriter.println(SystemMessages.invalidUsername(inputUsername));
                     inputUsername = bufferedReader.readLine();
                     isValidUsername = credentialValidator.isValidUsername(inputUsername);
+                    inputPassword = null;
+                    wasUsernameInvalid = true;
                 }else {
-                    printWriter.println(SystemMessages.invalidPassword());
+                    if(!wasUsernameInvalid)
+                        printWriter.println(SystemMessages.invalidPassword());
                     inputPassword = bufferedReader.readLine();
                     isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
                 }

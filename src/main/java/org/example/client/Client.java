@@ -73,6 +73,11 @@ public class Client {
             if(thread.isInvalidPassword()){
                 System.out.print("Password: ");
             }
+            if(thread.isInvalidUsername()){
+                System.out.print("Username: ");
+                thread.setInvalidUsername(false);
+                
+            }
             userInput = localInputReader.readLine();
             writeToServer.println(userInput);
 

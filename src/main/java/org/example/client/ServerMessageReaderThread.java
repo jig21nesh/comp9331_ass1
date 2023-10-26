@@ -24,6 +24,12 @@ public class ServerMessageReaderThread implements Runnable{
 
     private boolean isInvalidPassword = false;
 
+    public boolean isInvalidUsername() {
+        return isInvalidUsername;
+    }
+
+    private boolean isInvalidUsername = false;
+
     public ServerMessageReaderThread(BufferedReader bufferedReaderFromSocket, Socket serverSocket){
         this.bufferedReaderFromSocket = bufferedReaderFromSocket;
         this.serverSocket = serverSocket;
@@ -46,9 +52,19 @@ public class ServerMessageReaderThread implements Runnable{
                 }else {
                     isInvalidPassword = false;
                 }
+                if(serverResponse.contains("username")){
+                    isInvalidUsername = true;
+
+                }else {
+                    isInvalidUsername = false;
+                }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void setInvalidUsername(boolean b) {
+        this.isInvalidUsername = b;
     }
 }
