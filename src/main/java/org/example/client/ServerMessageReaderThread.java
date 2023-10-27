@@ -3,6 +3,7 @@ package org.example.client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Currency;
 
 public class ServerMessageReaderThread implements Runnable{
 
@@ -53,13 +54,11 @@ public class ServerMessageReaderThread implements Runnable{
                 } else if (serverResponse.contains("Goodbye!")) {
                     logoutConfirmationReceived = true;
                 } else if (serverResponse.contains("Welcome")) {
-                    currentState = ClientState.COMMAND;
+                    currentState = ClientState.LOGIN_SUCCESSFUL;
                 } else if (serverResponse.contains("Invalid Password") && !serverResponse.contains("blocked")) {
                     currentState = ClientState.INVALID_PASSWORD;
                 } else if (serverResponse.contains("username")) {
                     currentState = ClientState.INVALID_USERNAME;
-                } else {
-                    currentState = ClientState.COMMAND;
                 }
             }
         } catch (IOException e) {
@@ -77,6 +76,10 @@ public class ServerMessageReaderThread implements Runnable{
 
     public ClientState getCurrentState() {
         return currentState;
+    }
+
+    public void resetCurrentState(){
+        this.currentState = ClientState.DEFAULT;
     }
 
     private ClientState currentState;

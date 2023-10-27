@@ -1,6 +1,7 @@
 package org.example.server;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -46,11 +47,12 @@ public class ClientHandler implements Runnable{
 
             boolean isValidUsername = credentialValidator.isValidUsername(inputUsername);
             boolean isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
+            boolean isBlocked = blockedUserManagement.isBlocked(inputUsername);
 
             boolean wasUsernameInvalid = false;
             int failedAttempts = 0;
             while(true){
-                if(isValidUsername && isValidPassword){
+                if(isValidUsername && isValidPassword && !isBlocked){
                     printWriter.println(SystemMessages.welcomeMessage(inputUsername));
                     printWriter.println(SystemMessages.commandList());
                     this.updateActiveUsers(socket, inputUsername);
@@ -61,7 +63,11 @@ public class ClientHandler implements Runnable{
                     inputUsername = bufferedReader.readLine();
                     isValidUsername = credentialValidator.isValidUsername(inputUsername);
                     wasUsernameInvalid = true;
-                }else {
+                }else if(isBlocked){
+                    printWriter.println(SystemMessages.blockedUserMessage());
+                    this.blockedUserCleanup(socket);
+                }
+                else {
                     if(!wasUsernameInvalid)
                         printWriter.println(SystemMessages.invalidPassword());
                     inputPassword = bufferedReader.readLine();
@@ -103,6 +109,15 @@ public class ClientHandler implements Runnable{
     }
 
 
+    private void blockedUserCleanup(Socket socket){
+        if(!socket.isClosed()){
+            try {
+                socket.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     private synchronized void updateActiveUsers(Socket clientSocket, String username){
         ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date());
         activeUsersMap.put(username, activeUser);

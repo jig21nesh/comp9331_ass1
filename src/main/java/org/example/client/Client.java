@@ -73,7 +73,6 @@ public class Client {
             ClientState currentState = thread.getCurrentState();
             switch(currentState){
                 case BLOCKED:
-                    System.out.println("You are blocked. Please try again later.");
                     keepRunning = false;
                     serverSocket.close();
                     break;
@@ -86,25 +85,17 @@ public class Client {
                     userInput = localInputReader.readLine();
                     break;
                 default:
+                    //thread.resetCurrentState();
                     break;
             }
 
-            if(thread.isInvalidPassword() && !thread.isUserBlocked()){
-                System.out.print("Password: ");
+            if(currentState == ClientState.LOGIN_SUCCESSFUL){
                 userInput = localInputReader.readLine();
             }
-            if(thread.isInvalidUsername()){
-                System.out.print("Username: ");
-                thread.setInvalidUsername(false);
-                userInput = localInputReader.readLine();
 
-            }
-            if(thread.isWelcomeMessageReceived()){
-                userInput = localInputReader.readLine();
-            }
             writeToServer.println(userInput);
 
-            if ("/logout".equalsIgnoreCase(userInput) || thread.isUserBlocked()) {
+            if ("/logout".equalsIgnoreCase(userInput)) {
                 if(!thread.isLogoutConfirmationReceived()){
                     Thread.sleep(100); //TODO - Find a better way to handle this
                 }

@@ -17,38 +17,49 @@ public class BlockedUserManagement implements Runnable{
 
     private final int allowedFailedAttempts;
 
+    Thread blockedUserCheckerthread = null;
+
     public BlockedUserManagement(){
         allowedFailedAttempts = 3; // TODO get the value from console. This is a hard coded value for now.
-        if (!checkerThreadCreated) {
-
-            Thread thread = new Thread(this);
-            thread.start();
-            checkerThreadCreated = true;
-        }
     }
 
     public boolean isBlocked(String username){
+        System.out.println("Checking if "+username+" is blocked, the answer is "+blockedUsersList.containsKey(username));
         return blockedUsersList.containsKey(username);
     }
 
     public void addBlockedUser(String username){
         System.out.println("Blocking this user: "+username);
-        blockedUsersList.put(username, System.currentTimeMillis());
+        long blockingTime = System.currentTimeMillis();
+        System.out.println("Blocking user  "+username+"  at "+blockingTime);
+        blockedUsersList.put(username, blockingTime);
+
+
+        if (!checkerThreadCreated) {
+            blockedUserCheckerthread = new Thread(this);
+            blockedUserCheckerthread.start();
+            checkerThreadCreated = true;
+        }
     }
 
 
     private void checkAndUpdateBlockedUsers() {
-        long currentTimestamp = System.currentTimeMillis() / 1000;
+        long currentTimestamp = System.currentTimeMillis();
         Iterator<Map.Entry<String, Long>> iterator = blockedUsersList.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, Long> entry = iterator.next();
 
             long blockTimestamp = entry.getValue();
-            long elapsedSeconds = currentTimestamp - blockTimestamp;
+            long elapsedSeconds = (currentTimestamp - blockTimestamp) / 1000;
             if (elapsedSeconds > Config.BLOCK_WAIT_TIME_IN_SECONDS) {
-                System.out.println("Unblocking this user: "+entry.getKey());
                 iterator.remove();
             }
+        }
+
+        if (blockedUsersList.isEmpty() && blockedUserCheckerthread != null) {
+            blockedUserCheckerthread.interrupt();
+            blockedUserCheckerthread = null;
+            checkerThreadCreated = false;
         }
     }
 

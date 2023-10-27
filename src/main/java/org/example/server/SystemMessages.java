@@ -54,4 +54,7 @@ public class SystemMessages {
     public static String blockedMessage() {
         return "Invalid Password. Your account has been blocked. Please try again later";
     }
+    public static String blockedUserMessage() {
+        return "Your account is blocked due to multiple login failures. Please try again later";
+    }
 }
