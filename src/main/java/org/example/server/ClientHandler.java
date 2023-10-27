@@ -33,10 +33,14 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         try{
+            MessagePDU pdu = new MessagePDU();
+
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
 
+            System.out.println(pdu.encodeString(MessageType.AUTH_MESSAGE, SystemMessages.AUTHENTICATION_MESSAGE));
             printWriter.println(SystemMessages.AUTHENTICATION_MESSAGE);
+
 
             String inputUsername = bufferedReader.readLine();
             System.out.println("Input username:: "+inputUsername);
@@ -53,8 +57,6 @@ public class ClientHandler implements Runnable{
             int failedAttempts = 0;
             while(true){
                 if(isValidUsername && isValidPassword && !isBlocked){
-                    //String udpPort = bufferedReader.readLine();
-                    //System.out.println("UDP port is "+udpPort+"  for username "+inputUsername);
                     printWriter.println(SystemMessages.welcomeMessage(inputUsername));
                     printWriter.println(SystemMessages.commandList());
                     this.updateActiveUsers(socket, inputUsername);
@@ -72,6 +74,8 @@ public class ClientHandler implements Runnable{
                 else {
                     if(!wasUsernameInvalid)
                         printWriter.println(SystemMessages.invalidPassword());
+                    else
+                        printWriter.println(SystemMessages.VALID_USERNAME);
                     inputPassword = bufferedReader.readLine();
                     isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
                     failedAttempts++;

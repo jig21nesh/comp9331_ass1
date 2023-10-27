@@ -2,6 +2,7 @@ package org.example.server;
 
 public class SystemMessages {
     public static final String USAGE_STRING = "Usage is java server <PORT_NUMBER> <NO_OF_FAIL_ATTEMPTS>";
+    public static final String VALID_USERNAME = "OK_USER";
 
     public static final String AUTHENTICATION_MESSAGE = "Please login";
 

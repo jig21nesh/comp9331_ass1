@@ -59,6 +59,8 @@ public class ServerMessageReaderThread implements Runnable{
                     currentState = ClientState.INVALID_PASSWORD;
                 } else if (serverResponse.contains("username")) {
                     currentState = ClientState.INVALID_USERNAME;
+                }else if(serverResponse.contains("OK_USER")){
+                    currentState = ClientState.INVALID_PASSWORD;
                 }
             }
         } catch (IOException e) {

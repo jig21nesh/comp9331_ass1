@@ -17,6 +17,7 @@ public class Client {
         BufferedReader localInputReader = null;
 
         try{
+            MessagePDU pdu = new MessagePDU();
             socket = new Socket(ipAddress, Integer.parseInt(port));
 
             bufferedReaderFromSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -28,10 +29,12 @@ public class Client {
 
             System.out.print("Username: ");
             String username = localInputReader.readLine();
+            System.out.println(pdu.encodeString(MessageType.USERNAME, username));
             writeToServer.println(username);
 
             System.out.print("Password: ");
             String password = localInputReader.readLine();
+            System.out.println(pdu.encodeString(MessageType.PASSWORD, password));
             writeToServer.println(password);
 
 
