@@ -53,6 +53,8 @@ public class ClientHandler implements Runnable{
             int failedAttempts = 0;
             while(true){
                 if(isValidUsername && isValidPassword && !isBlocked){
+                    //String udpPort = bufferedReader.readLine();
+                    //System.out.println("UDP port is "+udpPort+"  for username "+inputUsername);
                     printWriter.println(SystemMessages.welcomeMessage(inputUsername));
                     printWriter.println(SystemMessages.commandList());
                     this.updateActiveUsers(socket, inputUsername);

@@ -10,7 +10,7 @@ public class Client {
         return (inputValidator.validateServerIpAddress(ipAddress) && inputValidator.isValidPort(port));
     }
 
-    private void startClient(String ipAddress, String port){
+    private void startClient(String ipAddress, String port, String udpPort){
         Socket socket = null;
         BufferedReader bufferedReaderFromSocket = null;
         PrintWriter writeToServer = null;
@@ -39,7 +39,7 @@ public class Client {
             ServerMessageReaderThread runnableObject = new ServerMessageReaderThread(bufferedReaderFromSocket, socket);
             Thread messageReader = new Thread(runnableObject);
             messageReader.start();
-            this.waitAndProcessInput(socket, writeToServer, localInputReader, runnableObject);
+            this.waitAndProcessInput(socket, writeToServer, localInputReader, runnableObject, udpPort);
             messageReader.join();
 
 
@@ -65,12 +65,13 @@ public class Client {
         }
     }
 
-    private void waitAndProcessInput(Socket serverSocket, PrintWriter writeToServer, BufferedReader localInputReader, ServerMessageReaderThread thread) throws Exception{
+    private void waitAndProcessInput(Socket serverSocket, PrintWriter writeToServer, BufferedReader localInputReader, ServerMessageReaderThread thread, String udpPort) throws Exception{
         boolean keepRunning = true;
         String userInput = null;
         while(keepRunning){
             Thread.sleep(100);
             ClientState currentState = thread.getCurrentState();
+            System.out.println("currentState  :: "+currentState);
             switch(currentState){
                 case BLOCKED:
                     keepRunning = false;
@@ -90,6 +91,7 @@ public class Client {
             }
 
             if(currentState == ClientState.LOGIN_SUCCESSFUL){
+                //writeToServer.println(udpPort);
                 userInput = localInputReader.readLine();
             }
 
@@ -109,14 +111,15 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client();
 
-        if(args.length != 2){
+        if(args.length != 3){
             System.out.println("Usage: java Client <server ip> <server port>");
             System.exit(0);
         }else{
             if(client.validateInput(args[0], args[1])){
                 String serverIpAddress = args[0];
                 String serverPort = args[1];
-                client.startClient(serverIpAddress, serverPort);
+                String udpPort = args[2];
+                client.startClient(serverIpAddress, serverPort, udpPort);
             }else{
                 System.out.println("Usage: java Client <server ip> <server port>");
                 System.exit(0);

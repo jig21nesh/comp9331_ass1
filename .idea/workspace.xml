@@ -7,11 +7,7 @@
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ClientState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ClientState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/BlockedUserManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/BlockedUserManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,12 +68,17 @@
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.client.Client" />
       <module name="ass1" />
-      <option name="PROGRAM_PARAMETERS" value="localhost 60000" />
+      <option name="PROGRAM_PARAMETERS" value="localhost 60000 50000" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.example.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -177,7 +178,7 @@
       <workItem from="1698215266851" duration="19000" />
       <workItem from="1698215291662" duration="4311000" />
       <workItem from="1698270152331" duration="2056000" />
-      <workItem from="1698357891854" duration="5356000" />
+      <workItem from="1698357891854" duration="7961000" />
     </task>
     <servers />
   </component>
@@ -215,7 +216,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
-          <line>91</line>
+          <line>92</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
