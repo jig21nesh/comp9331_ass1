@@ -1,23 +1,40 @@
 package org.example.server;
 
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MessageToProcessor {
 
-    enum MessageToStatuses{
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    enum MessageStatus{
         INVALID_MESSAGE_TO_COMMAND(1, "Invalid Command"),
-        USERNAME_NOT_FOUND_OR_NOT_ONLINE(2, "Username not found or not online"),
+        USERNAME_NOT_FOUND(2, "Not a valid username"),
+
+        USER_NOT_ONLINE(7, "User is not online"),
 
         INVALID_MESSAGE_CONTENT(3, "Invalid Message Content"),
 
         INVALID_INPUT(4, "Invalid Input"),
 
+        FAILED_TO_SEND(6, "Failed to send message"),
+
         SUCCESS(5, "Success");
+
         final int status;
         final String statusMessage;
 
-        MessageToStatuses(int status, String statusMessage){
+        MessageStatus(int status, String statusMessage){
             this.status = status;
             this.statusMessage = statusMessage;
         }
@@ -36,38 +53,67 @@ public class MessageToProcessor {
 
     private final Map<String, ActiveUser> activeUsersMap;
 
-    public MessageToProcessor(Map<String, ActiveUser> activeUsersMap){
+    private final CredentialValidator credentialValidator;
+
+    public MessageToProcessor(Map<String, ActiveUser> activeUsersMap, CredentialValidator credentialValidator){
         this.activeUsersMap = activeUsersMap;
+        this.credentialValidator = credentialValidator;
     }
 
 
-    private MessageToStatuses isValidCommand(String input){
+    private String command;
+    private String username;
+    private String message;
+
+    private MessageStatus isValidCommand(String input){
         String[] parts = input.split(" ");
         if (parts.length >= 3) {
             String command = parts[0];
             String username = parts[1];
 
             if(!command.equals("/msgto")){
-                return MessageToStatuses.INVALID_MESSAGE_TO_COMMAND;
+                return MessageStatus.INVALID_MESSAGE_TO_COMMAND;
+            }
+            if(!credentialValidator.isValidUsername(username)){
+                return MessageStatus.USERNAME_NOT_FOUND;
             }
             if(!activeUsersMap.containsKey(username)){
-                return MessageToStatuses.USERNAME_NOT_FOUND_OR_NOT_ONLINE;
+                return MessageStatus.USER_NOT_ONLINE;
             }
             String message = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
             if(!new InputValidator().clientMessage(message)){
-                return MessageToStatuses.INVALID_MESSAGE_CONTENT;
+                return MessageStatus.INVALID_MESSAGE_CONTENT;
             }
-            return MessageToStatuses.SUCCESS;
+
+            this.command = command;
+            this.username = username;
+            this.message = message;
+
+            return MessageStatus.SUCCESS;
+
         } else {
-            return MessageToStatuses.INVALID_INPUT;
+            return MessageStatus.INVALID_INPUT;
         }
     }
-    public MessageToStatuses sendMessage(String input){
-        MessageToStatuses status = this.isValidCommand(input);
-        if(status == MessageToStatuses.SUCCESS){
-            System.out.println("Message sent successfully");
+
+    private String formatSendMessage(String currentUser, String messageContent){
+        return String.format("%s, %s: %s", Config.dateFormat.format(new Date()),currentUser, messageContent);
+    }
+    public MessageStatus sendMessage(String currentUser, String input){
+        MessageStatus status = this.isValidCommand(input);
+        System.out.println("Status:: "+status.getStatusMessage());
+        if(status == MessageStatus.SUCCESS){
+            Socket socket = activeUsersMap.get(input.split(" ")[1]).getClientSocket();
+            try{
+                PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
+                printWriter.println(this.formatSendMessage(currentUser, this.message));
+            }catch (Exception exception){
+                status = MessageStatus.FAILED_TO_SEND;
+            }
+
         }
-        System.out.println(status.getStatusMessage());
         return status;
     }
+
+
 }

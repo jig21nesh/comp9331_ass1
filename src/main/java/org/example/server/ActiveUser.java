@@ -49,6 +49,11 @@ public class ActiveUser {
 
     }
 
+    public ActiveUser(Socket clientSocket, String username){
+        this.clientSocket = clientSocket;
+        this.username = username;
+    }
+
     public String getUsername() {
         return username;
     }

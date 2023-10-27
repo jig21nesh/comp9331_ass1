@@ -7,10 +7,9 @@ public class InputValidator {
 
 
     public boolean clientMessage(String message){
-        String messagePattenReg =
-                "^[A-Za-z0-9!@#$%.?,]+$";
+        String messagePatternReg = "^[A-Za-z0-9!@#$%.?,\\s]+$";
 
-        Pattern messagePatten = Pattern.compile(messagePattenReg);
+        Pattern messagePatten = Pattern.compile(messagePatternReg);
         return messagePatten.matcher(message).matches();
     }
 

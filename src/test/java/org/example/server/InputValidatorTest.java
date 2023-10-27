@@ -33,4 +33,12 @@ class InputValidatorTest {
     @Test
     void validatePort() {
     }
+
+    @Test
+    void shouldGetValidMessageWhenInputIsValid() {
+        String input = "I am a valid message";
+        InputValidator validator = new InputValidator();
+        boolean isValid = validator.clientMessage(input);
+        assertTrue(isValid);
+    }
 }

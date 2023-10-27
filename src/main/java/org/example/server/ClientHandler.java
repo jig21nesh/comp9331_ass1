@@ -91,11 +91,17 @@ public class ClientHandler implements Runnable{
 
             String clientInput;
             while ((clientInput = bufferedReader.readLine()) != null) {
-                if ("/msgto".startsWith(clientInput)) {
-                    MessageToProcessor processor = new MessageToProcessor(activeUsersMap);
-                    //TODO fix the logging and processor
-                    System.out.println(processor.sendMessage(clientInput).statusMessage);
-                    printWriter.println("Message Received!");
+                if(clientInput.startsWith("/msgto")){
+                    MessageToProcessor processor = new MessageToProcessor(activeUsersMap, credentialValidator);
+                    MessageToProcessor.MessageStatus status = processor.sendMessage(inputUsername, clientInput);
+                    System.out.println("Status:: "+status.getStatusMessage());
+                    if(status == MessageToProcessor.MessageStatus.SUCCESS){
+                        printWriter.println("Success");
+                        new LogMessages().messageTo(inputUsername, processor.getUsername(), processor.getMessage());
+                    }else{
+                        printWriter.println(status.getStatusMessage());
+                    }
+
                 }else if("/activeuser".equalsIgnoreCase(clientInput)) {
                     printWriter.println(this.getActiveUserInformation(inputUsername));
                     printWriter.println(SystemMessages.commandList());

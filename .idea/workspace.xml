@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/client/MessagePDU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/client/MessageType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessagePDU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ActiveUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ActiveUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/InputValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/InputValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/server/InputValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/server/InputValidatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/server/MessageToProcessorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/server/MessageToProcessorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,8 +89,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MessageParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.server.MessageParser" />
+    <configuration name="MessageToProcessor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.server.MessageToProcessor" />
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
@@ -118,17 +116,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="InputValidatorTest.shouldGetValidMessageWhenInputIsValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.client.*" />
+          <option name="PATTERN" value="org.example.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.example.client" />
-      <option name="MAIN_CLASS_NAME" value="org.example.client.InputValidatorTest" />
-      <option name="METHOD_NAME" value="shouldReturnValidPortWhenPortIsValidInt" />
+      <option name="PACKAGE_NAME" value="org.example.server" />
+      <option name="MAIN_CLASS_NAME" value="org.example.server.InputValidatorTest" />
+      <option name="METHOD_NAME" value="shouldGetValidMessageWhenInputIsValid" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -151,19 +149,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.MessageParser" />
+      <item itemvalue="Application.MessageToProcessor" />
       <item itemvalue="Application.Server" />
       <item itemvalue="Application.Client" />
+      <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
       <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
-      <item itemvalue="JUnit.InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
         <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
-        <item itemvalue="Application.MessageParser" />
-        <item itemvalue="JUnit.InputValidatorTest.shouldReturnValidPortWhenPortIsValidInt" />
+        <item itemvalue="Application.MessageToProcessor" />
       </list>
     </recent_temporary>
   </component>
@@ -207,19 +205,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java</url>
           <line>50</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
