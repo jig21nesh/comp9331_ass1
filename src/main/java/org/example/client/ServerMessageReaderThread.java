@@ -20,27 +20,43 @@ public class ServerMessageReaderThread implements Runnable{
 
     private String authenticatedUsername;
 
+    private final MessageProcessor processor;
+
     public ServerMessageReaderThread(BufferedReader bufferedReaderFromSocket, Socket serverSocket){
         this.bufferedReaderFromSocket = bufferedReaderFromSocket;
         this.serverSocket = serverSocket;
+        processor = new MessageProcessor();
     }
 
-    private String getAuthenticatedUserName(String welcomeMessageWithUserName){
-        if(welcomeMessageWithUserName.contains("><")){
-            String[] splitMessage = welcomeMessageWithUserName.split("><");
-            return splitMessage[1];
-        }else{
-            return null;
+
+
+    private void handleWelcomeMessage(String message) {
+        String welcomeMessage = processor.getWelcomeMessage(processor.getPrompt(message));
+        System.out.println(welcomeMessage);
+        authenticatedUsername = processor.getAuthenticatedUserName(message);
+    }
+
+    private void handleCommandList(String message) {
+        System.out.println(processor.getPrompt(message));
+    }
+
+    private void handleActiveUsers(String message) {
+        System.out.println(processor.getPrompt(message));
+    }
+
+    private void displayPrompt(String message){
+        System.out.println(processor.getPrompt(message));
+    }
+
+    private void handleMsgTo(String message) {
+        String status = processor.getPrompt(message);
+        if (status.equalsIgnoreCase("Success")) {
+            System.out.println("message sent at " + Config.dateFormat.format(new Date()));
         }
     }
 
-    private String getWelcomeMessage(String welcomeMessageWithUserName){
-        if(welcomeMessageWithUserName.contains("><")){
-            String[] splitMessage = welcomeMessageWithUserName.split("><");
-            return splitMessage[0];
-        }else{
-            return welcomeMessageWithUserName;
-        }
+    private void handleMsgToContent(String message) {
+        System.out.println(processor.getPrompt(message));
     }
 
     @Override
@@ -49,39 +65,48 @@ public class ServerMessageReaderThread implements Runnable{
         try {
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
+                System.out.println("Server response:: " + serverResponse);
                 String serverCommand = processor.getServerCommand(serverResponse);
-                if (serverCommand.equals("BLOCKING_USER")) {
-                    currentState = ClientState.BLOCKED;
-                } else if (serverCommand.contains("LOGOUT")) {
-                    System.out.println(processor.getPrompt(serverResponse));
-                    logoutConfirmationReceived = true;
-                } else if (serverCommand.equals("WELCOME_MESSAGE") || serverCommand.equals("COMMAND_LIST")) {
-                    currentState = ClientState.LOGIN_SUCCESSFUL;
-                    if(serverCommand.equals("WELCOME_MESSAGE")){
-                        System.out.println(this.getWelcomeMessage(processor.getPrompt(serverResponse)));
-                        authenticatedUsername = this.getAuthenticatedUserName(processor.getPrompt(serverResponse));
-                    }else{
-                        System.out.println(processor.getPrompt(serverResponse));
-                    }
-                    if(serverCommand.equals("COMMAND_LIST"))
-                        currentState = ClientState.LOGGED_IN_USER;
 
-                } else if (serverCommand.equals("INVALID_PASSWORD")) {
-                    currentState = ClientState.INVALID_PASSWORD;
-                } else if (serverCommand.equals("INVALID_USERNAME")) {
-                    currentState = ClientState.INVALID_USERNAME;
-                }else if(serverCommand.contains("VALID_USERNAME")){
-                    currentState = ClientState.INVALID_PASSWORD;
-                }else if(serverCommand.equals("ACTIVE_USERS")){
-                    currentState = ClientState.LOGGED_IN_USER;
-                    System.out.println(processor.getPrompt(serverResponse));
-                }else if(serverCommand.equals("MSGTO")){
-                    String status = processor.getPrompt(serverResponse);
-                    if(status.equalsIgnoreCase("Success")){
-                        System.out.println("message sent at "+Config.dateFormat.format(new Date()));
-                    }
-                }else if(serverCommand.equals("MSGTO_CONTENT")){
-                    System.out.println(processor.getPrompt(serverResponse));
+                switch (serverCommand) {
+                    case "BLOCKING_USER":
+                        currentState = ClientState.BLOCKED;
+                        System.out.println(processor.getPrompt(serverResponse));
+                        break;
+                    case "LOGOUT":
+                        System.out.println(processor.getPrompt(serverResponse));
+                        logoutConfirmationReceived = true;
+                        break;
+                    case "INVALID_PASSWORD":
+                    case "VALID_USERNAME":
+                        currentState = ClientState.INVALID_PASSWORD;
+                        this.displayPrompt(serverResponse);
+                        break;
+                    case "INVALID_USERNAME":
+                        currentState = ClientState.INVALID_USERNAME;
+                        this.displayPrompt(serverResponse);
+                        break;
+                    case "ACTIVE_USERS":
+                        currentState = ClientState.LOGGED_IN_USER;
+                        handleActiveUsers(serverResponse);
+                        break;
+                    case "MSGTO":
+                        handleMsgTo(serverResponse);
+                        break;
+                    case "MSGTO_CONTENT":
+                        handleMsgToContent(serverResponse);
+                        break;
+                    case "WELCOME_MESSAGE":
+                        currentState = ClientState.LOGIN_SUCCESSFUL;
+                        handleWelcomeMessage(serverResponse);
+                        break;
+                    case "COMMAND_LIST":
+                        currentState = ClientState.LOGIN_SUCCESSFUL;
+                        handleCommandList(serverResponse);
+                        currentState = ClientState.LOGGED_IN_USER;
+                        break;
+
+
                 }
             }
         } catch (IOException e) {

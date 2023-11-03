@@ -13,10 +13,10 @@ public class MessageProcessor {
         COMMAND("COMMAND","Command"),
 
         USERNAME("USERNAME","Username: "),
-        BLOCKING_USER("BLOCKING_USER","Blocking user"),
+        BLOCKING_USER("BLOCKING_USER","Invalid Password. Your account has been blocked. Please try again later."),
         BLOCKED_USER("BLOCKED_USER","Blocked user"),
         INVALID_USERNAME("INVALID_USERNAME","Invalid username"),
-        INVALID_PASSWORD("INVALID_PASSWORD","Invalid password"),
+        INVALID_PASSWORD("INVALID_PASSWORD","Invalid Password. Please try again"),
         PASSWORD("PASSWORD","Password: "),
         AUTH_PROMPT("AUTH","Please login");
 
@@ -66,6 +66,24 @@ public class MessageProcessor {
                 return MessageType.AUTH_PROMPT.getPrompt();
             default:
                 return plainText.split(META_DATA_SEPARATOR)[1];
+        }
+    }
+
+    public String getAuthenticatedUserName(String welcomeMessageWithUserName){
+        if(welcomeMessageWithUserName.contains("><")){
+            String[] splitMessage = welcomeMessageWithUserName.split("><");
+            return splitMessage[1];
+        }else{
+            return null;
+        }
+    }
+
+    public String getWelcomeMessage(String welcomeMessageWithUserName){
+        if(welcomeMessageWithUserName.contains("><")){
+            String[] splitMessage = welcomeMessageWithUserName.split("><");
+            return splitMessage[0];
+        }else{
+            return welcomeMessageWithUserName;
         }
     }
 }
