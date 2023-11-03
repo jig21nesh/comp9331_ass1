@@ -1,5 +1,6 @@
 package org.example.server;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class BlockedUserManagement implements Runnable{
     public void addBlockedUser(String username){
         System.out.println("Blocking this user: "+username);
         long blockingTime = System.currentTimeMillis();
-        System.out.println("Blocking user  "+username+"  at "+blockingTime);
+        System.out.println("Blocking user  "+username+"  at "+Config.dateFormat.format(new Date(blockingTime)));
         blockedUsersList.put(username, blockingTime);
 
 

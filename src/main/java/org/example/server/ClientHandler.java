@@ -60,10 +60,12 @@ public class ClientHandler implements Runnable{
             boolean wasUsernameInvalid = false;
 
             //TODO FIX failed attempt tracker
+            if(!isValidPassword && !isBlocked)
+                blockedUserManagement.increaseFailedAttemptCount(inputUsername);
 
             while(true){
-                if(!isValidPassword){
-                    if(blockedUserManagement.getFailedAttemptCount(inputUsername) == blockedUserManagement.getAllowedFailedAttempts()){
+                if(!isValidPassword && !isBlocked){
+                    if(blockedUserManagement.getFailedAttemptCount(inputUsername) >= blockedUserManagement.getAllowedFailedAttempts()){
                         blockedUserManagement.addBlockedUser(inputUsername);
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
                         break;
