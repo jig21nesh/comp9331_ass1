@@ -61,10 +61,16 @@ public class ClientHandler implements Runnable{
             int failedAttempts = 0;
             while(true){
                 if(isValidUsername && isValidPassword && !isBlocked){
-                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
-                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
-                    this.updateActiveUsers(socket, inputUsername);
-                    logMessages.userOnline(inputUsername);
+
+                    if(this.hasActiveUser(inputUsername)){
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ALREADY_LOGGED_USER, SystemMessages.userAlreadyLoggedIn()));
+                        this.blockedUserCleanup(socket);
+                    }else{
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                        this.updateActiveUsers(socket, inputUsername);
+                        logMessages.userOnline(inputUsername);
+                    }
                     break;
                 }else if(!isValidUsername){
                     printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
@@ -74,8 +80,16 @@ public class ClientHandler implements Runnable{
                 }else if(isBlocked){
                     printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKED_USER, SystemMessages.blockedUserMessage()));
                     this.blockedUserCleanup(socket);
+                    break;
                 }
                 else {
+
+                    if(this.hasActiveUser(inputUsername)){
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ALREADY_LOGGED_USER, SystemMessages.userAlreadyLoggedIn()));
+                        this.blockedUserCleanup(socket);
+                        break;
+                    }
+
                     if(!wasUsernameInvalid)
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
                     else{
@@ -146,6 +160,10 @@ public class ClientHandler implements Runnable{
     private synchronized void updateActiveUsers(Socket clientSocket, String username){
         ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date());
         activeUsersMap.put(username, activeUser);
+    }
+
+    private boolean hasActiveUser(String username){
+        return activeUsersMap.containsKey(username);
     }
 
     private void logoutCleanUp(String username){

@@ -14,6 +14,8 @@ public class MessageProcessor {
         BLOCKING_USER("BLOCKING_USER","Blocking user"),
         BLOCKED_USER("BLOCKED_USER","Blocked user"),
         INVALID_USERNAME("INVALID_USERNAME","Invalid username"),
+
+        ALREADY_LOGGED_USER("ALREADY_LOGGED_USER","Already logged. Terminating this session"),
         INVALID_PASSWORD("INVALID_PASSWORD","Invalid password"),
 
         VALID_USERNAME("VALID_USERNAME","Valid username"),

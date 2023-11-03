@@ -56,4 +56,8 @@ public class SystemMessages {
     public static String blockedUserMessage() {
         return "Your account is blocked due to multiple login failures. Please try again later";
     }
+
+    public static String userAlreadyLoggedIn() {
+        return "User is already logged in. Terminating this session";
+    }
 }
