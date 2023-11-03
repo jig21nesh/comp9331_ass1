@@ -17,7 +17,8 @@ public class Client {
         BufferedReader localInputReader = null;
 
         try{
-            MessagePDU pdu = new MessagePDU();
+            MessageProcessor processor = new MessageProcessor();
+
             socket = new Socket(ipAddress, Integer.parseInt(port));
 
             bufferedReaderFromSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -25,17 +26,15 @@ public class Client {
             localInputReader = new BufferedReader(new InputStreamReader(System.in));
 
             String loginMessage = bufferedReaderFromSocket.readLine();
-            System.out.println(loginMessage);
+            System.out.println(processor.getPrompt(loginMessage));
 
-            System.out.print("Username: ");
+            System.out.print(MessageProcessor.MessageType.USERNAME.getPrompt());
             String username = localInputReader.readLine();
-            System.out.println(pdu.encodeString(MessageType.USERNAME, username));
-            writeToServer.println(username);
+            writeToServer.println(processor.encodeString(MessageProcessor.MessageType.USERNAME, username));
 
-            System.out.print("Password: ");
+            System.out.print(MessageProcessor.MessageType.PASSWORD.getPrompt());
             String password = localInputReader.readLine();
-            System.out.println(pdu.encodeString(MessageType.PASSWORD, password));
-            writeToServer.println(password);
+            writeToServer.println(processor.encodeString(MessageProcessor.MessageType.PASSWORD, password));
 
 
 

@@ -1,7 +1,7 @@
 package org.example.server;
 
 public enum MessageType {
-    AUTH_MESSAGE("AUTH"),
+    AUTH_PROMPT("AUTH"),
     INVALID_PASSWORD("IP"),
     INVALID_USER("IU");
 

@@ -33,20 +33,21 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         try{
-            MessagePDU pdu = new MessagePDU();
+            MessageProcessor messageProcessor = new MessageProcessor();
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println(pdu.encodeString(MessageType.AUTH_MESSAGE, SystemMessages.AUTHENTICATION_MESSAGE));
-            printWriter.println(SystemMessages.AUTHENTICATION_MESSAGE);
+            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.AUTH_PROMPT, MessageProcessor.MessageType.AUTH_PROMPT.getPrompt()));
 
 
-            String inputUsername = bufferedReader.readLine();
+            String encodedUserName = bufferedReader.readLine();
+            String inputUsername = messageProcessor.getContent(encodedUserName);
             System.out.println("Input username:: "+inputUsername);
 
 
-            String inputPassword = bufferedReader.readLine();
+            String encodedPassword = bufferedReader.readLine();
+            String inputPassword = messageProcessor.getContent(encodedPassword);
             System.out.println("Input password:: "+inputPassword);
 
             boolean isValidUsername = credentialValidator.isValidUsername(inputUsername);
@@ -63,7 +64,7 @@ public class ClientHandler implements Runnable{
                     logMessages.userOnline(inputUsername);
                     break;
                 }else if(!isValidUsername){
-                    printWriter.println(SystemMessages.invalidUsername(inputUsername));
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
                     inputUsername = bufferedReader.readLine();
                     isValidUsername = credentialValidator.isValidUsername(inputUsername);
                     wasUsernameInvalid = true;
