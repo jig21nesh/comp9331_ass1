@@ -18,31 +18,30 @@ public class ServerMessageReaderThread implements Runnable{
 
     private boolean logoutConfirmationReceived = false;
 
-    private boolean isWelcomeMessageReceived = false;
-
-    public boolean isUserBlocked() {
-        return isUserBlocked;
-    }
-
-    private boolean isUserBlocked = false;
-
-    public boolean isInvalidPassword() {
-        return isInvalidPassword;
-    }
-
-    private boolean isInvalidPassword = false;
-
-    public boolean isInvalidUsername() {
-        return isInvalidUsername;
-    }
-
-    private boolean isInvalidUsername = false;
+    private String authenticatedUsername;
 
     public ServerMessageReaderThread(BufferedReader bufferedReaderFromSocket, Socket serverSocket){
         this.bufferedReaderFromSocket = bufferedReaderFromSocket;
         this.serverSocket = serverSocket;
     }
 
+    private String getAuthenticatedUserName(String welcomeMessageWithUserName){
+        if(welcomeMessageWithUserName.contains("><")){
+            String[] splitMessage = welcomeMessageWithUserName.split("><");
+            return splitMessage[1];
+        }else{
+            return null;
+        }
+    }
+
+    private String getWelcomeMessage(String welcomeMessageWithUserName){
+        if(welcomeMessageWithUserName.contains("><")){
+            String[] splitMessage = welcomeMessageWithUserName.split("><");
+            return splitMessage[0];
+        }else{
+            return welcomeMessageWithUserName;
+        }
+    }
 
     @Override
     public void run() {
@@ -58,9 +57,15 @@ public class ServerMessageReaderThread implements Runnable{
                     logoutConfirmationReceived = true;
                 } else if (serverCommand.equals("WELCOME_MESSAGE") || serverCommand.equals("COMMAND_LIST")) {
                     currentState = ClientState.LOGIN_SUCCESSFUL;
+                    if(serverCommand.equals("WELCOME_MESSAGE")){
+                        System.out.println(this.getWelcomeMessage(processor.getPrompt(serverResponse)));
+                        authenticatedUsername = this.getAuthenticatedUserName(processor.getPrompt(serverResponse));
+                    }else{
+                        System.out.println(processor.getPrompt(serverResponse));
+                    }
                     if(serverCommand.equals("COMMAND_LIST"))
                         currentState = ClientState.LOGGED_IN_USER;
-                    System.out.println(processor.getPrompt(serverResponse));
+
                 } else if (serverCommand.equals("INVALID_PASSWORD")) {
                     currentState = ClientState.INVALID_PASSWORD;
                 } else if (serverCommand.equals("INVALID_USERNAME")) {
@@ -84,13 +89,7 @@ public class ServerMessageReaderThread implements Runnable{
         }
     }
 
-    public void setInvalidUsername(boolean b) {
-        this.isInvalidUsername = b;
-    }
 
-    public boolean isWelcomeMessageReceived() {
-        return this.isWelcomeMessageReceived;
-    }
 
     public ClientState getCurrentState() {
         return currentState;

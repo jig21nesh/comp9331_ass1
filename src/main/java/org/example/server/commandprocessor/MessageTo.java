@@ -22,6 +22,8 @@ public class MessageTo {
         INVALID_MESSAGE_TO_COMMAND(1, "Invalid Command"),
         USERNAME_NOT_FOUND(2, "Not a valid username"),
 
+        MESSAGE_TO_SELF(8, "Cannot send message to self"),
+
         USER_NOT_ONLINE(7, "User is not online"),
 
         INVALID_MESSAGE_CONTENT(3, "Invalid Message Content"),
@@ -66,7 +68,7 @@ public class MessageTo {
     private String username;
     private String message;
 
-    private MessageStatus isValidCommand(String input){
+    private MessageStatus isValidCommand(String currentUser, String input){
         String[] parts = input.split(" ");
         if (parts.length >= 3) {
             String command = parts[0];
@@ -80,6 +82,9 @@ public class MessageTo {
             }
             if(!activeUsersMap.containsKey(username)){
                 return MessageStatus.USER_NOT_ONLINE;
+            }
+            if(username.equals(currentUser)){
+                return MessageStatus.MESSAGE_TO_SELF;
             }
             String message = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
             if(!new InputValidator().clientMessage(message)){
@@ -101,7 +106,7 @@ public class MessageTo {
         return String.format("%s, %s: %s", Config.dateFormat.format(new Date()),currentUser, messageContent);
     }
     public MessageStatus sendMessage(String currentUser, String input){
-        MessageStatus status = this.isValidCommand(input);
+        MessageStatus status = this.isValidCommand(currentUser, input);
         if(status == MessageStatus.SUCCESS){
             Socket socket = activeUsersMap.get(input.split(" ")[1]).getClientSocket();
             try{

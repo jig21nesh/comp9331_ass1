@@ -31,7 +31,7 @@ public class SystemMessages {
     }
 
     public static  String welcomeMessage(String username){
-        return "Welcome to Tessenger! "+username;
+        return "Welcome to Tessenger!><"+username;
     }
 
     public static String invalidUsername(String username){
