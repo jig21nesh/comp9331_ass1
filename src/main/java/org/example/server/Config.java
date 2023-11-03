@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 public class Config {
 
     public static final int BLOCK_STATUS_CHECK_IN_MILLISECONDS = 500;
-    public static final int BLOCK_WAIT_TIME_IN_SECONDS=10;
+    public static final int BLOCK_WAIT_TIME_IN_SECONDS=60;
 
     public static final int LOWEST_TCP_PORT = 1024;
 

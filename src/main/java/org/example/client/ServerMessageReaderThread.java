@@ -69,6 +69,7 @@ public class ServerMessageReaderThread implements Runnable{
                 String serverCommand = processor.getServerCommand(serverResponse);
 
                 switch (serverCommand) {
+                    case "BLOCKED_USER":
                     case "BLOCKING_USER":
                         currentState = ClientState.BLOCKED;
                         System.out.println(processor.getPrompt(serverResponse));

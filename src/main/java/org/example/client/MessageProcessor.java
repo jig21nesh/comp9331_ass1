@@ -14,7 +14,7 @@ public class MessageProcessor {
 
         USERNAME("USERNAME","Username: "),
         BLOCKING_USER("BLOCKING_USER","Invalid Password. Your account has been blocked. Please try again later."),
-        BLOCKED_USER("BLOCKED_USER","Blocked user"),
+        BLOCKED_USER("BLOCKED_USER","Your account is blocked due to multiple login failures. Please try again later."),
         INVALID_USERNAME("INVALID_USERNAME","Invalid username"),
         INVALID_PASSWORD("INVALID_PASSWORD","Invalid Password. Please try again"),
         PASSWORD("PASSWORD","Password: "),
