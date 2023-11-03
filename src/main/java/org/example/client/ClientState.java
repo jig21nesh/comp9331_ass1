@@ -6,5 +6,7 @@ public enum ClientState {
     INVALID_PASSWORD,
     INVALID_USERNAME,
     LOGIN_SUCCESSFUL,
+
+    LOGGED_IN_USER,
     DEFAULT
 }

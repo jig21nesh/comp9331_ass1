@@ -1,13 +1,14 @@
-package org.example.server;
+package org.example.server.commandprocessor;
+
+import org.example.server.*;
 
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
-public class MessageToProcessor {
+public class MessageTo {
 
     public String getUsername() {
         return this.username;
@@ -17,7 +18,7 @@ public class MessageToProcessor {
         return this.message;
     }
 
-    enum MessageStatus{
+    public enum MessageStatus{
         INVALID_MESSAGE_TO_COMMAND(1, "Invalid Command"),
         USERNAME_NOT_FOUND(2, "Not a valid username"),
 
@@ -55,7 +56,7 @@ public class MessageToProcessor {
 
     private final CredentialValidator credentialValidator;
 
-    public MessageToProcessor(Map<String, ActiveUser> activeUsersMap, CredentialValidator credentialValidator){
+    public MessageTo(Map<String, ActiveUser> activeUsersMap, CredentialValidator credentialValidator){
         this.activeUsersMap = activeUsersMap;
         this.credentialValidator = credentialValidator;
     }
@@ -101,12 +102,12 @@ public class MessageToProcessor {
     }
     public MessageStatus sendMessage(String currentUser, String input){
         MessageStatus status = this.isValidCommand(input);
-        System.out.println("Status:: "+status.getStatusMessage());
         if(status == MessageStatus.SUCCESS){
             Socket socket = activeUsersMap.get(input.split(" ")[1]).getClientSocket();
             try{
                 PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-                printWriter.println(this.formatSendMessage(currentUser, this.message));
+                MessageProcessor messageProcessor = new MessageProcessor();
+                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO_CONTENT, this.formatSendMessage(currentUser, this.message)));
             }catch (Exception exception){
                 status = MessageStatus.FAILED_TO_SEND;
             }

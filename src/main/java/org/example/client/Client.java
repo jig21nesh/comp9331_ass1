@@ -29,12 +29,12 @@ public class Client {
             System.out.println(processor.getPrompt(loginMessage));
 
             System.out.print(MessageProcessor.MessageType.USERNAME.getPrompt());
-            String username = localInputReader.readLine();
-            writeToServer.println(processor.encodeString(MessageProcessor.MessageType.USERNAME, username));
+            String usernameText = localInputReader.readLine();
+            writeToServer.println(processor.encodeString(MessageProcessor.MessageType.USERNAME, usernameText));
 
             System.out.print(MessageProcessor.MessageType.PASSWORD.getPrompt());
-            String password = localInputReader.readLine();
-            writeToServer.println(processor.encodeString(MessageProcessor.MessageType.PASSWORD, password));
+            String passwordText = localInputReader.readLine();
+            writeToServer.println(processor.encodeString(MessageProcessor.MessageType.PASSWORD, passwordText));
 
 
 
@@ -70,10 +70,11 @@ public class Client {
     private void waitAndProcessInput(Socket serverSocket, PrintWriter writeToServer, BufferedReader localInputReader, ServerMessageReaderThread thread, String udpPort) throws Exception{
         boolean keepRunning = true;
         String userInput = null;
+        MessageProcessor processor = new MessageProcessor();
+        String encodedString = null;
         while(keepRunning){
             Thread.sleep(100);
             ClientState currentState = thread.getCurrentState();
-            System.out.println("currentState  :: "+currentState);
             switch(currentState){
                 case BLOCKED:
                     keepRunning = false;
@@ -82,22 +83,24 @@ public class Client {
                 case INVALID_PASSWORD:
                     System.out.print("Password: ");
                     userInput = localInputReader.readLine();
+                    encodedString = processor.encodeString(MessageProcessor.MessageType.PASSWORD, userInput);
                     break;
                 case INVALID_USERNAME:
                     System.out.print("Username: ");
                     userInput = localInputReader.readLine();
+                    encodedString = processor.encodeString(MessageProcessor.MessageType.USERNAME, userInput);
                     break;
                 default:
-                    //thread.resetCurrentState();
                     break;
             }
 
-            if(currentState == ClientState.LOGIN_SUCCESSFUL){
-                //writeToServer.println(udpPort);
+            if(currentState == ClientState.LOGIN_SUCCESSFUL || currentState == ClientState.LOGGED_IN_USER){
+                //writeToServer.println(udpPort); //TODO FIX THIS with IF CONDITION
                 userInput = localInputReader.readLine();
+                encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
             }
 
-            writeToServer.println(userInput);
+            writeToServer.println(encodedString);
 
             if ("/logout".equalsIgnoreCase(userInput)) {
                 if(!thread.isLogoutConfirmationReceived()){

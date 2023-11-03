@@ -1,5 +1,8 @@
 package org.example.server;
 
+import org.example.server.commandprocessor.ActiveUsers;
+import org.example.server.commandprocessor.MessageTo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,31 +61,31 @@ public class ClientHandler implements Runnable{
             int failedAttempts = 0;
             while(true){
                 if(isValidUsername && isValidPassword && !isBlocked){
-                    printWriter.println(SystemMessages.welcomeMessage(inputUsername));
-                    printWriter.println(SystemMessages.commandList());
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                     this.updateActiveUsers(socket, inputUsername);
                     logMessages.userOnline(inputUsername);
                     break;
                 }else if(!isValidUsername){
                     printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
-                    inputUsername = bufferedReader.readLine();
+                    inputUsername = messageProcessor.getContent(bufferedReader.readLine());
                     isValidUsername = credentialValidator.isValidUsername(inputUsername);
                     wasUsernameInvalid = true;
                 }else if(isBlocked){
-                    printWriter.println(SystemMessages.blockedUserMessage());
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKED_USER, SystemMessages.blockedUserMessage()));
                     this.blockedUserCleanup(socket);
                 }
                 else {
                     if(!wasUsernameInvalid)
-                        printWriter.println(SystemMessages.invalidPassword());
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
                     else
-                        printWriter.println(SystemMessages.VALID_USERNAME);
-                    inputPassword = bufferedReader.readLine();
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.VALID_USERNAME, SystemMessages.VALID_USERNAME));
+                    inputPassword =  messageProcessor.getContent(bufferedReader.readLine());
                     isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
                     failedAttempts++;
                     if(failedAttempts == blockedUserManagement.getAllowedFailedAttempts()){
                         blockedUserManagement.addBlockedUser(inputUsername);
-                        printWriter.println(SystemMessages.blockedMessage());
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
                         break;
                     }
                 }
@@ -90,25 +93,31 @@ public class ClientHandler implements Runnable{
 
 
 
-            String clientInput;
-            while ((clientInput = bufferedReader.readLine()) != null) {
+            String encodedClientInput;
+            while ((encodedClientInput = bufferedReader.readLine()) != null) {
+                String clientInput = messageProcessor.getContent(encodedClientInput);
+                System.out.println("Client input:: "+clientInput+" encoded message "+encodedClientInput);
                 if(clientInput.startsWith("/msgto")){
-                    MessageToProcessor processor = new MessageToProcessor(activeUsersMap, credentialValidator);
-                    MessageToProcessor.MessageStatus status = processor.sendMessage(inputUsername, clientInput);
+                    MessageTo processor = new MessageTo(activeUsersMap, credentialValidator);
+                    MessageTo.MessageStatus status = processor.sendMessage(inputUsername, clientInput);
                     System.out.println("Status:: "+status.getStatusMessage());
-                    if(status == MessageToProcessor.MessageStatus.SUCCESS){
-                        printWriter.println("Success");
+                    if(status == MessageTo.MessageStatus.SUCCESS){
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO, status.getStatusMessage()));
                         new LogMessages().messageTo(inputUsername, processor.getUsername(), processor.getMessage());
                     }else{
-                        printWriter.println(status.getStatusMessage());
+                       printWriter.println( messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO_CONTENT, status.getStatusMessage()));
                     }
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
 
                 }else if("/activeuser".equalsIgnoreCase(clientInput)) {
-                    printWriter.println(this.getActiveUserInformation(inputUsername));
-                    printWriter.println(SystemMessages.commandList());
+                    System.out.println("Fetching details");
+                    ActiveUsers activeUsersProcessor = new ActiveUsers(activeUsersMap);
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ACTIVE_USERS, activeUsersProcessor.getActiveUsers(inputUsername)));
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                 }else if("/logout".equalsIgnoreCase(clientInput)) {
+                    System.out.println("Logging out  "+inputUsername);
+                    printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));
                     this.logoutCleanUp(inputUsername);
-                    printWriter.println(SystemMessages.logoutMessage(inputUsername));
                     logMessages.userOffline(inputUsername);
                 }else{
                     printWriter.println("Invalid command");
@@ -140,7 +149,7 @@ public class ClientHandler implements Runnable{
         try{
             ActiveUser loggingOutUser = activeUsersMap.get(username);
             if(!loggingOutUser.getClientSocket().isClosed()){
-                System.out.println("Input stream ::"+loggingOutUser.getClientSocket().getInputStream().available());
+                Thread.sleep(100);
                 loggingOutUser.getClientSocket().close();
             }
             activeUsersMap.remove(username);
@@ -151,28 +160,5 @@ public class ClientHandler implements Runnable{
 
     }
 
-    private String getActiveUserInformation(String username){
-        StringBuilder stringBuilder = new StringBuilder();
-        //System.out.println("Active user map size:: "+activeUsersMap.size());
-        if(activeUsersMap.containsKey(username) && activeUsersMap.size() == 1) {
-            stringBuilder.append("no other active users");
-            stringBuilder.append("\n");
-        }else{
-            for (Map.Entry<String, ActiveUser> entry : activeUsersMap.entrySet()) {
-                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().toString());
-                if(!entry.getKey().equals(username)){
-                    stringBuilder.append(entry.getValue().getUsername());
-                    stringBuilder.append(" ");
-                    stringBuilder.append(entry.getValue().getIpAddress());
-                    stringBuilder.append(" ");
-                    stringBuilder.append(entry.getValue().getPort());
-                    stringBuilder.append(" active since ");
-                    stringBuilder.append(Config.dateFormat.format(entry.getValue().getLastActive()));
-                    stringBuilder.append("\n");
-                }
-            }
-        }
 
-        return stringBuilder.toString();
-    }
 }

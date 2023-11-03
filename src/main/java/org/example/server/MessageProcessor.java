@@ -3,12 +3,28 @@ package org.example.server;
 import java.util.Base64;
 
 public class MessageProcessor {
-    enum MessageType {
 
-        USERNAME("USERNAME","Username: "),
-        PASSWORD("PASSWORD","Password: "),
+    private final String META_DATA_SEPARATOR = "<>";
+    public enum MessageType {
+
+        MSGTO_CONTENT("MSGTO_CONTENT","Message to content"),
+        MSGTO("MSGTO","Message to"),
+
+        LOGOUT("LOGOUT","Logout"),
+        BLOCKING_USER("BLOCKING_USER","Blocking user"),
+        BLOCKED_USER("BLOCKED_USER","Blocked user"),
         INVALID_USERNAME("INVALID_USERNAME","Invalid username"),
         INVALID_PASSWORD("INVALID_PASSWORD","Invalid password"),
+
+        VALID_USERNAME("VALID_USERNAME","Valid username"),
+
+        ACTIVE_USERS("ACTIVE_USERS","Active users"),
+
+        COMMAND("COMMAND","Command"),
+
+        WELCOME_MESSAGE("WELCOME_MESSAGE","Welcome"),
+
+        COMMAND_LIST("COMMAND_LIST","Commands:"),
         AUTH_PROMPT("AUTH","Please login");
 
         private final String metaData;
@@ -29,7 +45,7 @@ public class MessageProcessor {
     }
 
     public String encodeString(MessageType messageType, String content){
-        byte[] bytesToEncode = (messageType.getMetaData() + ":" + content).getBytes();
+        byte[] bytesToEncode = (messageType.getMetaData() + META_DATA_SEPARATOR + content).getBytes();
         byte[] encodedBytes = Base64.getEncoder().encode(bytesToEncode);
         return new String(encodedBytes);
     }
@@ -37,6 +53,6 @@ public class MessageProcessor {
     public String getContent(String encodedString){
         byte[] decodedBytes = Base64.getDecoder().decode(encodedString.getBytes());
         String plainText = new String(decodedBytes);
-        return plainText.split(":")[1];
+        return plainText.split(META_DATA_SEPARATOR)[1];
     }
 }

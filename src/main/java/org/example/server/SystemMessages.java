@@ -31,7 +31,7 @@ public class SystemMessages {
     }
 
     public static  String welcomeMessage(String username){
-        return "Your credentials are correct - " + username + " Welcome to the server. ";
+        return "Welcome to Tessenger! "+username;
     }
 
     public static String invalidUsername(String username){
@@ -42,17 +42,15 @@ public class SystemMessages {
     }
 
     public static String logoutMessage(String username){
-        return "GoodBye "+username;
+        return "Bye, "+username+"!";
     }
 
+    //TODO FIX the newline characters
     public static String commandList(){
-        return "Enter one of the following commands: \n" +
-                "/msgto \n" +
-                "/activeuser \n" +
-                "/logout";
+        return "Enter one of the following commands: "+CommandType.getSupportedCommands();
     }
 
-    public static String blockedMessage() {
+    public static String blockingUserMessage() {
         return "Invalid Password. Your account has been blocked. Please try again later";
     }
     public static String blockedUserMessage() {

@@ -5,15 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/client/MessageProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CommandType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/ActiveUsers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/MessagePDU.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/MessageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ClientState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ClientState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/MessageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/MessageProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessagePDU.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/MessageProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/MessageTo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/MessageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,12 +99,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MessageToProcessor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.server.MessageToProcessor" />
+    <configuration name="CommandType" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.server.CommandType" />
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.*" />
+          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -113,7 +118,7 @@
       <option name="PROGRAM_PARAMETERS" value="60000 1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.*" />
+          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -125,7 +130,7 @@
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.*" />
+          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -141,7 +146,7 @@
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.*" />
+          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -154,7 +159,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.MessageToProcessor" />
+      <item itemvalue="Application.CommandType" />
       <item itemvalue="Application.Server" />
       <item itemvalue="Application.Client" />
       <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
@@ -164,9 +169,9 @@
       <list>
         <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.CommandType" />
         <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
         <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
-        <item itemvalue="Application.MessageToProcessor" />
       </list>
     </recent_temporary>
   </component>
@@ -190,7 +195,7 @@
       <workItem from="1698270152331" duration="2056000" />
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
-      <workItem from="1698962511683" duration="6301000" />
+      <workItem from="1698962511683" duration="22278000" />
     </task>
     <servers />
   </component>
@@ -212,7 +217,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/MessageToProcessor.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/MessageTo.java</url>
           <line>68</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
