@@ -58,18 +58,27 @@ public class ClientHandler implements Runnable{
             boolean isBlocked = blockedUserManagement.isBlocked(inputUsername);
 
             boolean wasUsernameInvalid = false;
-            int failedAttempts = 0;
-            while(true){
-                if(isValidUsername && isValidPassword && !isBlocked){
 
+            //TODO FIX failed attempt tracker
+
+            while(true){
+                if(!isValidPassword){
+                    if(blockedUserManagement.getFailedAttemptCount(inputUsername) == blockedUserManagement.getAllowedFailedAttempts()){
+                        blockedUserManagement.addBlockedUser(inputUsername);
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
+                        break;
+                    }
+                }
+                if(isValidUsername && isValidPassword && !isBlocked){
                     if(this.hasActiveUser(inputUsername)){
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ALREADY_LOGGED_USER, SystemMessages.userAlreadyLoggedIn()));
                         this.blockedUserCleanup(socket);
                     }else{
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                        blockedUserManagement.removeFailedAttemptCount(inputUsername);
                         this.updateActiveUsers(socket, inputUsername);
                         logMessages.userOnline(inputUsername);
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                     }
                     break;
                 }else if(!isValidUsername){
@@ -90,8 +99,9 @@ public class ClientHandler implements Runnable{
                         break;
                     }
 
-                    if(!wasUsernameInvalid)
+                    if(!wasUsernameInvalid){
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
+                    }
                     else{
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.VALID_USERNAME, SystemMessages.VALID_USERNAME));
                         wasUsernameInvalid = false;
@@ -99,12 +109,8 @@ public class ClientHandler implements Runnable{
 
                     inputPassword =  messageProcessor.getContent(bufferedReader.readLine());
                     isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
-                    failedAttempts++;
-                    if(failedAttempts == blockedUserManagement.getAllowedFailedAttempts()){
-                        blockedUserManagement.addBlockedUser(inputUsername);
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
-                        break;
-                    }
+                    blockedUserManagement.increaseFailedAttemptCount(inputUsername);
+
                 }
             }
 
