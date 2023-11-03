@@ -78,8 +78,11 @@ public class ClientHandler implements Runnable{
                 else {
                     if(!wasUsernameInvalid)
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
-                    else
+                    else{
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.VALID_USERNAME, SystemMessages.VALID_USERNAME));
+                        wasUsernameInvalid = false;
+                    }
+
                     inputPassword =  messageProcessor.getContent(bufferedReader.readLine());
                     isValidPassword = credentialValidator.isValidPassword(inputUsername, inputPassword);
                     failedAttempts++;

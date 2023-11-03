@@ -78,8 +78,10 @@ public class ServerMessageReaderThread implements Runnable{
                         System.out.println(processor.getPrompt(serverResponse));
                         logoutConfirmationReceived = true;
                         break;
-                    case "INVALID_PASSWORD":
                     case "VALID_USERNAME":
+                        currentState = ClientState.INVALID_PASSWORD;
+                        break;
+                    case "INVALID_PASSWORD":
                         currentState = ClientState.INVALID_PASSWORD;
                         this.displayPrompt(serverResponse);
                         break;
