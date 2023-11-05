@@ -26,6 +26,7 @@ public class Client {
             localInputReader = new BufferedReader(new InputStreamReader(System.in));
 
             String loginMessage = bufferedReaderFromSocket.readLine();
+            System.out.println("Login Message:: "+loginMessage);
             System.out.println(processor.getPrompt(loginMessage));
 
             System.out.print(MessageProcessor.MessageType.USERNAME.getPrompt());
