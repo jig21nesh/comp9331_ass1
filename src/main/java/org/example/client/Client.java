@@ -97,14 +97,13 @@ public class Client {
                     System.out.println("Information :::"+processor.encodeString(MessageProcessor.MessageType.UDP_PORT, udpPort));
                     encodedString = processor.encodeString(MessageProcessor.MessageType.UDP_PORT, udpPort);
                     break;
+                case LOGGED_IN_USER:
+                    userInput = localInputReader.readLine();
+                    encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
+                    break;
                 default:
                     break;
             }
-            if(currentState == ClientState.LOGGED_IN_USER){
-                userInput = localInputReader.readLine();
-                encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
-            }
-
             writeToServer.println(encodedString);
 
             if ("/logout".equalsIgnoreCase(userInput)) {
