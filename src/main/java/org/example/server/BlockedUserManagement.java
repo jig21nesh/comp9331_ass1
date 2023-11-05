@@ -34,7 +34,7 @@ public class BlockedUserManagement implements Runnable{
         }else{
             failedAttemptTracker.put(username, 1);
         }
-        System.out.println("Increasing failed attempt count for "+username+" to "+failedAttemptTracker.get(username));
+
     }
 
     public int getFailedAttemptCount(String username){
@@ -45,24 +45,19 @@ public class BlockedUserManagement implements Runnable{
         count = failedAttemptTracker.get(username);
 
 
-        System.out.println("Getting failed attempt count for "+username+"  "+count);
         return count;
     }
 
     public void removeFailedAttemptCount(String username){
-        System.out.println("Removing failed attempt count for "+username);
         failedAttemptTracker.remove(username);
     }
 
     public boolean isBlocked(String username){
-        System.out.println("Checking if "+username+" is blocked, the answer is "+blockedUsersList.containsKey(username));
         return blockedUsersList.containsKey(username);
     }
 
     public void addBlockedUser(String username){
-        System.out.println("Blocking this user: "+username);
         long blockingTime = System.currentTimeMillis();
-        System.out.println("Blocking user  "+username+"  at "+Config.dateFormat.format(new Date(blockingTime)));
         blockedUsersList.put(username, blockingTime);
 
 

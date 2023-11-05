@@ -66,18 +66,14 @@ public class ClientHandler implements Runnable{
             String udpPort = null;
 
             while (currentState != ClientState.LOGGED_OUT){
-                System.out.println("Current state:: "+currentState);
                 switch (currentState){
                     case PROMPT:
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.AUTH_PROMPT, MessageProcessor.MessageType.AUTH_PROMPT.getPrompt()));
 
                         String encodedUserName = bufferedReader.readLine();
-                        System.out.println("Client username input:: " + encodedUserName);
                         inputUsername = messageProcessor.getContent(encodedUserName);
-                        System.out.println("Input username:: "+inputUsername);
 
                         String encodedPassword = bufferedReader.readLine();
-                        System.out.println("Client password input:: " + encodedPassword);
                         inputPassword = messageProcessor.getContent(encodedPassword);
 
 
@@ -104,7 +100,6 @@ public class ClientHandler implements Runnable{
                                 break;
                             case INVALID_PASSWORD:
                                 blockedUserManagement.increaseFailedAttemptCount(inputUsername);
-                                System.out.println("Original password invalid");
                                 currentState = ClientState.INVALID_PASSWORD;
                                 break;
                         }
@@ -131,9 +126,6 @@ public class ClientHandler implements Runnable{
                         break;
                     case INVALID_PASSWORD:
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
-                        System.out.println("inputPassword :: "+inputPassword);
-                        System.out.println("getFailedAttemptCount :: "+blockedUserManagement.getFailedAttemptCount(inputUsername));
-                        System.out.println("getAllowedFailedAttempts :: "+blockedUserManagement.getAllowedFailedAttempts());
                         inputPassword = messageProcessor.getContent(bufferedReader.readLine());
                         if(blockedUserManagement.getFailedAttemptCount(inputUsername) >= blockedUserManagement.getAllowedFailedAttempts()){
                             blockedUserManagement.addBlockedUser(inputUsername);
@@ -154,7 +146,6 @@ public class ClientHandler implements Runnable{
 
                     case WAIT_FOR_UDP_PORT:
                         udpPort = messageProcessor.getContent(bufferedReader.readLine());
-                        System.out.println("UDP port:: "+udpPort);
                         this.updateActiveUsers(socket, inputUsername, udpPort);
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                         currentState = ClientState.LOGGED_IN;
@@ -162,13 +153,10 @@ public class ClientHandler implements Runnable{
 
                     case LOGGED_IN:
                         String encodedClientInput = bufferedReader.readLine();
-                        System.out.println("Encoded client input:: " + encodedClientInput+" encoded empty? "+encodedClientInput.isEmpty());
                         String clientInput = messageProcessor.getContent(encodedClientInput);
-                        System.out.println("Client input:: " + clientInput + " encoded message " + encodedClientInput);
                         if (clientInput.startsWith("/msgto")) {
                             MessageTo processor = new MessageTo(activeUsersMap, credentialValidator);
                             MessageTo.MessageStatus status = processor.sendMessage(inputUsername, clientInput);
-                            System.out.println("Status:: " + status.getStatusMessage());
                             if (status == MessageTo.MessageStatus.SUCCESS) {
                                 printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO, status.getStatusMessage()));
                                 new LogMessages().messageTo(inputUsername, processor.getUsername(), processor.getMessage());
@@ -178,12 +166,13 @@ public class ClientHandler implements Runnable{
                             printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
 
                         } else if ("/activeuser".equalsIgnoreCase(clientInput)) {
-                            System.out.println("Fetching details");
+                            logMessages.commandLogMessage(inputUsername, clientInput);
                             ActiveUsers activeUsersProcessor = new ActiveUsers(activeUsersMap);
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ACTIVE_USERS, activeUsersProcessor.getActiveUsers(inputUsername)));
+                            String returnMessage = activeUsersProcessor.getActiveUsers(inputUsername);
+                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ACTIVE_USERS, returnMessage));
                             printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                            logMessages.commandReturnMessage(returnMessage);
                         } else if ("/logout".equalsIgnoreCase(clientInput)) {
-                            System.out.println("Logging out  " + inputUsername);
                             printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));
                             new Logout(activeUsersMap).logoutCleanUp(inputUsername);
                             logMessages.userOffline(inputUsername);
@@ -259,7 +248,6 @@ public class ClientHandler implements Runnable{
         }
     }
     private synchronized void updateActiveUsers(Socket clientSocket, String username, String udpPort){
-        System.out.println("Adding username to active user::"+username+" udpPort:: "+udpPort);
         ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date(), udpPort);
         activeUsersMap.put(username, activeUser);
     }
