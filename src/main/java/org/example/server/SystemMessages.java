@@ -60,4 +60,8 @@ public class SystemMessages {
     public static String userAlreadyLoggedIn() {
         return "User is already logged in. Terminating this session";
     }
+
+    public static String invalidCommand() {
+        return "Error. Invalid command!";
+    }
 }

@@ -108,6 +108,10 @@ public class ServerMessageReaderThread implements Runnable{
                         handleCommandList(serverResponse);
                         currentState = ClientState.LOGGED_IN_USER;
                         break;
+                    case "INVALID_COMMAND":
+                        currentState = ClientState.LOGGED_IN_USER;
+                        System.out.println(processor.getPrompt(serverResponse));
+                        break;
 
 
                 }

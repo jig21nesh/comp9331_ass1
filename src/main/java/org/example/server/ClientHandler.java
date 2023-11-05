@@ -178,8 +178,8 @@ public class ClientHandler implements Runnable{
                             logMessages.userOffline(inputUsername);
                             currentState = ClientState.LOGGED_OUT;
                         } else {
-                            printWriter.println("Invalid command");
-                            printWriter.println(SystemMessages.commandList());
+                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_COMMAND, SystemMessages.invalidCommand()));
+                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                         }
                         break;
                     case BLOCKED:

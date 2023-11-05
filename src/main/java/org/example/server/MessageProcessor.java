@@ -7,6 +7,8 @@ public class MessageProcessor {
     private final String META_DATA_SEPARATOR = "<>";
     public enum MessageType {
 
+        INVALID_COMMAND("INVALID_COMMAND","Error. Invalid command!"),
+
         MSGTO_CONTENT("MSGTO_CONTENT","Message to content"),
         MSGTO("MSGTO","Message to"),
 
