@@ -76,6 +76,7 @@ public class Client {
         while(keepRunning){
             Thread.sleep(100);
             ClientState currentState = thread.getCurrentState();
+            System.out.println("Current State: "+currentState);
             switch(currentState){
                 case BLOCKED:
                     keepRunning = false;
@@ -91,12 +92,15 @@ public class Client {
                     userInput = localInputReader.readLine();
                     encodedString = processor.encodeString(MessageProcessor.MessageType.USERNAME, userInput);
                     break;
+                case LOGIN_SUCCESSFUL:
+                    System.out.println("Sending UDP Port to Server");
+                    System.out.println("Information :::"+processor.encodeString(MessageProcessor.MessageType.UDP_PORT, udpPort));
+                    encodedString = processor.encodeString(MessageProcessor.MessageType.UDP_PORT, udpPort);
+                    break;
                 default:
                     break;
             }
-
-            if(currentState == ClientState.LOGIN_SUCCESSFUL || currentState == ClientState.LOGGED_IN_USER){
-                //writeToServer.println(udpPort); //TODO FIX THIS with IF CONDITION
+            if(currentState == ClientState.LOGGED_IN_USER){
                 userInput = localInputReader.readLine();
                 encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
             }

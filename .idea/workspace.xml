@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/Logout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/MessageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/MessageProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -184,7 +187,7 @@
       <workItem from="1698270152331" duration="2056000" />
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
-      <workItem from="1698962511683" duration="44950000" />
+      <workItem from="1698962511683" duration="48270000" />
     </task>
     <servers />
   </component>

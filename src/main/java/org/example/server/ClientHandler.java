@@ -1,6 +1,7 @@
 package org.example.server;
 
 import org.example.server.commandprocessor.ActiveUsers;
+import org.example.server.commandprocessor.Logout;
 import org.example.server.commandprocessor.MessageTo;
 
 import java.io.BufferedReader;
@@ -33,6 +34,7 @@ public class ClientHandler implements Runnable{
         LOGGED_IN,
         BLOCKED,
         ALREADY_LOGGED_IN,
+        WAIT_FOR_UDP_PORT,
         LOGGED_OUT
     }
 
@@ -88,8 +90,7 @@ public class ClientHandler implements Runnable{
                                 this.updateActiveUsers(socket, inputUsername);
                                 logMessages.userOnline(inputUsername);
                                 printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
-                                currentState = ClientState.LOGGED_IN;
+                                currentState = ClientState.WAIT_FOR_UDP_PORT;
                                 break;
                             case BLOCKED:
                                 currentState = ClientState.BLOCKED;
@@ -137,11 +138,26 @@ public class ClientHandler implements Runnable{
                             currentState = ClientState.BLOCKED;
                         }else{
                             currentState = this.handleAuthentication(inputUsername, inputPassword);
+                            if(currentState == ClientState.LOGGED_IN){
+                                blockedUserManagement.removeFailedAttemptCount(inputUsername);
+                                this.updateActiveUsers(socket, inputUsername);
+                                logMessages.userOnline(inputUsername);
+                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
+                                currentState = ClientState.WAIT_FOR_UDP_PORT;
+                            }
                         }
+                        break;
+
+                    case WAIT_FOR_UDP_PORT:
+                        String udpPort = messageProcessor.getContent(bufferedReader.readLine());
+                        System.out.println("UDP port:: "+udpPort);
+                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                        currentState = ClientState.LOGGED_IN;
                         break;
 
                     case LOGGED_IN:
                         String encodedClientInput = bufferedReader.readLine();
+                        System.out.println("Encoded client input:: " + encodedClientInput+" encoded empty? "+encodedClientInput.isEmpty());
                         String clientInput = messageProcessor.getContent(encodedClientInput);
                         System.out.println("Client input:: " + clientInput + " encoded message " + encodedClientInput);
                         if (clientInput.startsWith("/msgto")) {
@@ -164,7 +180,7 @@ public class ClientHandler implements Runnable{
                         } else if ("/logout".equalsIgnoreCase(clientInput)) {
                             System.out.println("Logging out  " + inputUsername);
                             printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));
-                            this.logoutCleanUp(inputUsername);
+                            new Logout(activeUsersMap).logoutCleanUp(inputUsername);
                             logMessages.userOffline(inputUsername);
                             currentState = ClientState.LOGGED_OUT;
                         } else {
@@ -186,6 +202,7 @@ public class ClientHandler implements Runnable{
                 }
             }
         }catch (Exception exception){
+            exception.printStackTrace();
             System.out.println(exception.getMessage());
         }
     }
@@ -245,20 +262,7 @@ public class ClientHandler implements Runnable{
         return activeUsersMap.containsKey(username);
     }
 
-    private void logoutCleanUp(String username){
-        try{
-            ActiveUser loggingOutUser = activeUsersMap.get(username);
-            if(!loggingOutUser.getClientSocket().isClosed()){
-                Thread.sleep(100);
-                loggingOutUser.getClientSocket().close();
-            }
-            activeUsersMap.remove(username);
 
-        }catch (Exception exception){
-            System.out.println(exception.getMessage());
-        }
-
-    }
 
 
 }

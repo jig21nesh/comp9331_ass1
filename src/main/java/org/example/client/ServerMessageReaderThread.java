@@ -105,7 +105,6 @@ public class ServerMessageReaderThread implements Runnable{
                         handleWelcomeMessage(serverResponse);
                         break;
                     case "COMMAND_LIST":
-                        currentState = ClientState.LOGIN_SUCCESSFUL;
                         handleCommandList(serverResponse);
                         currentState = ClientState.LOGGED_IN_USER;
                         break;

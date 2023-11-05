@@ -12,6 +12,8 @@ public class MessageProcessor {
 
         COMMAND("COMMAND","Command"),
 
+        UDP_PORT("UDP_PORT","UDP port"),
+
         USERNAME("USERNAME","Username: "),
         BLOCKING_USER("BLOCKING_USER","Invalid Password. Your account has been blocked. Please try again later."),
         BLOCKED_USER("BLOCKED_USER","Your account is blocked due to multiple login failures. Please try again later."),
