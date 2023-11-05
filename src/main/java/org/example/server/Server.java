@@ -1,5 +1,7 @@
 package org.example.server;
 
+import org.example.server.logging.MessagesToFileWriter;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -15,6 +17,8 @@ public class Server {
     private static final Map<String, String> credentialMap = new HashMap<>();
 
     private static final Map<String, ActiveUser> activeUsersMap = new HashMap<>();
+
+    private static final MessagesToFileWriter fileWriter = new MessagesToFileWriter(); //TODO FIX THIS - it is not being used here.
 
     int portNumber;
     int nofFailedAttempts;

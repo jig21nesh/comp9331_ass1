@@ -1,6 +1,7 @@
 package org.example.server.commandprocessor;
 
 import org.example.server.*;
+import org.example.server.logging.MessagesToFileWriter;
 
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -106,13 +107,15 @@ public class MessageTo {
         return String.format("%s, %s: %s", Config.dateFormat.format(new Date()),currentUser, messageContent);
     }
     public MessageStatus sendMessage(String currentUser, String input){
+        MessagesToFileWriter fileWriter = new MessagesToFileWriter();
         MessageStatus status = this.isValidCommand(currentUser, input);
         if(status == MessageStatus.SUCCESS){
             Socket socket = activeUsersMap.get(input.split(" ")[1]).getClientSocket();
             try{
                 PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-                MessageProcessor messageProcessor = new MessageProcessor();
-                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO_CONTENT, this.formatSendMessage(currentUser, this.message)));
+                MessageTranslator messageProcessor = new MessageTranslator();
+                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.MSGTO_CONTENT, this.formatSendMessage(currentUser, this.message)));
+                fileWriter.writeToFile(this.username, this.message);
             }catch (Exception exception){
                 status = MessageStatus.FAILED_TO_SEND;
             }

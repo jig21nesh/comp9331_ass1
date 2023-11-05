@@ -3,6 +3,8 @@ package org.example.server;
 import org.example.server.commandprocessor.ActiveUsers;
 import org.example.server.commandprocessor.Logout;
 import org.example.server.commandprocessor.MessageTo;
+import org.example.server.commandprocessor.MessageTranslator;
+import org.example.server.logging.ConsoleMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +20,7 @@ public class ClientHandler implements Runnable{
 
     private final Map<String, ActiveUser> activeUsersMap;
 
-    private final LogMessages logMessages;
+    private final ConsoleMessages logMessages;
 
     private final BlockedUserManagement blockedUserManagement;
 
@@ -44,7 +46,7 @@ public class ClientHandler implements Runnable{
         this.activeUsersMap = activeUsersMap;
         this.blockedUserManagement = blockedUserManagement;
 
-        logMessages = new LogMessages();
+        logMessages = new ConsoleMessages();
     }
 
 
@@ -53,7 +55,7 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         try{
-            MessageProcessor messageProcessor = new MessageProcessor();
+            MessageTranslator messageProcessor = new MessageTranslator();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
 
@@ -68,7 +70,7 @@ public class ClientHandler implements Runnable{
             while (currentState != ClientState.LOGGED_OUT){
                 switch (currentState){
                     case PROMPT:
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.AUTH_PROMPT, MessageProcessor.MessageType.AUTH_PROMPT.getPrompt()));
+                        printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.AUTH_PROMPT, MessageTranslator.MessageType.AUTH_PROMPT.getPrompt()));
 
                         String encodedUserName = bufferedReader.readLine();
                         inputUsername = messageProcessor.getContent(encodedUserName);
@@ -85,7 +87,7 @@ public class ClientHandler implements Runnable{
                             case LOGGED_IN:
                                 blockedUserManagement.removeFailedAttemptCount(inputUsername);
                                 logMessages.userOnline(inputUsername);
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
                                 currentState = ClientState.WAIT_FOR_UDP_PORT;
                                 break;
                             case BLOCKED:
@@ -95,7 +97,7 @@ public class ClientHandler implements Runnable{
                                 currentState = ClientState.ALREADY_LOGGED_IN;
                                 break;
                             case INVALID_USERNAME:
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
                                 currentState = ClientState.INVALID_USERNAME;
                                 break;
                             case INVALID_PASSWORD:
@@ -110,7 +112,7 @@ public class ClientHandler implements Runnable{
                             inputUsername = messageProcessor.getContent(bufferedReader.readLine());
                             ClientState usernameStatus = this.handleUsername(inputUsername);
                             if(usernameStatus == ClientState.INVALID_USERNAME){
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
                                 wasUsernameInvalid = true;
                             }else{
                                 currentState = usernameStatus;
@@ -120,16 +122,16 @@ public class ClientHandler implements Runnable{
                         break;
 
                     case VALID_USERNAME:
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.VALID_USERNAME, SystemMessages.VALID_USERNAME));
+                        printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.VALID_USERNAME, SystemMessages.VALID_USERNAME));
                         inputPassword = messageProcessor.getContent(bufferedReader.readLine());
                         currentState = this.handleAuthentication(inputUsername, inputPassword);
                         break;
                     case INVALID_PASSWORD:
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
+                        printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
                         inputPassword = messageProcessor.getContent(bufferedReader.readLine());
                         if(blockedUserManagement.getFailedAttemptCount(inputUsername) >= blockedUserManagement.getAllowedFailedAttempts()){
                             blockedUserManagement.addBlockedUser(inputUsername);
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
                             currentState = ClientState.BLOCKED;
                         }else{
                             currentState = this.handleAuthentication(inputUsername, inputPassword);
@@ -138,7 +140,7 @@ public class ClientHandler implements Runnable{
                             if(currentState == ClientState.LOGGED_IN){
                                 blockedUserManagement.removeFailedAttemptCount(inputUsername);
                                 logMessages.userOnline(inputUsername);
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
                                 currentState = ClientState.WAIT_FOR_UDP_PORT;
                             }
                         }
@@ -147,7 +149,7 @@ public class ClientHandler implements Runnable{
                     case WAIT_FOR_UDP_PORT:
                         udpPort = messageProcessor.getContent(bufferedReader.readLine());
                         this.updateActiveUsers(socket, inputUsername, udpPort);
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                        printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                         currentState = ClientState.LOGGED_IN;
                         break;
 
@@ -158,37 +160,37 @@ public class ClientHandler implements Runnable{
                             MessageTo processor = new MessageTo(activeUsersMap, credentialValidator);
                             MessageTo.MessageStatus status = processor.sendMessage(inputUsername, clientInput);
                             if (status == MessageTo.MessageStatus.SUCCESS) {
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO, status.getStatusMessage()));
-                                new LogMessages().messageTo(inputUsername, processor.getUsername(), processor.getMessage());
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.MSGTO, status.getStatusMessage()));
+                                new ConsoleMessages().messageTo(inputUsername, processor.getUsername(), processor.getMessage());
                             } else {
-                                printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.MSGTO_CONTENT, status.getStatusMessage()));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.MSGTO_CONTENT, status.getStatusMessage()));
                             }
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
 
                         } else if ("/activeuser".equalsIgnoreCase(clientInput)) {
                             logMessages.commandLogMessage(inputUsername, clientInput);
                             ActiveUsers activeUsersProcessor = new ActiveUsers(activeUsersMap);
                             String returnMessage = activeUsersProcessor.getActiveUsers(inputUsername);
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ACTIVE_USERS, returnMessage));
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.ACTIVE_USERS, returnMessage));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                             logMessages.commandReturnMessage(returnMessage);
                         } else if ("/logout".equalsIgnoreCase(clientInput)) {
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));
                             new Logout(activeUsersMap).logoutCleanUp(inputUsername);
                             logMessages.userOffline(inputUsername);
                             currentState = ClientState.LOGGED_OUT;
                         } else {
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_COMMAND, SystemMessages.invalidCommand()));
-                            printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_COMMAND, SystemMessages.invalidCommand()));
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                         }
                         break;
                     case BLOCKED:
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKED_USER, SystemMessages.blockedUserMessage()));
+                        printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.BLOCKED_USER, SystemMessages.blockedUserMessage()));
                         this.blockedUserCleanup(socket);
                         currentState = ClientState.LOGGED_OUT;
                         break;
                     case ALREADY_LOGGED_IN:
-                        printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.ALREADY_LOGGED_USER, SystemMessages.userAlreadyLoggedIn()));
+                        printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.ALREADY_LOGGED_USER, SystemMessages.userAlreadyLoggedIn()));
                         this.blockedUserCleanup(socket);
                         currentState = ClientState.LOGGED_OUT;
                         break;

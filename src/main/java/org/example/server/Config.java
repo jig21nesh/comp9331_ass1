@@ -15,6 +15,10 @@ public class Config {
 
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
 
+    public static final SimpleDateFormat logFileBackupDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+
+
     public static final int SOCKET_ACCEPT_TIMEOUT = 10000;
 
 }

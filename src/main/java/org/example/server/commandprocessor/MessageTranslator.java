@@ -1,8 +1,8 @@
-package org.example.server;
+package org.example.server.commandprocessor;
 
 import java.util.Base64;
 
-public class MessageProcessor {
+public class MessageTranslator {
 
     private final String META_DATA_SEPARATOR = "<>";
     public enum MessageType {
