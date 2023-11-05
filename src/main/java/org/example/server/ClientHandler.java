@@ -104,6 +104,7 @@ public class ClientHandler implements Runnable{
                                 break;
                             case INVALID_PASSWORD:
                                 blockedUserManagement.increaseFailedAttemptCount(inputUsername);
+                                System.out.println("Original password invalid");
                                 currentState = ClientState.INVALID_PASSWORD;
                                 break;
                         }
@@ -130,14 +131,18 @@ public class ClientHandler implements Runnable{
                         break;
                     case INVALID_PASSWORD:
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.INVALID_PASSWORD, SystemMessages.invalidPassword()));
+                        System.out.println("inputPassword :: "+inputPassword);
+                        System.out.println("getFailedAttemptCount :: "+blockedUserManagement.getFailedAttemptCount(inputUsername));
+                        System.out.println("getAllowedFailedAttempts :: "+blockedUserManagement.getAllowedFailedAttempts());
                         inputPassword = messageProcessor.getContent(bufferedReader.readLine());
-                        blockedUserManagement.increaseFailedAttemptCount(inputUsername);
                         if(blockedUserManagement.getFailedAttemptCount(inputUsername) >= blockedUserManagement.getAllowedFailedAttempts()){
                             blockedUserManagement.addBlockedUser(inputUsername);
                             printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.BLOCKING_USER, SystemMessages.blockingUserMessage()));
                             currentState = ClientState.BLOCKED;
                         }else{
                             currentState = this.handleAuthentication(inputUsername, inputPassword);
+                            if(currentState == ClientState.INVALID_PASSWORD)
+                                blockedUserManagement.increaseFailedAttemptCount(inputUsername);
                             if(currentState == ClientState.LOGGED_IN){
                                 blockedUserManagement.removeFailedAttemptCount(inputUsername);
                                 logMessages.userOnline(inputUsername);
