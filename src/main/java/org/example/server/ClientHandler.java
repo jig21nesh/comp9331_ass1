@@ -63,6 +63,7 @@ public class ClientHandler implements Runnable{
             boolean isValidUsername = false;
             boolean isValidPassword = false;
             boolean wasUsernameInvalid = false;
+            String udpPort = null;
 
             while (currentState != ClientState.LOGGED_OUT){
                 System.out.println("Current state:: "+currentState);
@@ -87,7 +88,6 @@ public class ClientHandler implements Runnable{
                         switch (authStatus) {
                             case LOGGED_IN:
                                 blockedUserManagement.removeFailedAttemptCount(inputUsername);
-                                this.updateActiveUsers(socket, inputUsername);
                                 logMessages.userOnline(inputUsername);
                                 printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
                                 currentState = ClientState.WAIT_FOR_UDP_PORT;
@@ -140,7 +140,6 @@ public class ClientHandler implements Runnable{
                             currentState = this.handleAuthentication(inputUsername, inputPassword);
                             if(currentState == ClientState.LOGGED_IN){
                                 blockedUserManagement.removeFailedAttemptCount(inputUsername);
-                                this.updateActiveUsers(socket, inputUsername);
                                 logMessages.userOnline(inputUsername);
                                 printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.WELCOME_MESSAGE, SystemMessages.welcomeMessage(inputUsername)));
                                 currentState = ClientState.WAIT_FOR_UDP_PORT;
@@ -149,8 +148,9 @@ public class ClientHandler implements Runnable{
                         break;
 
                     case WAIT_FOR_UDP_PORT:
-                        String udpPort = messageProcessor.getContent(bufferedReader.readLine());
+                        udpPort = messageProcessor.getContent(bufferedReader.readLine());
                         System.out.println("UDP port:: "+udpPort);
+                        this.updateActiveUsers(socket, inputUsername, udpPort);
                         printWriter.println(messageProcessor.encodeString(MessageProcessor.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                         currentState = ClientState.LOGGED_IN;
                         break;
@@ -253,8 +253,9 @@ public class ClientHandler implements Runnable{
             }
         }
     }
-    private synchronized void updateActiveUsers(Socket clientSocket, String username){
-        ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date());
+    private synchronized void updateActiveUsers(Socket clientSocket, String username, String udpPort){
+        System.out.println("Adding username to active user::"+username+" udpPort:: "+udpPort);
+        ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date(), udpPort);
         activeUsersMap.put(username, activeUser);
     }
 

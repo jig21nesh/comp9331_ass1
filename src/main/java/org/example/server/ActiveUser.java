@@ -32,6 +32,16 @@ public class ActiveUser {
 
     private int port;
 
+    public String getUdpPort() {
+        return udpPort;
+    }
+
+    public void setUdpPort(String udpPort) {
+        this.udpPort = udpPort;
+    }
+
+    private String udpPort;
+
 
 
     public void setClientSocket(Socket clientSocket) {
@@ -40,12 +50,13 @@ public class ActiveUser {
 
     Socket clientSocket;
 
-    public ActiveUser(Socket clientSocket, String username, Date lastActive){
+    public ActiveUser(Socket clientSocket, String username, Date lastActive, String udpPort){
         this.clientSocket = clientSocket;
         this.username = username;
         this.lastActive = lastActive;
         this.ipAddress = this.clientSocket.getInetAddress().getHostAddress();
         this.port = this.clientSocket.getPort();
+        this.udpPort = udpPort;
 
     }
 
