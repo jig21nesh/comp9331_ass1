@@ -54,7 +54,7 @@ public class JoinGroup extends CommonGroupUtil{
 
     public String getVerboseMessage(String command) {
         String groupName = this.getGroupNameFromCommand(command);
-        StringBuilder sb = new StringBuilder("Join group chat room successful, room name: ").append(groupName).append(", users in this room: ");
+        StringBuilder sb = new StringBuilder("Joined group chat room successfully, room name: ").append(groupName).append(", users in this room: ");
         Group group = groupList.get(groupName);
         ArrayList<String> invitedMembers = group.getInvitedMembers();
         for(String user : invitedMembers){

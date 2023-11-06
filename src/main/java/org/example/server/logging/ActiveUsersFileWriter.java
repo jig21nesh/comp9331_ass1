@@ -3,27 +3,24 @@ package org.example.server.logging;
 import org.example.server.ActiveUser;
 import org.example.server.Config;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ActiveUsersFireWriter extends CustomFileWriter{
+public class ActiveUsersFileWriter extends CustomFileWriter{
     private static final String FILE_NAME = "userlog";
     private static final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    private static final String FILE_EXTENSION = ".txt";
+
 
     private static boolean isFileCreated = false;
 
-    public ActiveUsersFireWriter(){
+    public ActiveUsersFileWriter(){
         if(!isFileCreated){
             isFileCreated = this.createFile(FILE_NAME,FILE_EXTENSION);
         }

@@ -1,7 +1,7 @@
 package org.example.server;
 
 import org.example.server.commandprocessor.*;
-import org.example.server.logging.ActiveUsersFireWriter;
+import org.example.server.logging.ActiveUsersFileWriter;
 import org.example.server.logging.ConsoleMessages;
 
 import java.io.BufferedReader;
@@ -305,7 +305,7 @@ public class ClientHandler implements Runnable{
     private synchronized void updateActiveUsers(Socket clientSocket, String username, String udpPort){
         ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date(), udpPort);
         activeUsersMap.put(username, activeUser);
-        new ActiveUsersFireWriter().writeToFile(activeUser);
+        new ActiveUsersFileWriter().writeToFile(activeUser);
     }
 
     private boolean hasActiveUser(String username){

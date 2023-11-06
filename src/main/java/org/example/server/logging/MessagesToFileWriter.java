@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MessagesToFileWriter extends CustomFileWriter{
     private static final String FILE_NAME = "messagelog";
-    private static final AtomicInteger messageCounter = new AtomicInteger(0);
-    private static final String FILE_EXTENSION = ".txt";
+
+
 
 
     private static boolean isFileCreated = false;
@@ -33,7 +33,6 @@ public class MessagesToFileWriter extends CustomFileWriter{
         BufferedWriter writer = null;
         synchronized (fileLock) {
             try{
-                System.out.println("Writing this message :::: "+formattedMessage);
                 writer = new BufferedWriter(new FileWriter(FILE_NAME+FILE_EXTENSION, true));
                 writer.write(formattedMessage + "\n");
                 writer.flush();

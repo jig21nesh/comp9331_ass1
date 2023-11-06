@@ -4,8 +4,13 @@ import org.example.server.Config;
 
 import java.io.File;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomFileWriter {
+
+    protected static final AtomicInteger messageCounter = new AtomicInteger(0);
+    protected static final String FILE_EXTENSION = ".txt";
+
     protected boolean createFile(String fileName, String fileExtension){
         boolean isFileCreated = false;
         File messageLogFile = new File(fileName+fileExtension);

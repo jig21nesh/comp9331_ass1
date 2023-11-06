@@ -2,6 +2,7 @@ package org.example.server.commandprocessor;
 
 import org.example.server.ActiveUser;
 import org.example.server.CredentialValidator;
+import org.example.server.logging.GroupMessageFileWriter;
 
 
 import java.util.Map;
@@ -132,9 +133,14 @@ public class CreateGroup extends CommonGroupUtil{
                 groupList.put(g, group);
                 this.groupName = g;
                 this.users = users;
+                createLogFile(g);
             }
         }
         return status;
+    }
+
+    private void createLogFile(String groupName){
+        new GroupMessageFileWriter(groupName);
     }
 
 }
