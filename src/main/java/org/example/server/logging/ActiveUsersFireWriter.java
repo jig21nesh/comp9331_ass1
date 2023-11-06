@@ -54,14 +54,7 @@ public class ActiveUsersFireWriter extends CustomFileWriter{
 
             int newSequenceNumber = 1;
             for (String line : lines) {
-                System.out.println("Line: " + line);
                 String[] parts = line.split("; ");
-                System.out.println(" Condition :: "+(parts.length > 4 && !parts[2].trim().equals(activeUser.getUsername()) && !parts[3].trim().equals(activeUser.getIpAddress()) && Integer.parseInt(parts[4].trim()) != activeUser.getPort()));
-                System.out.println("Parts ::"+parts.length);
-                System.out.println("Parts 2 ::"+parts[2]+"  username "+activeUser.getUsername());
-                System.out.println("Parts 3 ::"+parts[3]+"  IP "+activeUser.getIpAddress());
-                System.out.println("Parts 4 ::"+parts[4]+"  UDP "+activeUser.getUdpPort());
-
                 if (!parts[2].trim().equals(activeUser.getUsername())) {
                     updatedLines.add(newSequenceNumber + "; " + parts[1] + "; " + parts[2] + "; " + parts[3]+"; " + parts[4]);
                     newSequenceNumber++;
@@ -70,7 +63,7 @@ public class ActiveUsersFireWriter extends CustomFileWriter{
 
             Files.write(path, updatedLines, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             readWriteLock.writeLock().unlock();
         }

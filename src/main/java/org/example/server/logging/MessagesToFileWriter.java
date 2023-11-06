@@ -21,11 +21,10 @@ public class MessagesToFileWriter extends CustomFileWriter{
     private static final Object fileLock = new Object();
 
     public MessagesToFileWriter(){
-        System.out.println("File created :::: "+isFileCreated);
         if(!isFileCreated){
             isFileCreated = this.createFile(FILE_NAME, FILE_EXTENSION);
         }
-        System.out.println("File created :::: "+isFileCreated);
+
     }
 
     public void writeToFile(String toUsername, String message){
