@@ -4,6 +4,7 @@ import org.example.server.commandprocessor.ActiveUsers;
 import org.example.server.commandprocessor.Logout;
 import org.example.server.commandprocessor.MessageTo;
 import org.example.server.commandprocessor.MessageTranslator;
+import org.example.server.logging.ActiveUsersFireWriter;
 import org.example.server.logging.ConsoleMessages;
 
 import java.io.BufferedReader;
@@ -252,6 +253,7 @@ public class ClientHandler implements Runnable{
     private synchronized void updateActiveUsers(Socket clientSocket, String username, String udpPort){
         ActiveUser activeUser = new ActiveUser(clientSocket, username, new Date(), udpPort);
         activeUsersMap.put(username, activeUser);
+        new ActiveUsersFireWriter().writeToFile(activeUser);
     }
 
     private boolean hasActiveUser(String username){
