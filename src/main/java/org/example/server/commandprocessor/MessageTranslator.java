@@ -26,6 +26,8 @@ public class MessageTranslator {
 
         CREATE_GROUP("CREATE_GROUP","Create group"),
 
+        JOIN_GROUP("CREATE_GROUP","Create group"),
+
         COMMAND("COMMAND","Command"),
 
         WELCOME_MESSAGE("WELCOME_MESSAGE","Welcome"),

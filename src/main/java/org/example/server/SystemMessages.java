@@ -92,4 +92,8 @@ public class SystemMessages {
     public static String groupAlreadyExists(String groupName) {
         return "Create chat group failed. Group "+groupName+" already exists.";
     }
+
+    public static String ownerCannotJoinTheGroup(String inputUsername, String groupNameFromCommand) {
+        return "Join chat group failed. Owner "+inputUsername+" does not need to join group "+groupNameFromCommand;
+    }
 }

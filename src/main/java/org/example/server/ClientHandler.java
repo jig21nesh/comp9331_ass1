@@ -175,11 +175,11 @@ public class ClientHandler implements Runnable{
                         }else if(clientInput.startsWith("/creategroup")){
                             logMessages.commandLogMessage(inputUsername, "/creategroup");
                             CreateGroup createGroupProcessor = new CreateGroup(activeUsersMap, credentialValidator);
-                            CreateGroup.GroupCreationStatus groupCreationStatus = createGroupProcessor.createGroup(inputUsername, clientInput);
-                            switch (groupCreationStatus){
+                            CreateGroup.GroupStatus groupStatus = createGroupProcessor.createGroup(inputUsername, clientInput);
+                            switch (groupStatus){
                                 case SUCCESS:
-                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, createGroupProcessor.getVerboseMessage()));
-                                    logMessages.commandReturnMessage(createGroupProcessor.getVerboseMessage());
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, createGroupProcessor.getVerboseMessage(inputUsername)));
+                                    logMessages.commandReturnMessage(createGroupProcessor.getVerboseMessage(inputUsername));
                                     break;
                                 case INVALID_USERNAME:
                                     printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, SystemMessages.invalidUserWhileCreatingGroup(createGroupProcessor.getProblemUser())));
@@ -198,11 +198,33 @@ public class ClientHandler implements Runnable{
                                     logMessages.commandReturnMessage(SystemMessages.groupAlreadyExists(createGroupProcessor.getGroupName()));
                                     break;
                                 default:
-                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, groupCreationStatus.getMessage()));
-                                    logMessages.commandReturnMessage(groupCreationStatus.getMessage());
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, groupStatus.getMessage()));
+                                    logMessages.commandReturnMessage(groupStatus.getMessage());
                                     break;
                             }
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                        }
+
+                        else if(clientInput.startsWith("/joingroup")){
+                            logMessages.commandLogMessage(inputUsername, "/joingroup");
+                            JoinGroup joinGroupProcessor = new JoinGroup();
+                            JoinGroup.GroupStatus joinGroupStatus = joinGroupProcessor.joinGroup(inputUsername, clientInput);
+                            switch (joinGroupStatus) {
+                                case SUCCESS:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.JOIN_GROUP, joinGroupProcessor.getVerboseMessage(clientInput)));
+                                    logMessages.commandReturnMessage(joinGroupProcessor.getVerboseMessage(clientInput));
+                                    break;
+                                case OWNER_CANNOT_JOIN_GROUP:
+                                    String t = SystemMessages.ownerCannotJoinTheGroup(inputUsername, joinGroupProcessor.getGroupNameFromCommand(clientInput));
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.JOIN_GROUP, t));
+                                    logMessages.commandReturnMessage(t);
+                                default:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.JOIN_GROUP, joinGroupStatus.getMessage()));
+                                    logMessages.commandReturnMessage(joinGroupStatus.getMessage());
+                                    break;
+                            }
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+
                         }
 
                         else if ("/logout".equalsIgnoreCase(clientInput)) {

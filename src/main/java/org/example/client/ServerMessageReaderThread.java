@@ -107,6 +107,7 @@ public class ServerMessageReaderThread implements Runnable{
                         currentState = ClientState.LOGGED_IN_USER;
                         break;
                     case "CREATE_GROUP":
+                    case "JOIN_GROUP":
                     case "INVALID_COMMAND":
                         currentState = ClientState.LOGGED_IN_USER;
                         System.out.println(processor.getPrompt(serverResponse));

@@ -24,7 +24,19 @@ public class Group {
         this.invitedMembers.add(username);
     }
 
+    public boolean hasUserBeenInvited(String username){
+        return this.invitedMembers.contains(username);
+    }
+
+    public boolean hasUserJoined(String username){
+        return this.joinedMembers.contains(username);
+    }
+
     public void addJoinedMember(String username){
         this.joinedMembers.add(username);
+    }
+
+    public ArrayList<String> getInvitedMembers() {
+        return this.invitedMembers;
     }
 }
