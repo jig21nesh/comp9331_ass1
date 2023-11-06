@@ -16,17 +16,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ActiveUsersFireWriter {
+public class ActiveUsersFireWriter extends CustomFileWriter{
     private static final String FILE_NAME = "userlog";
     private static final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    private static final AtomicInteger messageCounter = new AtomicInteger(0);
     private static final String FILE_EXTENSION = ".txt";
 
     private static boolean isFileCreated = false;
 
     public ActiveUsersFireWriter(){
         if(!isFileCreated){
-            this.createFile();
+            isFileCreated = this.createFile(FILE_NAME,FILE_EXTENSION);
         }
     }
 
@@ -94,23 +93,7 @@ public class ActiveUsersFireWriter {
         }
     }
 
-    private void createFile(){
-        File messageLogFile = new File(FILE_NAME+FILE_EXTENSION);
-        if(messageLogFile.exists()){
-            this.backupCurrentFile();
-        }
-        try{
-            isFileCreated = messageLogFile.createNewFile();
-        }catch (Exception exception){
-            System.out.println("Failed to create message log file.");
-        }
-    }
 
-    private void backupCurrentFile(){
-        File file = new File(FILE_NAME+FILE_EXTENSION);
-        String newFileName = FILE_NAME+"_" + Config.logFileBackupDateFormat.format(new Date()) + FILE_EXTENSION;
-        file.delete();
-    }
 
 
 

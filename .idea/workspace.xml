@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ActiveUsersFireWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/CustomFileWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/Logout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/Logout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ActiveUsersFireWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ActiveUsersFireWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/logging/MessagesToFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/MessagesToFileWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +70,7 @@
       <recent name="org.example.server" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.client.Client" />
       <module name="ass1" />
@@ -160,8 +158,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="Application.CommandType" />
         <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
         <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
@@ -188,7 +186,7 @@
       <workItem from="1698270152331" duration="2056000" />
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
-      <workItem from="1698962511683" duration="67636000" />
+      <workItem from="1698962511683" duration="68807000" />
     </task>
     <servers />
   </component>

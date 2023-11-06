@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MessagesToFileWriter {
+public class MessagesToFileWriter extends CustomFileWriter{
     private static final String FILE_NAME = "messagelog";
     private static final AtomicInteger messageCounter = new AtomicInteger(0);
     private static final String FILE_EXTENSION = ".txt";
@@ -21,9 +21,11 @@ public class MessagesToFileWriter {
     private static final Object fileLock = new Object();
 
     public MessagesToFileWriter(){
+        System.out.println("File created :::: "+isFileCreated);
         if(!isFileCreated){
-            this.createFile();
+            isFileCreated = this.createFile(FILE_NAME, FILE_EXTENSION);
         }
+        System.out.println("File created :::: "+isFileCreated);
     }
 
     public void writeToFile(String toUsername, String message){
@@ -50,26 +52,4 @@ public class MessagesToFileWriter {
         }
     }
 
-    private void createFile(){
-        File messageLogFile = new File(FILE_NAME+FILE_EXTENSION);
-        if(messageLogFile.exists()){
-            this.backupCurrentFile();
-        }
-        try{
-            isFileCreated = messageLogFile.createNewFile();
-        }catch (Exception exception){
-            System.out.println("Failed to create message log file.");
-        }
-    }
-
-    private void backupCurrentFile(){
-        File messageLogFile = new File(FILE_NAME+FILE_EXTENSION);
-        String newFileName = FILE_NAME+"_" + Config.logFileBackupDateFormat.format(new Date()) + FILE_EXTENSION;
-        messageLogFile.delete();
-        if (messageLogFile.renameTo(new File(newFileName))) {
-            System.out.println("Renamed existing message log file to " + newFileName);
-        } else {
-            System.err.println("Failed to rename the existing message log file.");
-        }
-    }
 }
