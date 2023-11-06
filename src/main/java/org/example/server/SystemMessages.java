@@ -35,8 +35,24 @@ public class SystemMessages {
     }
 
     public static String invalidUsername(String username){
-        return  username+" is not a valid username. Please try again";
+        return  username+" is not a valid username";
     }
+
+    public static String invalidUsername(String username, boolean addRequestMessage){
+        if(addRequestMessage){
+            return invalidUsername(username)+". Please try again";
+        }else{
+            return invalidUsername(username);
+        }
+    }
+
+    public static String invalidUserWhileCreatingGroup(String username){
+        return "Create chat group failed. "+invalidUsername(username, false);
+    }
+
+
+
+
     public static String invalidPassword(){
         return "Invalid Password. Please try again";
     }
@@ -63,5 +79,17 @@ public class SystemMessages {
 
     public static String invalidCommand() {
         return "Error. Invalid command!";
+    }
+
+    public static String userIsNotOnline(String problemUser) {
+        return "Create chat group failed. User "+problemUser+" is not online";
+    }
+
+    public static String currentUserPresentInMembersList(String inputUsername) {
+        return "Create chat group failed. You can't add yourself in the group. Please remove "+inputUsername+" from the list and try again";
+    }
+
+    public static String groupAlreadyExists(String groupName) {
+        return "Create chat group failed. Group "+groupName+" already exists.";
     }
 }

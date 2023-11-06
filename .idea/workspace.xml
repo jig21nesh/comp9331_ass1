@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/CreateGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/Group.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ActiveUsersFireWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ActiveUsersFireWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/logging/MessagesToFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/MessagesToFileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userlog_20231106141453.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/ServerMessageReaderThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/MessageTranslator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/commandprocessor/MessageTranslator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ConsoleMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/logging/ConsoleMessages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +74,7 @@
       <recent name="org.example.server" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.CreateGroup">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.client.Client" />
       <module name="ass1" />
@@ -92,6 +96,19 @@
     </configuration>
     <configuration name="CommandType" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.server.CommandType" />
+      <module name="ass1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreateGroup" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.server.commandprocessor.CreateGroup" />
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
@@ -133,36 +150,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ass1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.example.server" />
-      <option name="MAIN_CLASS_NAME" value="org.example.server.MessageToProcessorTest" />
-      <option name="METHOD_NAME" value="shouldGetASuccessStatusIfInputIsValid" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.CommandType" />
+      <item itemvalue="Application.CreateGroup" />
       <item itemvalue="Application.Server" />
       <item itemvalue="Application.Client" />
       <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
-      <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.CreateGroup" />
         <item itemvalue="Application.CommandType" />
         <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
-        <item itemvalue="JUnit.MessageToProcessorTest.shouldGetASuccessStatusIfInputIsValid" />
       </list>
     </recent_temporary>
   </component>
@@ -186,7 +187,7 @@
       <workItem from="1698270152331" duration="2056000" />
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
-      <workItem from="1698962511683" duration="69346000" />
+      <workItem from="1698962511683" duration="82827000" />
     </task>
     <servers />
   </component>
@@ -203,16 +204,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/Client.java</url>
-          <line>97</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -18,7 +18,14 @@ public class ConsoleMessages {
     }
 
     public void commandLogMessage(String username, String command){
-        System.out.println(username+" issued "+command+" command at "+Config.dateFormat.format(new Date()));
+        this.commandLogMessage(username, command, false);
+    }
+
+    public void commandLogMessage(String username, String command, boolean withDate){
+        if(withDate){
+            System.out.println(username+" issued "+command+" command at "+Config.dateFormat.format(new Date()));
+        }else
+            System.out.println(username+" issued "+command);
     }
 
     public void commandReturnMessage(String returnMessageToClient){

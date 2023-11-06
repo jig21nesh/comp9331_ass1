@@ -1,9 +1,6 @@
 package org.example.server;
 
-import org.example.server.commandprocessor.ActiveUsers;
-import org.example.server.commandprocessor.Logout;
-import org.example.server.commandprocessor.MessageTo;
-import org.example.server.commandprocessor.MessageTranslator;
+import org.example.server.commandprocessor.*;
 import org.example.server.logging.ActiveUsersFireWriter;
 import org.example.server.logging.ConsoleMessages;
 
@@ -98,7 +95,7 @@ public class ClientHandler implements Runnable{
                                 currentState = ClientState.ALREADY_LOGGED_IN;
                                 break;
                             case INVALID_USERNAME:
-                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername, true)));
                                 currentState = ClientState.INVALID_USERNAME;
                                 break;
                             case INVALID_PASSWORD:
@@ -113,7 +110,7 @@ public class ClientHandler implements Runnable{
                             inputUsername = messageProcessor.getContent(bufferedReader.readLine());
                             ClientState usernameStatus = this.handleUsername(inputUsername);
                             if(usernameStatus == ClientState.INVALID_USERNAME){
-                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername)));
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.INVALID_USERNAME, SystemMessages.invalidUsername(inputUsername, true)));
                                 wasUsernameInvalid = true;
                             }else{
                                 currentState = usernameStatus;
@@ -169,13 +166,46 @@ public class ClientHandler implements Runnable{
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
 
                         } else if ("/activeuser".equalsIgnoreCase(clientInput)) {
-                            logMessages.commandLogMessage(inputUsername, clientInput);
+                            logMessages.commandLogMessage(inputUsername, clientInput, true);
                             ActiveUsers activeUsersProcessor = new ActiveUsers(activeUsersMap);
                             String returnMessage = activeUsersProcessor.getActiveUsers(inputUsername);
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.ACTIVE_USERS, returnMessage));
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                             logMessages.commandReturnMessage(returnMessage);
-                        } else if ("/logout".equalsIgnoreCase(clientInput)) {
+                        }else if(clientInput.startsWith("/creategroup")){
+                            logMessages.commandLogMessage(inputUsername, "/creategroup");
+                            CreateGroup createGroupProcessor = new CreateGroup(activeUsersMap, credentialValidator);
+                            CreateGroup.GroupCreationStatus groupCreationStatus = createGroupProcessor.createGroup(inputUsername, clientInput);
+                            switch (groupCreationStatus){
+                                case SUCCESS:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, createGroupProcessor.getVerboseMessage()));
+                                    logMessages.commandReturnMessage(createGroupProcessor.getVerboseMessage());
+                                    break;
+                                case INVALID_USERNAME:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, SystemMessages.invalidUserWhileCreatingGroup(createGroupProcessor.getProblemUser())));
+                                    logMessages.commandReturnMessage(SystemMessages.invalidUserWhileCreatingGroup(createGroupProcessor.getProblemUser()));
+                                    break;
+                                case USER_NOT_ONLINE:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, SystemMessages.userIsNotOnline(createGroupProcessor.getProblemUser())));
+                                    logMessages.commandReturnMessage(SystemMessages.userIsNotOnline(createGroupProcessor.getProblemUser()));
+                                    break;
+                                case CURRENT_USER_PRESENT_IN_MEMBERS_LIST:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, SystemMessages.currentUserPresentInMembersList(inputUsername)));
+                                    logMessages.commandReturnMessage(SystemMessages.currentUserPresentInMembersList(inputUsername));
+                                    break;
+                                case ALREADY_EXISTS:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, SystemMessages.groupAlreadyExists(createGroupProcessor.getGroupName())));
+                                    logMessages.commandReturnMessage(SystemMessages.groupAlreadyExists(createGroupProcessor.getGroupName()));
+                                    break;
+                                default:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, groupCreationStatus.getMessage()));
+                                    logMessages.commandReturnMessage(groupCreationStatus.getMessage());
+                                    break;
+                            }
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
+                        }
+
+                        else if ("/logout".equalsIgnoreCase(clientInput)) {
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));
                             new Logout(activeUsersMap).logoutCleanUp(inputUsername);
                             logMessages.userOffline(inputUsername);

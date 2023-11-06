@@ -66,7 +66,6 @@ public class ServerMessageReaderThread implements Runnable{
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
                 String serverCommand = processor.getServerCommand(serverResponse);
-
                 switch (serverCommand) {
                     case "ALREADY_LOGGED_USER":
                     case "BLOCKED_USER":
@@ -107,6 +106,7 @@ public class ServerMessageReaderThread implements Runnable{
                         handleCommandList(serverResponse);
                         currentState = ClientState.LOGGED_IN_USER;
                         break;
+                    case "CREATE_GROUP":
                     case "INVALID_COMMAND":
                         currentState = ClientState.LOGGED_IN_USER;
                         System.out.println(processor.getPrompt(serverResponse));
