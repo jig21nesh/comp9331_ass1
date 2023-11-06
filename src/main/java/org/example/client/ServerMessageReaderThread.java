@@ -65,7 +65,6 @@ public class ServerMessageReaderThread implements Runnable{
         try {
             String serverResponse;
             while ((serverResponse = this.bufferedReaderFromSocket.readLine()) != null && !serverSocket.isClosed()) {
-                System.out.println("Server response: " + serverResponse);
                 String serverCommand = processor.getServerCommand(serverResponse);
 
                 switch (serverCommand) {

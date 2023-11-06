@@ -65,6 +65,7 @@ public class MessagesToFileWriter {
     private void backupCurrentFile(){
         File messageLogFile = new File(FILE_NAME+FILE_EXTENSION);
         String newFileName = FILE_NAME+"_" + Config.logFileBackupDateFormat.format(new Date()) + FILE_EXTENSION;
+        messageLogFile.delete();
         if (messageLogFile.renameTo(new File(newFileName))) {
             System.out.println("Renamed existing message log file to " + newFileName);
         } else {
