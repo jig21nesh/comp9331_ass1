@@ -13,6 +13,11 @@ public class Group {
 
     private String owner;
     private final ArrayList<String> invitedMembers;
+
+    public ArrayList<String> getJoinedMembers() {
+        return joinedMembers;
+    }
+
     private final ArrayList<String> joinedMembers;
 
     public Group(){
@@ -39,4 +44,5 @@ public class Group {
     public ArrayList<String> getInvitedMembers() {
         return this.invitedMembers;
     }
+
 }

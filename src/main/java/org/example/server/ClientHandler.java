@@ -157,6 +157,12 @@ public class ClientHandler implements Runnable{
                         if (clientInput.startsWith("/msgto")) {
                             MessageTo processor = new MessageTo(activeUsersMap, credentialValidator);
                             MessageTo.MessageStatus status = processor.sendMessage(inputUsername, clientInput);
+
+                            /**
+                             * MSGTO and MSG_CONTENT is to differentiate between the content to be displayed on the client side.
+                             * TODO - Refactor this to a better approach and removed the msgto_content
+                             */
+
                             if (status == MessageTo.MessageStatus.SUCCESS) {
                                 printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.MSGTO, status.getStatusMessage()));
                                 new ConsoleMessages().messageTo(inputUsername, processor.getUsername(), processor.getMessage());
@@ -165,6 +171,29 @@ public class ClientHandler implements Runnable{
                             }
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
 
+                        }else if(clientInput.startsWith("/groupmsg")){
+                            GroupMessage groupMessageProcessor = new GroupMessage(activeUsersMap);
+                            GroupMessage.GroupStatus groupMessageStatus = groupMessageProcessor.sendMessage(inputUsername, clientInput);
+                            logMessages.commandLogMessage(inputUsername, "/groupmsg");
+                            switch (groupMessageStatus){
+                                case USER_NOT_JOINED_GROUP:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.GROUP_MSG, SystemMessages.userNotJoinedGroup(inputUsername, groupMessageProcessor.getGroupNameFromCommand(clientInput))));
+                                    logMessages.commandReturnMessage(SystemMessages.userNotJoinedGroup(inputUsername, groupMessageProcessor.getGroupNameFromCommand(clientInput)));
+                                    break;
+                                case USER_NOT_INVITED:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.GROUP_MSG, SystemMessages.userNotInvitedToGroup(inputUsername, groupMessageProcessor.getGroupNameFromCommand(clientInput))));
+                                    logMessages.commandReturnMessage(SystemMessages.userNotInvitedToGroup(inputUsername, groupMessageProcessor.getGroupNameFromCommand(clientInput)));
+                                    break;
+                                case SUCCESS:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.GROUP_MSG, groupMessageStatus.getMessage()));
+                                    logMessages.commandReturnMessage(SystemMessages.groupSuccessMessage(inputUsername, groupMessageProcessor.getGroupNameFromCommand(clientInput),groupMessageProcessor.getFormattedMessageWithoutGroup()));
+                                    break;
+                                default:
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.GROUP_MSG, groupMessageStatus.getMessage()));
+                                    break;
+
+                            }
+                            printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                         } else if ("/activeuser".equalsIgnoreCase(clientInput)) {
                             logMessages.commandLogMessage(inputUsername, clientInput, true);
                             ActiveUsers activeUsersProcessor = new ActiveUsers(activeUsersMap);
@@ -176,6 +205,7 @@ public class ClientHandler implements Runnable{
                             logMessages.commandLogMessage(inputUsername, "/creategroup");
                             CreateGroup createGroupProcessor = new CreateGroup(activeUsersMap, credentialValidator);
                             CreateGroup.GroupStatus groupStatus = createGroupProcessor.createGroup(inputUsername, clientInput);
+
                             switch (groupStatus){
                                 case SUCCESS:
                                     printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.CREATE_GROUP, createGroupProcessor.getVerboseMessage(inputUsername)));
@@ -211,8 +241,8 @@ public class ClientHandler implements Runnable{
                             JoinGroup.GroupStatus joinGroupStatus = joinGroupProcessor.joinGroup(inputUsername, clientInput);
                             switch (joinGroupStatus) {
                                 case SUCCESS:
-                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.JOIN_GROUP, joinGroupProcessor.getVerboseMessage(clientInput)));
-                                    logMessages.commandReturnMessage(joinGroupProcessor.getVerboseMessage(clientInput));
+                                    printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.JOIN_GROUP, joinGroupProcessor.getVerboseMessage(clientInput, false)));
+                                    logMessages.commandReturnMessage(joinGroupProcessor.getVerboseMessage(clientInput, true));
                                     break;
                                 case OWNER_CANNOT_JOIN_GROUP:
                                     String t = SystemMessages.ownerCannotJoinTheGroup(inputUsername, joinGroupProcessor.getGroupNameFromCommand(clientInput));
@@ -226,6 +256,7 @@ public class ClientHandler implements Runnable{
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
 
                         }
+
 
                         else if ("/logout".equalsIgnoreCase(clientInput)) {
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.LOGOUT, SystemMessages.logoutMessage(inputUsername)));

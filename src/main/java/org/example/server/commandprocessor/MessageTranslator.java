@@ -10,7 +10,11 @@ public class MessageTranslator {
         INVALID_COMMAND("INVALID_COMMAND","Error. Invalid command!"),
 
         MSGTO_CONTENT("MSGTO_CONTENT","Message to content"),
+
+        GROUP_MSG_CONTENT("GROUP_MSG_CONTENT","Group message content"),
         MSGTO("MSGTO","Message to"),
+
+        GROUP_MSG("GROUP_MSG","Group message"),
 
         LOGOUT("LOGOUT","Logout"),
         BLOCKING_USER("BLOCKING_USER","Blocking user"),

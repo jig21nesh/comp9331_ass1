@@ -115,6 +115,7 @@ public class MessageTo {
                 PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
                 MessageTranslator messageProcessor = new MessageTranslator();
                 printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.MSGTO_CONTENT, this.formatSendMessage(currentUser, this.message)));
+                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
                 fileWriter.writeToFile(this.username, this.message);
             }catch (Exception exception){
                 status = MessageStatus.FAILED_TO_SEND;

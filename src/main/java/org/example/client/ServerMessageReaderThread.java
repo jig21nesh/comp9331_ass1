@@ -54,6 +54,14 @@ public class ServerMessageReaderThread implements Runnable{
             System.out.println("message sent at " + Config.dateFormat.format(new Date()));
         }
     }
+    private void handleGroupMsgTo(String message) {
+        String status = processor.getPrompt(message);
+        if (status.equalsIgnoreCase("Success")) {
+            System.out.println("Group chat message sent at " + Config.dateFormat.format(new Date()));
+        }
+    }
+
+
 
     private void handleMsgToContent(String message) {
         System.out.println(processor.getPrompt(message));
@@ -106,8 +114,13 @@ public class ServerMessageReaderThread implements Runnable{
                         handleCommandList(serverResponse);
                         currentState = ClientState.LOGGED_IN_USER;
                         break;
+                    case "GROUP_MSG":
+                        handleGroupMsgTo(serverResponse);
+                        currentState = ClientState.LOGGED_IN_USER;
+                        break;
                     case "CREATE_GROUP":
                     case "JOIN_GROUP":
+                    case "GROUP_MSG_CONTENT":
                     case "INVALID_COMMAND":
                         currentState = ClientState.LOGGED_IN_USER;
                         System.out.println(processor.getPrompt(serverResponse));

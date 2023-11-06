@@ -7,6 +7,8 @@ public class CommonGroupUtil {
         SUCCESS("Success"),
         ALREADY_EXISTS("group already exists"),
 
+        GROUP_MESSAGE_INVALID_COMMAND("Invalid command. Format is /groupmessage <GROUP NAME> <MESSAGE>. Please try again."),
+
         CURRENT_USER_PRESENT_IN_MEMBERS_LIST("current user present in members list"),
 
 
@@ -20,7 +22,9 @@ public class CommonGroupUtil {
 
         OWNER_CANNOT_JOIN_GROUP("Owner does not need to join group"),
 
-        USER_INVITED_BUT_NOT_JOINED("User invited but not joined, cannot join group"),
+        USER_NOT_INVITED("User not invited to the group"),
+
+        USER_NOT_JOINED_GROUP("User not joined group"),
 
         USER_JOINED_GROUP("User already joined group"),
 

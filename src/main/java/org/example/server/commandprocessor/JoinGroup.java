@@ -52,15 +52,21 @@ public class JoinGroup extends CommonGroupUtil{
         return command.split(SEPARATOR)[1];
     }
 
-    public String getVerboseMessage(String command) {
+    public String getVerboseMessage(String command, boolean appendGroupDetails) {
         String groupName = this.getGroupNameFromCommand(command);
-        StringBuilder sb = new StringBuilder("Joined group chat room successfully, room name: ").append(groupName).append(", users in this room: ");
-        Group group = groupList.get(groupName);
-        ArrayList<String> invitedMembers = group.getInvitedMembers();
-        for(String user : invitedMembers){
-            sb.append(user).append(",");
+        StringBuilder sb = new StringBuilder("Joined group chat room successfully");
+        if(appendGroupDetails){
+            sb.append(", room name: ").append(groupName).append(", users in this room: ");
+            Group group = groupList.get(groupName);
+            ArrayList<String> invitedMembers = group.getInvitedMembers();
+            for(String user : invitedMembers){
+                sb.append(user).append(",");
+            }
+            sb.append(group.getOwner());
+        }else{
+            sb.append(".");
         }
-        sb.append(group.getOwner());
+
         return sb.toString();
     }
 }

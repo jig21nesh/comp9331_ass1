@@ -1,5 +1,9 @@
 package org.example.server;
 
+import org.example.client.Config;
+
+import java.util.Date;
+
 public class SystemMessages {
     public static final String USAGE_STRING = "Usage is java server <PORT_NUMBER> <NO_OF_FAIL_ATTEMPTS>";
     public static final String VALID_USERNAME = "OK_USER";
@@ -95,5 +99,17 @@ public class SystemMessages {
 
     public static String ownerCannotJoinTheGroup(String inputUsername, String groupNameFromCommand) {
         return "Join chat group failed. Owner "+inputUsername+" does not need to join group "+groupNameFromCommand;
+    }
+
+    public static String userNotJoinedGroup(String inputUsername, String groupNameFromCommand) {
+        return "Group Message failed. User "+inputUsername+" has not joined group "+groupNameFromCommand;
+    }
+
+    public static String userNotInvitedToGroup(String inputUsername, String groupNameFromCommand) {
+        return "Group Message failed. User "+inputUsername+" is not invited to group "+groupNameFromCommand;
+    }
+
+    public static String groupSuccessMessage(String currentUser, String groupName, String formattedMessage) {
+        return currentUser+" issued a message in group chat "+groupName+" "+formattedMessage;
     }
 }
