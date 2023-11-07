@@ -25,6 +25,8 @@ public class Server {
     int portNumber;
     int nofFailedAttempts;
 
+    private static final String CREDENTIALS_FILE = "credentials.txt";
+
     public Server(){
         inputValidator = new InputValidator();
         credentialValidator = new CredentialValidator(credentialMap);
@@ -34,7 +36,7 @@ public class Server {
     private void createSocketAndWaitForConnection(){
         try{
             ServerSocket serverSocket = new ServerSocket(portNumber);
-            //serverSocket.setSoTimeout(Config.SOCKET_ACCEPT_TIMEOUT);
+
 
             while(true){
                 try {
@@ -71,7 +73,11 @@ public class Server {
        }else{
            CredentialLoader credentialLoader = new CredentialLoader();
            try{
-               credentialLoader.loadCredential(credentialMap);
+               boolean isLoaded = credentialLoader.loadCredential(credentialMap, CREDENTIALS_FILE);
+               if(!isLoaded){
+                   System.out.println(SystemMessages.failLoadingOfCredentials());
+                   System.exit(0);
+               }
            }catch( Exception exception){
                System.out.println(SystemMessages.failLoadingOfCredentials());
                System.exit(0);
