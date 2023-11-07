@@ -19,14 +19,13 @@ public class ActiveUsers {
             stringBuilder.append("\n");
         }else{
             for (Map.Entry<String, ActiveUser> entry : activeUsersMap.entrySet()) {
-                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().toString());
                 if(!entry.getKey().equals(username)){
                     stringBuilder.append(entry.getValue().getUsername());
-                    stringBuilder.append(" ");
+                    stringBuilder.append(", (from ");
                     stringBuilder.append(entry.getValue().getIpAddress());
-                    stringBuilder.append(" ");
-                    stringBuilder.append(entry.getValue().getPort());
-                    stringBuilder.append(" active since ");
+                    stringBuilder.append(" on port ");
+                    stringBuilder.append(entry.getValue().getUdpPort());
+                    stringBuilder.append(") active since ");
                     stringBuilder.append(Config.dateFormat.format(entry.getValue().getLastActive()));
                     //stringBuilder.append("\n");
                 }

@@ -1,5 +1,7 @@
 package org.example.client.p2ptransfer;
 
+import org.example.client.ServerMessageReaderThread;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -22,12 +24,13 @@ public class Receiver implements Runnable{
 
 
 
+    private ServerMessageReaderThread serverMessageReaderThread;
 
 
 
 
-
-    public Receiver(String udpPort) {
+    public Receiver(String udpPort, ServerMessageReaderThread thread) {
+        this.serverMessageReaderThread = thread;
         this.udpPort = udpPort;
         udpReceiver = new Thread(this);
         udpReceiver.start();
@@ -40,19 +43,7 @@ public class Receiver implements Runnable{
 
     public void shutdown() {
         running = false;
-        if (datagramSocket != null && !datagramSocket.isClosed()) {
-            datagramSocket.close();
-        }
-        for (Map.Entry<String, FileOutputStream> entry : fileOutputStreamMap.entrySet()) {
-            try {
-                if (entry.getValue() != null) {
-                    entry.getValue().close();
-                }
-            } catch (IOException e) {
-                System.out.println("Error while closing file output stream: " + e.getMessage());
-            }
-        }
-        System.out.println("UDP Receiver shutdown complete.");
+        udpReceiver.interrupt();
     }
 
     @Override
@@ -63,7 +54,6 @@ public class Receiver implements Runnable{
             byte[] receiveData = new byte[BUFFER_SIZE];
             DatagramPacket datagramPacket = new DatagramPacket(receiveData, receiveData.length);
 
-            System.out.println("UDP Client is running and waiting for files... ");
 
             while(running && !Thread.currentThread().isInterrupted()){
                 datagramSocket.receive(datagramPacket);
@@ -77,18 +67,18 @@ public class Receiver implements Runnable{
                     if (fos != null) {
                         fos.close();
                         fileOutputStreamMap.remove(senderKey);
-                        System.out.println("File transfer completed from " + senderKey);
+                        String fileName = fileNameMap.get(senderKey);
+                        System.out.printf("Received %s from %s%n", fileName.split("_")[1], fileName.split("_")[0]);
+                        System.out.println(serverMessageReaderThread.getCommandList());
                     }
-                    fileNameMap.remove(senderKey); // Clean up
+                    fileNameMap.remove(senderKey);
                 } else {
-                    // If file name for this sender is not set, this packet contains the file name
                     if (!fileNameMap.containsKey(senderKey)) {
                         String fileName = new String(datagramPacket.getData(), 0, datagramPacket.getLength()).trim();
                         fileNameMap.put(senderKey, fileName);
                         FileOutputStream fos = new FileOutputStream(fileName);
                         fileOutputStreamMap.put(senderKey, fos);
                     } else {
-                        // Write data to file for the current sender
                         FileOutputStream fos = fileOutputStreamMap.get(senderKey);
                         if (fos != null) {
                             fos.write(datagramPacket.getData(), 0, datagramPacket.getLength());
@@ -100,7 +90,19 @@ public class Receiver implements Runnable{
             udpReceiver.interrupt();
             System.out.println("Unable to create UDP socket"+e.getMessage());
         }finally {
-            shutdown();
+            if (datagramSocket != null && !datagramSocket.isClosed()) {
+                datagramSocket.close();
+            }
+            for (Map.Entry<String, FileOutputStream> entry : fileOutputStreamMap.entrySet()) {
+                try {
+                    if (entry.getValue() != null) {
+                        entry.getValue().close();
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error while closing file output stream: " + e.getMessage());
+                }
+            }
+            System.out.println("UDP Receiver shutdown complete.");
         }
     }
 }

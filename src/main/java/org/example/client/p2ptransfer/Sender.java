@@ -20,7 +20,7 @@ public class Sender {
         return this.currentUser+"_"+fileName;
     }
 
-    public boolean send(String ipAddress, String port){
+    public boolean send(String toUser, String ipAddress, String port){
         boolean isSent = false;
         try {
             int BUFFER_SIZE = 1024;
@@ -41,7 +41,6 @@ public class Sender {
             int bytesRead;
             int totalChunks = Math.toIntExact(file.length() / BUFFER_SIZE);
             int sequenceNumber = 0;
-            // Send file data
             while ((bytesRead = bufferedInputStream.read(fileChunks)) != -1) {
                 DatagramPacket sendPacket = new DatagramPacket(fileChunks, bytesRead, InetAddress.getByName(ipAddress), Integer.parseInt(port));
                 socket.send(sendPacket);
@@ -55,15 +54,7 @@ public class Sender {
                 double progress = (double) sequenceNumber / totalChunks * 100;
                 long elapsedTime = System.currentTimeMillis() - startTime;
 
-                String elapsedTimeStr;
-                if (elapsedTime < 60000) {
-                    elapsedTimeStr = elapsedTime / 1000 + "s";
-                } else if (elapsedTime < 3600000) {
-                    elapsedTimeStr = elapsedTime / 60000 + "m";
-                } else {
-                    elapsedTimeStr = elapsedTime / 3600000 + "h";
-                }
-
+                String elapsedTimeStr = getFormattedTimer(elapsedTime);
 
                 System.out.print("Progress: " + String.format("%.2f", progress) + "% | Transfer Time: " + elapsedTimeStr + "\r");
                 System.out.flush();
@@ -73,13 +64,30 @@ public class Sender {
             DatagramPacket endOfFilePacket = new DatagramPacket(eofIndicatorPacket, eofIndicatorPacket.length, InetAddress.getByName(ipAddress), Integer.parseInt(port));
             socket.send(endOfFilePacket);
 
-            System.out.println("File " + fileName + " has been sent.");
+            System.out.println("File " + fileName + " has been uploaded.");
             isSent = true;
         }catch (Exception exception){
-            exception.printStackTrace();
-            System.out.println("Unable to send file to "+ipAddress+":"+port);
+            System.out.println(exception.getMessage()+"  Unable to send file"+fileName+" to "+toUser+" on "+ipAddress+":"+port);
+
         }
         return isSent;
 
+    }
+
+    private String getFormattedTimer(long elapsedTime) {
+        String elapsedTimeStr;
+        if (elapsedTime < 60000) {
+            elapsedTimeStr = elapsedTime / 1000 + "s";
+        } else if (elapsedTime < 3600000) {
+            long minutes = (elapsedTime / 1000) / 60;
+            long seconds = (elapsedTime / 1000) % 60;
+            elapsedTimeStr = String.format("%02d:%02d", minutes, seconds);
+        } else {
+            long hours = (elapsedTime / 1000) / 3600;
+            long minutes = ((elapsedTime / 1000) % 3600) / 60;
+            long seconds = (elapsedTime / 1000) % 60;
+            elapsedTimeStr = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
+        return elapsedTimeStr;
     }
 }

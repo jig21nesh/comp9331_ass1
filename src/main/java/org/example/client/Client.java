@@ -100,7 +100,7 @@ public class Client {
                     break;
                 case LOGIN_SUCCESSFUL:
                     encodedString = processor.encodeString(MessageProcessor.MessageType.UDP_PORT, udpPort);
-                    udpReceiver = new Receiver(udpPort);
+                    udpReceiver = new Receiver(udpPort, thread);
                     writeToServer.println(encodedString);
                     break;
                 case LOGGED_IN_USER:
@@ -120,11 +120,8 @@ public class Client {
                             String udpDetails = thread.getToUserUdpDetails();
                             String ipAddress = udpDetails.split(" ")[0];
                             String port = udpDetails.split(" ")[1];
-                            boolean isSent = sender.send(ipAddress, port);
-                            if(isSent)
-                                System.out.println(thread.getCommandList());
-                            else
-                                System.out.println("Error.. ");
+                            sender.send(p2pCommandProcessor.getOnlineUsername(userInput), ipAddress, port);
+                            System.out.println(thread.getCommandList());
                         }
                     }else{
                         encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
@@ -141,7 +138,6 @@ public class Client {
                 if(!thread.isLogoutConfirmationReceived()){
                     Thread.sleep(100); //TODO - Find a better way to handle this
                 }
-                System.out.println("Logging out... "+udpReceiver);
                 if(udpReceiver != null)
                     udpReceiver.shutdown();
 
