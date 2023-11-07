@@ -26,6 +26,8 @@ public class Sender {
             int BUFFER_SIZE = 1024;
             DatagramSocket socket = new DatagramSocket();
 
+            long startTime = System.currentTimeMillis();
+
             File file = new File(fileName);
             FileInputStream fileInputStream = new FileInputStream(file);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
@@ -37,7 +39,6 @@ public class Sender {
 
             byte[] fileChunks = new byte[BUFFER_SIZE];
             int bytesRead;
-            System.out.println(file.length());
             int totalChunks = Math.toIntExact(file.length() / BUFFER_SIZE);
             int sequenceNumber = 0;
             // Send file data
@@ -51,7 +52,10 @@ public class Sender {
                     System.out.println("Server thread interrupted during sleep.");
                 }
                 sequenceNumber++;
-                System.out.println("Sending chunk " + sequenceNumber + " out of " + totalChunks);
+                double progress = (double) sequenceNumber / totalChunks * 100;
+                long elapsedTime = System.currentTimeMillis() - startTime;
+                System.out.print("Progress: " + String.format("%.2f", progress) + "% | Transfer Time: " + elapsedTime / 1000 + "s\r");
+                System.out.flush();
             }
 
             byte[] eofIndicatorPacket = "EOF".getBytes();
