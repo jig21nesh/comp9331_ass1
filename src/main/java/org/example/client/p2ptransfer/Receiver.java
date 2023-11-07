@@ -14,48 +14,58 @@ public class Receiver implements Runnable{
     private Thread udpReceiver = null;
     private String udpPort;
 
-    private static boolean isReceiverThreadCreated = false;
+
 
     private static Map<String, FileOutputStream> fileOutputStreamMap = new HashMap<>();
     private static Map<String, String> fileNameMap = new HashMap<>();
 
-    public void setHasUserLoggedOut(boolean hasUserLoggedOut) {
-        this.hasUserLoggedOut = hasUserLoggedOut;
-    }
 
-    private boolean hasUserLoggedOut = false;
 
-    public void setOnline(boolean online) {
-        isOnline = online;
 
-    }
 
-    private boolean isOnline;
+
 
 
 
     public Receiver(String udpPort) {
         this.udpPort = udpPort;
-        if(!isReceiverThreadCreated){
-            udpReceiver = new Thread(this);
-            udpReceiver.start();
-            isReceiverThreadCreated = true;
-        }
+        udpReceiver = new Thread(this);
+        udpReceiver.start();
 
     }
 
 
+    private volatile boolean running = true;
+    private DatagramSocket datagramSocket = null;
+
+    public void shutdown() {
+        running = false;
+        if (datagramSocket != null && !datagramSocket.isClosed()) {
+            datagramSocket.close();
+        }
+        for (Map.Entry<String, FileOutputStream> entry : fileOutputStreamMap.entrySet()) {
+            try {
+                if (entry.getValue() != null) {
+                    entry.getValue().close();
+                }
+            } catch (IOException e) {
+                System.out.println("Error while closing file output stream: " + e.getMessage());
+            }
+        }
+        System.out.println("UDP Receiver shutdown complete.");
+    }
+
     @Override
     public void run() {
-        DatagramSocket datagramSocket = null;
+
         try{
             datagramSocket = new DatagramSocket(Integer.parseInt(this.udpPort));
             byte[] receiveData = new byte[BUFFER_SIZE];
             DatagramPacket datagramPacket = new DatagramPacket(receiveData, receiveData.length);
 
-            System.out.println("UDP Client is running and waiting for files... hasUserLoggedOut "+hasUserLoggedOut);
+            System.out.println("UDP Client is running and waiting for files... ");
 
-            while(!hasUserLoggedOut){
+            while(running && !Thread.currentThread().isInterrupted()){
                 datagramSocket.receive(datagramPacket);
                 String senderKey = datagramPacket.getAddress()+":"+datagramPacket.getPort();
 
@@ -90,20 +100,7 @@ public class Receiver implements Runnable{
             udpReceiver.interrupt();
             System.out.println("Unable to create UDP socket"+e.getMessage());
         }finally {
-            System.out.println("Shutting down UDP receiver .. ");
-            if (datagramSocket != null && !datagramSocket.isClosed()) {
-                datagramSocket.close();
-            }
-            // Close all remaining FileOutputStream objects
-            for (FileOutputStream fos : fileOutputStreamMap.values()) {
-                if (fos != null) {
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        System.out.println("Error while closing streams");
-                    }
-                }
-            }
+            shutdown();
         }
     }
 }

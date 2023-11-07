@@ -143,7 +143,7 @@ public class Client {
                 }
                 System.out.println("Logging out... "+udpReceiver);
                 if(udpReceiver != null)
-                    udpReceiver.setHasUserLoggedOut(true);
+                    udpReceiver.shutdown();
 
                 serverSocket.close();
                 keepRunning = false;
