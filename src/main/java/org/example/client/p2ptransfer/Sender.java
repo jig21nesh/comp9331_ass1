@@ -37,7 +37,9 @@ public class Sender {
 
             byte[] fileChunks = new byte[BUFFER_SIZE];
             int bytesRead;
-
+            System.out.println(file.length());
+            int totalChunks = Math.toIntExact(file.length() / BUFFER_SIZE);
+            int sequenceNumber = 0;
             // Send file data
             while ((bytesRead = bufferedInputStream.read(fileChunks)) != -1) {
                 DatagramPacket sendPacket = new DatagramPacket(fileChunks, bytesRead, InetAddress.getByName(ipAddress), Integer.parseInt(port));
@@ -48,6 +50,8 @@ public class Sender {
                     Thread.currentThread().interrupt();
                     System.out.println("Server thread interrupted during sleep.");
                 }
+                sequenceNumber++;
+                System.out.println("Sending chunk " + sequenceNumber + " out of " + totalChunks);
             }
 
             byte[] eofIndicatorPacket = "EOF".getBytes();

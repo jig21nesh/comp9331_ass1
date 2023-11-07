@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/example1.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example2.mp4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/p2ptransfer/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/p2ptransfer/Receiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/p2ptransfer/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/p2ptransfer/Sender.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +59,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -183,7 +187,7 @@
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
       <workItem from="1698962511683" duration="110315000" />
-      <workItem from="1699367550096" duration="835000" />
+      <workItem from="1699367550096" duration="1437000" />
     </task>
     <servers />
   </component>
