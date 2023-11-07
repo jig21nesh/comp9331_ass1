@@ -54,7 +54,18 @@ public class Sender {
                 sequenceNumber++;
                 double progress = (double) sequenceNumber / totalChunks * 100;
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                System.out.print("Progress: " + String.format("%.2f", progress) + "% | Transfer Time: " + elapsedTime / 1000 + "s\r");
+
+                String elapsedTimeStr;
+                if (elapsedTime < 60000) {
+                    elapsedTimeStr = elapsedTime / 1000 + "s";
+                } else if (elapsedTime < 3600000) {
+                    elapsedTimeStr = elapsedTime / 60000 + "m";
+                } else {
+                    elapsedTimeStr = elapsedTime / 3600000 + "h";
+                }
+
+
+                System.out.print("Progress: " + String.format("%.2f", progress) + "% | Transfer Time: " + elapsedTimeStr + "\r");
                 System.out.flush();
             }
 
