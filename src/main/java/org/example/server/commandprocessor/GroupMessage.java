@@ -68,13 +68,13 @@ public class GroupMessage extends CommonGroupUtil{
                                 printWriter = new PrintWriter(socket.getOutputStream(), true);
                                 printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.GROUP_MSG_CONTENT, this.formatSendMessage(currentUser, groupName, this.getMessage(command))));
                                 printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
-                                groupMessageFileWriter.writeToFile(currentUser, this.getMessage(command));
                             }catch (Exception exception){
                                 //TODO handle this gracefully
                             }
                         }
                     }
                 }
+                groupMessageFileWriter.writeToFile(currentUser, this.getMessage(command));
             }
         }
         return status;
