@@ -7,6 +7,9 @@ public class MessageTranslator {
     private final String META_DATA_SEPARATOR = "<>";
     public enum MessageType {
 
+
+        FETCH("FETCH","Fetch"),
+        FETCH_ERROR("FETCH_ERROR","Fetch error"),
         INVALID_COMMAND("INVALID_COMMAND","Error. Invalid command!"),
 
         MSGTO_CONTENT("MSGTO_CONTENT","Message to content"),

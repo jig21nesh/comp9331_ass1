@@ -194,7 +194,18 @@ public class ClientHandler implements Runnable{
 
                             }
                             printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.COMMAND_LIST, SystemMessages.commandList()));
-                        } else if ("/activeuser".equalsIgnoreCase(clientInput)) {
+                        }else if(clientInput.startsWith("/fetch")){
+                            logMessages.commandLogMessage(inputUsername, "/fetch");
+                            Fetch fetch = new Fetch(activeUsersMap);
+                            Fetch.FetchStatus result = fetch.getIpAndUdpPort(fetch.getToUsername(clientInput));
+                            if(result == Fetch.FetchStatus.SUCCESS){
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.FETCH, fetch.getUdpServerDetails()));
+                                logMessages.commandReturnMessage("/fetch return details "+fetch.getUdpServerDetails());
+                            }else{
+                                printWriter.println(messageProcessor.encodeString(MessageTranslator.MessageType.FETCH_ERROR, result.getMessage()));
+                                logMessages.commandReturnMessage(result.getMessage());
+                            }
+                        }else if ("/activeuser".equalsIgnoreCase(clientInput)) {
                             logMessages.commandLogMessage(inputUsername, clientInput, true);
                             ActiveUsers activeUsersProcessor = new ActiveUsers(activeUsersMap);
                             String returnMessage = activeUsersProcessor.getActiveUsers(inputUsername);

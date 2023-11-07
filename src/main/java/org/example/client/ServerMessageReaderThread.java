@@ -18,9 +18,23 @@ public class ServerMessageReaderThread implements Runnable{
 
     private boolean logoutConfirmationReceived = false;
 
-    private String authenticatedUsername;
+
 
     private final MessageProcessor processor;
+
+    public String getCommandList() {
+        return commandList;
+    }
+
+    private String commandList = null;
+
+    private String toUserUdpDetails = null;
+
+    public String getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+
+    private String authenticatedUser = null;
 
     public ServerMessageReaderThread(BufferedReader bufferedReaderFromSocket, Socket serverSocket){
         this.bufferedReaderFromSocket = bufferedReaderFromSocket;
@@ -29,14 +43,23 @@ public class ServerMessageReaderThread implements Runnable{
     }
 
 
+    public String getToUserUdpDetails() {
+        return toUserUdpDetails;
+    }
 
+    private void handleFetchResponse(String message){
+        this.toUserUdpDetails = processor.getPrompt(message);
+    }
     private void handleWelcomeMessage(String message) {
+        this.authenticatedUser = processor.getAuthenticatedUserName(processor.getPrompt(message));
         String welcomeMessage = processor.getWelcomeMessage(processor.getPrompt(message));
         System.out.println(welcomeMessage);
-        authenticatedUsername = processor.getAuthenticatedUserName(message);
+
     }
 
     private void handleCommandList(String message) {
+        if(this.commandList == null)
+            this.commandList = processor.getPrompt(message);
         System.out.println(processor.getPrompt(message));
     }
 
@@ -117,6 +140,15 @@ public class ServerMessageReaderThread implements Runnable{
                     case "GROUP_MSG":
                         handleGroupMsgTo(serverResponse);
                         currentState = ClientState.LOGGED_IN_USER;
+                        break;
+                    case "FETCH":
+                        handleFetchResponse(serverResponse);
+                        currentState = ClientState.LOGGED_IN_USER;
+                        break;
+                    case "FETCH_ERROR":
+                        currentState = ClientState.LOGGED_IN_USER;
+                        System.out.println(processor.getPrompt(serverResponse));
+                        System.out.println(commandList);
                         break;
                     case "CREATE_GROUP":
                     case "JOIN_GROUP":

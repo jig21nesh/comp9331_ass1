@@ -1,5 +1,9 @@
 package org.example.client;
 
+import org.example.client.p2ptransfer.CommandProcessor;
+import org.example.client.p2ptransfer.Receiver;
+import org.example.client.p2ptransfer.Sender;
+
 import java.io.*;
 import java.net.*;
 
@@ -71,7 +75,8 @@ public class Client {
         boolean keepRunning = true;
         String userInput = null;
         MessageProcessor processor = new MessageProcessor();
-        String encodedString = null;
+        String encodedString;
+        Receiver udpReceiver = null;
         while(keepRunning){
             Thread.sleep(100);
             ClientState currentState = thread.getCurrentState();
@@ -85,30 +90,64 @@ public class Client {
                     System.out.print("Password: ");
                     userInput = localInputReader.readLine();
                     encodedString = processor.encodeString(MessageProcessor.MessageType.PASSWORD, userInput);
+                    writeToServer.println(encodedString);
                     break;
                 case INVALID_USERNAME:
                     System.out.print("Username: ");
                     userInput = localInputReader.readLine();
                     encodedString = processor.encodeString(MessageProcessor.MessageType.USERNAME, userInput);
+                    writeToServer.println(encodedString);
                     break;
                 case LOGIN_SUCCESSFUL:
                     encodedString = processor.encodeString(MessageProcessor.MessageType.UDP_PORT, udpPort);
+                    udpReceiver = new Receiver(udpPort);
+                    writeToServer.println(encodedString);
                     break;
                 case LOGGED_IN_USER:
                     userInput = localInputReader.readLine();
-                    encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
+                    if(userInput.startsWith("/p2pvideo")){
+                        CommandProcessor p2pCommandProcessor = new CommandProcessor();
+                        CommandProcessor.ProcessorStatus status = p2pCommandProcessor.validateCommand(userInput);
+                        if(status != CommandProcessor.ProcessorStatus.SUCCESS){
+                            System.out.println(status.getMessage());
+                        }else{
+                            encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, "/fetch "+p2pCommandProcessor.getOnlineUsername(userInput));
+                            writeToServer.println(encodedString);
+
+                            Thread.sleep(100);
+
+                            Sender sender = new Sender(thread.getAuthenticatedUser(), p2pCommandProcessor.getFileName(userInput));
+                            String udpDetails = thread.getToUserUdpDetails();
+                            String ipAddress = udpDetails.split(" ")[0];
+                            String port = udpDetails.split(" ")[1];
+                            boolean isSent = sender.send(ipAddress, port);
+                            if(isSent)
+                                System.out.println(thread.getCommandList());
+                            else
+                                System.out.println("Error.. ");
+                        }
+                    }else{
+                        encodedString = processor.encodeString(MessageProcessor.MessageType.COMMAND, userInput);
+                        writeToServer.println(encodedString);
+                    }
+
                     break;
                 default:
                     break;
             }
-            writeToServer.println(encodedString);
+
 
             if ("/logout".equalsIgnoreCase(userInput)) {
                 if(!thread.isLogoutConfirmationReceived()){
                     Thread.sleep(100); //TODO - Find a better way to handle this
                 }
-                keepRunning = false;
+                System.out.println("Logging out... "+udpReceiver);
+                if(udpReceiver != null)
+                    udpReceiver.setHasUserLoggedOut(true);
+
                 serverSocket.close();
+                keepRunning = false;
+                System.exit(0);
             }
 
         }
