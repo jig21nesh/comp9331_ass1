@@ -7,17 +7,22 @@ import java.io.IOException;
 import java.util.Map;
 
 public class CredentialLoader {
-    public void loadCredential(Map<String, String> credentialMap){
-        credentialMap.put("jiggy", "jiggy");
-        credentialMap.put("test","test");
-        credentialMap.put("a","a");
-        credentialMap.put("b","b");
-        credentialMap.put("c","c");
-        credentialMap.put("d","d");
-        credentialMap.put("e","e");
-        credentialMap.put("f","f");
-
-        System.out.println(SystemMessages.successfulLoadingOfCredentials(credentialMap.size()));
+    private void loadCredential(Map<String, String> credentialMap){
+        if(!credentialMap.containsKey("jiggy")){
+            credentialMap.put("jiggy", "jiggy");
+        }
+        if(!credentialMap.containsKey("a")){
+            credentialMap.put("a", "a");
+        }
+        if(!credentialMap.containsKey("b")){
+            credentialMap.put("b", "b");
+        }
+        if(!credentialMap.containsKey("c")){
+            credentialMap.put("c", "c");
+        }
+        if(!credentialMap.containsKey("d")){
+            credentialMap.put("d", "d");
+        }
     }
     public boolean loadCredential(Map<String, String> credentialMap, String fileName) {
         boolean isLoaded = true;
@@ -38,6 +43,7 @@ public class CredentialLoader {
                         System.err.println("Invalid credential format: " + line);
                     }
                 }
+                this.loadCredential(credentialMap);
                 System.out.println(SystemMessages.successfulLoadingOfCredentials(credentialMap.size()));
             } catch (IOException e) {
                 System.err.println("Error reading credentials file: " + e.getMessage());
