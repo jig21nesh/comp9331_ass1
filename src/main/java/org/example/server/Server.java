@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Server {
     InputValidator inputValidator;
@@ -30,7 +31,7 @@ public class Server {
     public Server(){
         inputValidator = new InputValidator();
         credentialValidator = new CredentialValidator(credentialMap);
-        blockedUserManagement =  new BlockedUserManagement();
+        blockedUserManagement =  new BlockedUserManagement(nofFailedAttempts);
     }
 
     private void createSocketAndWaitForConnection(){
@@ -56,33 +57,39 @@ public class Server {
     }
 
     public void startServer(String[] inputValues){
-        if(inputValidator.validatePort(inputValues[0]) && inputValidator.validateNumberOfAttempts(inputValues[1])) {
-            portNumber = Integer.parseInt(inputValues[0]);
-            nofFailedAttempts = Integer.parseInt(inputValues[1]);
-            System.out.println(SystemMessages.successfulStartMessage(portNumber, nofFailedAttempts));
-            this.createSocketAndWaitForConnection();
-        }else{
-            System.out.println(SystemMessages.USAGE_STRING);
+        if(!inputValidator.validatePort(inputValues[0])){
+            System.out.println("Invalid Port "+SystemMessages.portRangeMessage(Config.LOWEST_TCP_PORT, Config.HIGHEST_TCP_PORT));
             System.exit(0);
         }
+        if(!inputValidator.validateNumberOfAttempts(inputValues[1])){
+            System.out.println("Invalid number of failed attempts "+SystemMessages.USAGE_STRING);
+            System.exit(0);
+        }
+        portNumber = Integer.parseInt(inputValues[0]);
+        nofFailedAttempts = Integer.parseInt(inputValues[1]);
+
+        CredentialLoader credentialLoader = new CredentialLoader();
+        try{
+            boolean isLoaded = credentialLoader.loadCredential(credentialMap, CREDENTIALS_FILE);
+            if(!isLoaded){
+                System.out.println(SystemMessages.failLoadingOfCredentials());
+                System.exit(0);
+            }
+        }catch( Exception exception){
+            System.out.println(SystemMessages.failLoadingOfCredentials());
+            System.exit(0);
+        }
+
+        System.out.println(SystemMessages.successfulStartMessage(portNumber, nofFailedAttempts));
+
+        this.createSocketAndWaitForConnection();
+
     }
     public static void main(String[] args) {
        if(args.length != 2){
            System.out.println(SystemMessages.USAGE_STRING);
            System.exit(0);
        }else{
-           CredentialLoader credentialLoader = new CredentialLoader();
-           try{
-               boolean isLoaded = credentialLoader.loadCredential(credentialMap, CREDENTIALS_FILE);
-               if(!isLoaded){
-                   System.out.println(SystemMessages.failLoadingOfCredentials());
-                   System.exit(0);
-               }
-           }catch( Exception exception){
-               System.out.println(SystemMessages.failLoadingOfCredentials());
-               System.exit(0);
-           }
-
            new Server().startServer(args);
        }
     }

@@ -5,7 +5,7 @@ import org.example.client.Config;
 import java.util.Date;
 
 public class SystemMessages {
-    public static final String USAGE_STRING = "Usage is java server <PORT_NUMBER> <NO_OF_FAIL_ATTEMPTS>";
+    public static final String USAGE_STRING = "java server <PORT_NUMBER> <NO_OF_FAIL_ATTEMPTS>. Please use integer value for port number and number of failed attempts";
     public static final String VALID_USERNAME = "OK_USER";
 
     public static final String AUTHENTICATION_MESSAGE = "Please login";

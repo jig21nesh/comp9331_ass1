@@ -18,12 +18,16 @@ public class BlockedUserManagement implements Runnable{
         return allowedFailedAttempts;
     }
 
-    private final int allowedFailedAttempts;
+    private int allowedFailedAttempts;
 
     Thread blockedUserCheckerthread = null;
 
     public BlockedUserManagement(){
-        allowedFailedAttempts = 3; // TODO get the value from console. This is a hard coded value for now.
+        //allowedFailedAttempts = 3; // TODO get the value from console. This is a hard coded value for now.
+    }
+
+    public BlockedUserManagement(int allowedFailedAttempts){
+        this.allowedFailedAttempts = allowedFailedAttempts;
     }
 
     public void increaseFailedAttemptCount(String username){
