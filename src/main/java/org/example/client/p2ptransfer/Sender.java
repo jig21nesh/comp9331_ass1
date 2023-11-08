@@ -23,7 +23,6 @@ public class Sender {
     public boolean send(String toUser, String ipAddress, String port){
         boolean isSent = false;
         try {
-            int BUFFER_SIZE = 1024;
             DatagramSocket socket = new DatagramSocket();
 
             long startTime = System.currentTimeMillis();
@@ -37,15 +36,15 @@ public class Sender {
             DatagramPacket packetForFileNameMetaData = new DatagramPacket(nameBytes, nameBytes.length, InetAddress.getByName(ipAddress), Integer.parseInt(port));
             socket.send(packetForFileNameMetaData);
 
-            byte[] fileChunks = new byte[BUFFER_SIZE];
+            byte[] fileChunks = new byte[UDPConfig.BUFFER_SIZE];
             int bytesRead;
-            int totalChunks = Math.toIntExact(file.length() / BUFFER_SIZE);
+            int totalChunks = Math.toIntExact(file.length() / UDPConfig.BUFFER_SIZE);
             int sequenceNumber = 0;
             while ((bytesRead = bufferedInputStream.read(fileChunks)) != -1) {
                 DatagramPacket sendPacket = new DatagramPacket(fileChunks, bytesRead, InetAddress.getByName(ipAddress), Integer.parseInt(port));
                 socket.send(sendPacket);
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(2);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     System.out.println("Server thread interrupted during sleep.");

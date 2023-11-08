@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Receiver implements Runnable{
 
-    private static final int BUFFER_SIZE = 1024;
+
 
     private Thread udpReceiver = null;
     private String udpPort;
@@ -51,7 +51,7 @@ public class Receiver implements Runnable{
 
         try{
             datagramSocket = new DatagramSocket(Integer.parseInt(this.udpPort));
-            byte[] receiveData = new byte[BUFFER_SIZE];
+            byte[] receiveData = new byte[UDPConfig.BUFFER_SIZE];
             DatagramPacket datagramPacket = new DatagramPacket(receiveData, receiveData.length);
 
 
