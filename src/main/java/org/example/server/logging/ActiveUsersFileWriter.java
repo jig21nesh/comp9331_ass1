@@ -22,7 +22,7 @@ public class ActiveUsersFileWriter extends CustomFileWriter{
 
     public ActiveUsersFileWriter(){
         if(!isFileCreated){
-            isFileCreated = this.createFile(FILE_NAME,FILE_EXTENSION);
+            isFileCreated = this.createFile(FILE_NAME);
         }
     }
 

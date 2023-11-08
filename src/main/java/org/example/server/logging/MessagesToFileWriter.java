@@ -22,7 +22,7 @@ public class MessagesToFileWriter extends CustomFileWriter{
 
     public MessagesToFileWriter(){
         if(!isFileCreated){
-            isFileCreated = this.createFile(FILE_NAME, FILE_EXTENSION);
+            isFileCreated = this.createFile(FILE_NAME);
         }
 
     }

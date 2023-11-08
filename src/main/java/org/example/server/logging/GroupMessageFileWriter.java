@@ -23,7 +23,7 @@ public class GroupMessageFileWriter extends CustomFileWriter{
     private static String fileNameWithExtension;
     public GroupMessageFileWriter(String prefixGroupName){
         if(!isFileCreated){
-            isFileCreated = this.createFile(prefixGroupName+"_"+FILE_NAME,FILE_EXTENSION);
+            isFileCreated = this.createFile(prefixGroupName+"_"+FILE_NAME);
             fileNameWithExtension = prefixGroupName+"_"+FILE_NAME+FILE_EXTENSION;
         }
     }
