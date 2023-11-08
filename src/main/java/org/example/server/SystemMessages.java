@@ -27,7 +27,7 @@ public class SystemMessages {
     }
 
     public static  String successfulLoadingOfCredentials(int size){
-        return size+" credential have been loaded.";
+        return size+" credential have been loaded. It might contains some test users as well.";
     }
 
     public static String failLoadingOfCredentials(){

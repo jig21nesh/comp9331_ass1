@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 public class Config {
 
     public static final int BLOCK_STATUS_CHECK_IN_MILLISECONDS = 500;
-    public static final int BLOCK_WAIT_TIME_IN_SECONDS=60;
+    public static final int BLOCK_WAIT_TIME_IN_SECONDS=10; //10 SECONDS
 
     public static final int LOWEST_TCP_PORT = 1024;
 
@@ -17,8 +17,5 @@ public class Config {
 
     public static final SimpleDateFormat logFileBackupDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
-
-
-    public static final int SOCKET_ACCEPT_TIMEOUT = 10000;
 
 }

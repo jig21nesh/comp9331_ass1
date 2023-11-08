@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class Server {
     InputValidator inputValidator;
@@ -20,18 +19,21 @@ public class Server {
 
     private static final Map<String, ActiveUser> activeUsersMap = new HashMap<>();
 
-    private static final MessagesToFileWriter fileWriter = new MessagesToFileWriter(); //TODO FIX THIS - it is not being used here.
-    private static final ActiveUsersFileWriter ACTIVE_USERS_FILE_WRITER = new ActiveUsersFileWriter(); //TODO FIX THIS - it is not being used here.
-
     int portNumber;
     int nofFailedAttempts;
 
     private static final String CREDENTIALS_FILE = "credentials.txt";
 
     public Server(){
+        this.initialiseResources();
+
+    }
+    private void initialiseResources(){
         inputValidator = new InputValidator();
         credentialValidator = new CredentialValidator(credentialMap);
         blockedUserManagement =  new BlockedUserManagement(nofFailedAttempts);
+        new MessagesToFileWriter();
+        new ActiveUsersFileWriter();
     }
 
     private void createSocketAndWaitForConnection(){
