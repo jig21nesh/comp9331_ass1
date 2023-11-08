@@ -28,6 +28,16 @@ public class Server {
         this.initialiseResources();
 
     }
+
+    private void printBanner() {
+        String banner = "\n" +
+                "*************************************************\n" +
+                "*                SERVER STARTED                 *\n" +
+                "*          Welcome to the Chat Server           *\n" +
+                "*                                               *\n" +
+                "*************************************************\n";
+        System.out.println(banner);
+    }
     private void initialiseResources(){
         inputValidator = new InputValidator();
         credentialValidator = new CredentialValidator(credentialMap);
@@ -84,6 +94,7 @@ public class Server {
 
         System.out.println(SystemMessages.successfulStartMessage(portNumber, nofFailedAttempts));
 
+        printBanner();
         this.createSocketAndWaitForConnection();
 
     }

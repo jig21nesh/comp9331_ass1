@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/p2ptransfer/UDPConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/p2ptransfer/UDPConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/SystemMessages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,8 +156,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="Application.CreateGroup" />
         <item itemvalue="Application.CommandType" />
         <item itemvalue="JUnit.InputValidatorTest.shouldGetValidMessageWhenInputIsValid" />
@@ -188,7 +185,7 @@
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
       <workItem from="1698962511683" duration="110315000" />
-      <workItem from="1699367550096" duration="12156000" />
+      <workItem from="1699367550096" duration="13019000" />
     </task>
     <servers />
   </component>
