@@ -25,6 +25,10 @@ public class CustomFileWriter {
         return isFileCreated;
     }
 
+    public static int getMessageCounter(){
+        return messageCounter.get();
+    }
+
     protected void backupCurrentFile(String fileName){
         File messageLogFile = new File(fileName+FILE_EXTENSION);
         String newFileName = fileName+"_" + Config.logFileBackupDateFormat.format(new Date()) + FILE_EXTENSION;

@@ -44,6 +44,7 @@ public class Server {
         blockedUserManagement =  new BlockedUserManagement(nofFailedAttempts);
         new MessagesToFileWriter();
         new ActiveUsersFileWriter();
+        new ServerStats(activeUsersMap);
     }
 
     private void createSocketAndWaitForConnection(){

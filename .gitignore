@@ -44,3 +44,4 @@ build/
 /testg_messagelog.txt
 /credentials.txt
 /realgroup_messagelog.txt
+/server_stats.txt

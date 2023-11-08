@@ -26,6 +26,10 @@ public class BlockedUserManagement implements Runnable{
         //allowedFailedAttempts = 3; // TODO get the value from console. This is a hard coded value for now.
     }
 
+    public int getNoOfBlockedUsers(){
+        return blockedUsersList.size();
+    }
+
     public BlockedUserManagement(int allowedFailedAttempts){
         this.allowedFailedAttempts = allowedFailedAttempts;
     }

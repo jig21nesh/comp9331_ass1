@@ -1,6 +1,7 @@
 package org.example.server.commandprocessor;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class CommonGroupUtil {
     public enum GroupStatus {
@@ -50,5 +51,35 @@ public class CommonGroupUtil {
     protected static final HashMap<String, Group> groupList = new HashMap<>();
 
 
+
+
     protected static final String SEPARATOR = " ";
+
+    public static int getNoOfGroups(){
+        return groupList.size();
+    }
+
+    public static int getTotalInvitedMembers(){
+        if(!groupList.isEmpty()){
+            Set<String> groups = groupList.keySet();
+            int totalInvitedMembers = 0;
+            for(String group : groups){
+                totalInvitedMembers += groupList.get(group).getInvitedMembers().size();
+            }
+            return totalInvitedMembers;
+        }else
+            return 0;
+    }
+
+    public static int getTotalJoinedMembers(){
+        if(!groupList.isEmpty()){
+            Set<String> groups = groupList.keySet();
+            int totalInvitedMembers = 0;
+            for(String group : groups){
+                totalInvitedMembers += groupList.get(group).getJoinedMembers().size();
+            }
+            return totalInvitedMembers;
+        }else
+            return 0;
+    }
 }
