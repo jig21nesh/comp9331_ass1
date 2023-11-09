@@ -75,12 +75,12 @@
   </component>
   <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.client.Client" />
+      <option name="MAIN_CLASS_NAME" value="org.weinnovateit.client.Client" />
       <module name="ass1" />
       <option name="PROGRAM_PARAMETERS" value="localhost 60000 50000" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.client.*" />
+          <option name="PATTERN" value="org.weinnovateit.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -94,11 +94,11 @@
       </method>
     </configuration>
     <configuration name="CommandType" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.server.CommandType" />
+      <option name="MAIN_CLASS_NAME" value="org.weinnovateit.server.CommandType" />
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
+          <option name="PATTERN" value="org.weinnovateit.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -107,11 +107,11 @@
       </method>
     </configuration>
     <configuration name="CreateGroup" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.server.commandprocessor.CreateGroup" />
+      <option name="MAIN_CLASS_NAME" value="org.weinnovateit.server.commandprocessor.CreateGroup" />
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
+          <option name="PATTERN" value="org.weinnovateit.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -120,12 +120,12 @@
       </method>
     </configuration>
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.server.Server" />
+      <option name="MAIN_CLASS_NAME" value="org.weinnovateit.server.Server" />
       <module name="ass1" />
       <option name="PROGRAM_PARAMETERS" value="60000 1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
+          <option name="PATTERN" value="org.weinnovateit.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -137,12 +137,12 @@
       <module name="ass1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.server.commandprocessor.*" />
+          <option name="PATTERN" value="org.weinnovateit.server.commandprocessor.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.example.server" />
-      <option name="MAIN_CLASS_NAME" value="org.example.server.InputValidatorTest" />
+      <option name="MAIN_CLASS_NAME" value="org.weinnovateit.server.InputValidatorTest" />
       <option name="METHOD_NAME" value="shouldGetValidMessageWhenInputIsValid" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
