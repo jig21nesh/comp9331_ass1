@@ -5,24 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/ServerMessageReaderThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/p2ptransfer/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/p2ptransfer/Receiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/p2ptransfer/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/p2ptransfer/Sender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/BlockedUserManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/BlockedUserManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/CredentialLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/CredentialLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/ServerStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/ServerStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/CommonGroupUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/CommonGroupUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/CreateGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/CreateGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/Fetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/Fetch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/MessageTo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/MessageTo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/ActiveUsersFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/ActiveUsersFileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/CustomFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/CustomFileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/GroupMessageFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/GroupMessageFileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/MessagesToFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/MessagesToFileWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +25,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -50,28 +37,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jiggy/Development/GitRepos/COMP9331/ass1/comp9331_ass1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/jiggy/Development/GitRepos/COMP9331/ass1/comp9331_ass1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -201,7 +189,7 @@
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
       <workItem from="1698962511683" duration="110315000" />
-      <workItem from="1699367550096" duration="32792000" />
+      <workItem from="1699367550096" duration="35109000" />
     </task>
     <servers />
   </component>
