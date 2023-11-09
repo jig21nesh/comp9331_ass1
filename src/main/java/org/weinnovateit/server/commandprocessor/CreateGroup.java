@@ -9,6 +9,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ * This class is responsible for creating a group chat room.
+ * It validates the command and creates a group chat room.
+ * Also, it creates a log file for the group chat room and writes the messages to the file.
+ * Create by Jiggy (jig2nesh@gmail.com)
+ *
+ */
+
 public class CreateGroup extends CommonGroupUtil{
 
     public CreateGroup(Map<String, ActiveUser> activeUsersMap, CredentialValidator credentialValidator) {

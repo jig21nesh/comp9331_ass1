@@ -3,6 +3,15 @@ package org.weinnovateit.server.commandprocessor;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ *
+ * This class is used to store the group details and also to validate the group commands
+ *
+ *
+ *
+ *
+ */
+
 public class CommonGroupUtil {
     public enum GroupStatus {
         SUCCESS("Success"),

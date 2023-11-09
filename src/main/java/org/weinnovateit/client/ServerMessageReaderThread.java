@@ -5,6 +5,19 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
 
+/**
+ *
+ * This class is responsible for reading the messages from the server and processing it. It does the following:
+ *
+ * 1. Reads the message from the server
+ * 2. Processes the message (decoding the messages from the server)
+ * 3. Prints the message to the console
+ * 4. Sets the current state of the client (class)
+ * Created by Jiggy (jig2nesh@gmail.com)
+ *
+ */
+
+
 public class ServerMessageReaderThread implements Runnable{
 
     BufferedReader bufferedReaderFromSocket;

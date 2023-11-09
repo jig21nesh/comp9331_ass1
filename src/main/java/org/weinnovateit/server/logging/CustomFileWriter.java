@@ -6,6 +6,14 @@ import java.io.File;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ *
+ * This class is the parent class of all the file writers. It has a method to create a file.
+ * It has a static message counter to keep track of the number of messages sent.
+ *
+ *
+ */
+
 public class CustomFileWriter {
 
     protected static final AtomicInteger messageCounter = new AtomicInteger(0);

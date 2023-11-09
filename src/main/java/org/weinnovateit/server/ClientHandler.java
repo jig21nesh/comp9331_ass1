@@ -12,6 +12,19 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * ClientHandler class is responsible for handling the client connection. Implementation is based on a simple state machine.
+ *
+ * It is responsible for:
+ * 1. Authenticating the user
+ * 2. Handling the client commands
+ * 3. Logging the messages
+ * 4. Updating the active users map
+ * 5. Blocking the user
+ * Created by Jiggy (jig2nesh@gmail.com)
+ *
+ */
+
 public class ClientHandler implements Runnable{
     private final Socket socket;
     private final CredentialValidator credentialValidator;

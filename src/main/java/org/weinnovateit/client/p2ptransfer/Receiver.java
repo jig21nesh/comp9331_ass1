@@ -9,6 +9,16 @@ import java.net.DatagramSocket;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for receiving the files from other users. It does the following:
+ *
+ * 1. Creates a UDP socket (and waits for the file to be received). It keeps listening to the port until user logges out.
+ * 2. Receives the file from the user
+ * 3. Writes the file to the disk
+ * 4. Closes the UDP socket when the user logs out.
+ *
+ */
+
 public class Receiver implements Runnable{
 
 
@@ -45,6 +55,14 @@ public class Receiver implements Runnable{
         running = false;
         udpReceiver.interrupt();
     }
+
+    /**
+     *
+     * This method is responsible for receiving the file from the user and writing it to the disk.
+     * And it also closes the UDP socket when the user logs out.
+     *
+     *
+     */
 
     @Override
     public void run() {

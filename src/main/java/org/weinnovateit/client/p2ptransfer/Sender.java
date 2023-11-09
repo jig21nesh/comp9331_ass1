@@ -7,6 +7,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+/**
+ *
+ * This class is responsible for sending the files to other users. It does the following:
+ *
+ * 1. Opens the UDP connection
+ * 2. Reads the file from the disk
+ * 3. Sends the file to the user
+ * 4. Closes the UDP connection
+ *
+ */
+
 public class Sender {
     private final String currentUser;
     private final String fileName;
@@ -19,6 +30,22 @@ public class Sender {
     private String getFileNameMetaData(String fileName){
         return this.currentUser+"_"+fileName;
     }
+
+    /**
+     *
+     * This method is responsible for sending the file to the user. It does the following:
+     * 1. Opens the UDP connection
+     * 2. Reads the file from the disk
+     * 3. Sends the file name
+     * 4. Sends file to the receiver
+     * 5. Sends EOF indicator
+     * 6. Closes the UDP connection
+     *
+     * @param toUser
+     * @param ipAddress
+     * @param port
+     * @return
+     */
 
     public boolean send(String toUser, String ipAddress, String port){
         boolean isSent = false;
@@ -72,6 +99,15 @@ public class Sender {
         return isSent;
 
     }
+
+    /**
+     *
+     *
+     * This method is responsible for formatting the elapsed time in a human readable format.
+     *
+     * @param elapsedTime
+     * @return
+     */
 
     private String getFormattedTimer(long elapsedTime) {
         String elapsedTimeStr;

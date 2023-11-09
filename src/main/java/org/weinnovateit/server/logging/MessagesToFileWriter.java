@@ -7,6 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ *
+ * This class is responsible for writing the messages to the file. It is a thread safe class since it has a lock.
+ *
+ */
+
 public class MessagesToFileWriter extends CustomFileWriter{
     private static final String FILE_NAME = "messagelog";
 

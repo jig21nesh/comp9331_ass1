@@ -7,6 +7,21 @@ import org.weinnovateit.client.p2ptransfer.Sender;
 import java.io.*;
 import java.net.*;
 
+/**
+ *
+ * This class is the entry point of the client application. It does the following:
+ *
+ * 1. Validates the input
+ * 2. Starts the client and UDP receiver threads
+ * 3. Reads the input from the user
+ * 4. Sends the input to the server
+ * 5. Reads the response from the server via a different thread. This is done to avoid blocking the main thread.
+ * 6. Prints the response to the console
+ * 7. Closes the connection
+ *
+ *
+ */
+
 public class Client {
 
     private boolean validateInput(String ipAddress, String port){

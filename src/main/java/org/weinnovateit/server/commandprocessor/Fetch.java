@@ -4,6 +4,13 @@ import org.weinnovateit.server.ActiveUser;
 
 import java.util.Map;
 
+/**
+ * This class is responsible for fetching the IP address and UDP port of the user. It validates the command and fetches the IP address and UDP port of the user.
+ *
+ * Create by Jiggy (jig2nesh@gmail.com)
+ *
+ */
+
 public class Fetch {
 
     public enum FetchStatus{

@@ -13,6 +13,14 @@ import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ *
+ * This class is responsible for writing the active users to a file.
+ * It is a thread safe class since it has a read write lock.
+ * It has a method to remove a user from the file and update the sequence number of the remaining users.
+ *
+ */
+
 public class ActiveUsersFileWriter extends CustomFileWriter{
     private static final String FILE_NAME = "userlog";
     private static final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();

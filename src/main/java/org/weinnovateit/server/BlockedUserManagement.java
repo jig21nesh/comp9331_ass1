@@ -6,7 +6,17 @@ import java.util.Map;
 
 import static org.weinnovateit.server.Config.BLOCK_STATUS_CHECK_IN_MILLISECONDS;
 
+
+/**
+ *
+ * This class is responsible for managing blocked users. It has a thread which runs every 500 milliseconds to check if any user
+ * has been blocked for more than 10 seconds. If yes, it removes the user from the blocked list.
+ *
+ * create by Jiggy (jig2nesh@gmail.com)
+ */
+
 public class BlockedUserManagement implements Runnable{
+
     private static final HashMap<String, Long> blockedUsersList = new HashMap<>();
 
     private static final HashMap<String, Integer> failedAttemptTracker = new HashMap<>();

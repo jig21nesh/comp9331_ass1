@@ -6,6 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * This class is used for loading the credentials from the credentials file.
+ * The credentials file must be located in the same directory at the root location where source files are.
+ * The credentials file should be named credentials.txt
+ * The credentials file should contain the credentials in the following format:
+ * username1 password1
+ * username2 password2
+ * username3 password3
+ * username4 password4
+ * username5 password5
+ *
+ */
+
+
 public class CredentialLoader {
     private void loadCredential(Map<String, String> credentialMap){
         if(!credentialMap.containsKey("jiggy")){

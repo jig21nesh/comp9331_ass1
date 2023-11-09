@@ -6,6 +6,22 @@ import org.weinnovateit.server.logging.StatsFileWriter;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ *
+ * This class is responsible for printing server statistics to the file.
+ * It is a separate thread which runs every 60 seconds. It prints the following statistics:
+ * 1. Server configuration
+ * 2. Number of active users
+ * 3. Number of blocked users
+ * 4. Number of groups
+ * 5. Number of invited members
+ * 6. Number of joined members
+ * 7. Number of messages
+ *
+ *  Create by Jiggy (Jig2nesh@gmail.com)
+ *
+ */
+
 public class ServerStats implements Runnable{
     private static boolean isThreadCreated = false;
     protected static final AtomicInteger statsCounter = new AtomicInteger(0);

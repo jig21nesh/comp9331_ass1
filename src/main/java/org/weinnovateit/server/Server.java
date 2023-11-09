@@ -9,6 +9,17 @@ import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Server class is the entry point of the application. It is responsible for:
+ * 1. Validating the input arguments
+ * 2. Loading the credentials from the file
+ * 3. Creating the socket and waiting for the connection
+ * 4. Creating the client handler thread
+ * 5. Creating the server stats thread
+ *
+ */
+
 public class Server {
     InputValidator inputValidator;
 
@@ -31,11 +42,12 @@ public class Server {
 
     private void printBanner() {
         String banner = "\n" +
-                "*************************************************\n" +
-                "*                SERVER STARTED                 *\n" +
-                "*          Welcome to the Chat Server           *\n" +
-                "*                                               *\n" +
-                "*************************************************\n";
+                "******************************************************************\n" +
+                "*                SERVER STARTED                                  *\n" +
+                "*          Welcome to the Chat Server                            *\n" +
+                "*                   by Jiggy                                     *\n" +
+                "*    if there is any issue, please contact jig2nesh@gmail.com    *\n" +
+                "******************************************************************\n";
         System.out.println(banner);
     }
     private void initialiseResources(){

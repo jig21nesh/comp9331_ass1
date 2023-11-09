@@ -9,6 +9,16 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ *
+ * This class is responsible for processing the message to command and does the following:
+ * 1. Validates the command
+ * 2. Sends the message to the user
+ * 3. Writes the message to the file
+ *
+ * Created by Jiggy (jig2nesh@gmail.com)
+ *
+ */
 public class MessageTo {
 
     public String getUsername() {
