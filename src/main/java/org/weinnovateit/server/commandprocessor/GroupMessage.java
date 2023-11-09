@@ -47,14 +47,12 @@ public class GroupMessage extends CommonGroupUtil{
     }
 
     public GroupStatus sendMessage(String currentUser, String command){
-        System.out.println("current user: " + currentUser+"  command "+command);
         MessageTranslator messageProcessor = new MessageTranslator();
         GroupStatus status;
         status = this.validateGroupCommand(command);
         if(status == GroupStatus.SUCCESS){
             String groupName = this.getGroupNameFromCommand(command);
             status = this.validateUserStatus(groupName, currentUser);
-            System.out.println("validateUserStatus status: " + status);
             if(status == GroupStatus.SUCCESS){
                 GroupMessageFileWriter groupMessageFileWriter = new GroupMessageFileWriter(groupName);
                 Group group = groupList.get(groupName);

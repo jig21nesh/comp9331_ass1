@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="63888ffd-1146-4cb2-838a-4c66236e64bf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/ServerMessageReaderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/ServerMessageReaderThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/p2ptransfer/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/p2ptransfer/Receiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/ServerStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/ServerStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/ActiveUsers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/ActiveUsers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/GroupMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/GroupMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/JoinGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/commandprocessor/JoinGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/StatsFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/weinnovateit/server/logging/StatsFileWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +186,7 @@
       <workItem from="1698357891854" duration="12991000" />
       <workItem from="1698810269989" duration="385000" />
       <workItem from="1698962511683" duration="110315000" />
-      <workItem from="1699367550096" duration="27957000" />
+      <workItem from="1699367550096" duration="28628000" />
     </task>
     <servers />
   </component>

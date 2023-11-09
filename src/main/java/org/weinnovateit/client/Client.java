@@ -153,7 +153,7 @@ public class Client {
         Client client = new Client();
 
         if(args.length != 3){
-            System.out.println("Usage: java Client <server ip> <server port>");
+            System.out.println("Usage: java Client <server ip> <server port> <udp port>");
             System.exit(0);
         }else{
             if(client.validateInput(args[0], args[1])){
@@ -162,7 +162,7 @@ public class Client {
                 String udpPort = args[2];
                 client.startClient(serverIpAddress, serverPort, udpPort);
             }else{
-                System.out.println("Usage: java Client <server ip> <server port>");
+                System.out.println("Usage: java Client <server ip> <server port> <udp port>");
                 System.exit(0);
             }
         }
