@@ -111,29 +111,33 @@ public class CreateGroup extends CommonGroupUtil{
             Group group = new Group();
             group.setOwner(currentUser);
             String[] users = this.getUsers(command);
-            GroupStatus usernameStatus = GroupStatus.SUCCESS;
-            for(String user : users){
-                if(user.equals(currentUser)){
-                    usernameStatus = GroupStatus.CURRENT_USER_PRESENT_IN_MEMBERS_LIST;
-                    break;
-                }
-                usernameStatus = this.isValidUserNameOrIsUserOnline(user);
-                if(usernameStatus != GroupStatus.SUCCESS){
-                    problemUser = user;
-                    break;
-                }
-                group.addInvitedMember(user);
-            }
-            if(usernameStatus != GroupStatus.SUCCESS){
-                this.problemUser = problemUser;
-                status = usernameStatus;
+            if(users.length == 0){
+                status = GroupStatus.NOT_ACTIVE_USERS_PROVIDED;
             }else{
-                String g = this.getGroupNameFromCommand(command);
-                group.addJoinedMember(currentUser);
-                groupList.put(g, group);
-                this.groupName = g;
-                this.users = users;
-                createLogFile(g);
+                GroupStatus usernameStatus = GroupStatus.SUCCESS;
+                for(String user : users){
+                    if(user.equals(currentUser)){
+                        usernameStatus = GroupStatus.CURRENT_USER_PRESENT_IN_MEMBERS_LIST;
+                        break;
+                    }
+                    usernameStatus = this.isValidUserNameOrIsUserOnline(user);
+                    if(usernameStatus != GroupStatus.SUCCESS){
+                        problemUser = user;
+                        break;
+                    }
+                    group.addInvitedMember(user);
+                }
+                if(usernameStatus != GroupStatus.SUCCESS){
+                    this.problemUser = problemUser;
+                    status = usernameStatus;
+                }else{
+                    String g = this.getGroupNameFromCommand(command);
+                    group.addJoinedMember(currentUser);
+                    groupList.put(g, group);
+                    this.groupName = g;
+                    this.users = users;
+                    createLogFile(g);
+                }
             }
         }
         return status;

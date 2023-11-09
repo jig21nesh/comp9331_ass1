@@ -44,7 +44,7 @@ public class Server {
         blockedUserManagement =  new BlockedUserManagement(nofFailedAttempts);
         new MessagesToFileWriter();
         new ActiveUsersFileWriter();
-        new ServerStats(activeUsersMap, portNumber, nofFailedAttempts);
+
     }
 
     private void createSocketAndWaitForConnection(){
@@ -96,6 +96,7 @@ public class Server {
         System.out.println(SystemMessages.successfulStartMessage(portNumber, nofFailedAttempts));
 
         printBanner();
+        new ServerStats(activeUsersMap, portNumber, nofFailedAttempts);
         this.createSocketAndWaitForConnection();
 
     }

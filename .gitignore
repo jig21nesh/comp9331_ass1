@@ -45,3 +45,4 @@ build/
 /credentials.txt
 /realgroup_messagelog.txt
 /server_stats.txt
+/testgroup_messagelog.txt
