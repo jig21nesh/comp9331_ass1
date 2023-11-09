@@ -9,10 +9,15 @@ public class JoinGroup extends CommonGroupUtil{
     private GroupStatus validateGroupCommand(String command) {
         GroupStatus status = GroupStatus.SUCCESS;
         String[] list = command.split(SEPARATOR);
-        if(list.length != 2){
+        if(list.length <= 1){
             status =  GroupStatus.INVALID_COMMAND_JOIN_GROUP;
+            return status;
         }
         String groupName = list[1];
+        if(groupName.isEmpty()){
+            status = GroupStatus.GROUP_NOT_FOUND;
+            return status;
+        }
         if(!groupList.containsKey(groupName)){
             status = GroupStatus.GROUP_NOT_FOUND;
         }

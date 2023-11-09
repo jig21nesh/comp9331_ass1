@@ -80,7 +80,8 @@ public class ServerMessageReaderThread implements Runnable{
         String status = processor.getPrompt(message);
         if (status.equalsIgnoreCase("Success")) {
             System.out.println("Group chat message sent at " + Config.dateFormat.format(new Date()));
-        }
+        }else
+            this.displayPrompt(message);
     }
 
 

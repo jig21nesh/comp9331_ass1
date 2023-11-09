@@ -19,6 +19,11 @@ public class StatsFileWriter extends CustomFileWriter{
             isFileCreated = this.createFile(FILE_NAME);
         }
     }
+    public StatsFileWriter(boolean isLimitReached){
+        if(isLimitReached){
+            isFileCreated = this.createFile(FILE_NAME);
+        }
+    }
     public void writeToFile(String message){
         String formattedMessage = String.format("%s; %s", Config.dateFormat.format(new Date()), message);
         BufferedWriter writer = null;

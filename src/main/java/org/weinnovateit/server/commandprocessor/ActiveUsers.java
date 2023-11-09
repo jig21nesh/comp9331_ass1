@@ -27,7 +27,7 @@ public class ActiveUsers {
                     stringBuilder.append(entry.getValue().getUdpPort());
                     stringBuilder.append(") active since ");
                     stringBuilder.append(Config.dateFormat.format(entry.getValue().getLastActive()));
-                    //stringBuilder.append("\n");
+                    stringBuilder.append("\n");
                 }
             }
         }

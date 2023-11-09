@@ -88,7 +88,8 @@ public class Receiver implements Runnable{
             }
         }catch (Exception e){
             udpReceiver.interrupt();
-            System.out.println("Unable to create UDP socket"+e.getMessage());
+            System.out.println("Unable to create UDP socket"+e.getMessage()+" you will not be able to receive files from other users. Please try using a different UDP port. " +
+                    "However, the other functionalities will work as expected.");
         }finally {
             if (datagramSocket != null && !datagramSocket.isClosed()) {
                 datagramSocket.close();

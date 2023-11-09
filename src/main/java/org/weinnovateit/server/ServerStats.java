@@ -4,9 +4,11 @@ import org.weinnovateit.server.commandprocessor.CommonGroupUtil;
 import org.weinnovateit.server.logging.StatsFileWriter;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerStats implements Runnable{
     private static boolean isThreadCreated = false;
+    protected static final AtomicInteger statsCounter = new AtomicInteger(0);
 
     private final Map<String, ActiveUser> activeUsersMap;
 
@@ -41,6 +43,12 @@ public class ServerStats implements Runnable{
                         "No of joined members "+ CommonGroupUtil.getTotalJoinedMembers() + "\n" +
                         "No of Messages including group messages " + StatsFileWriter.getMessageCounter() + "\n";
                 statsFileWriter.writeToFile(sb);
+                int count = statsCounter.incrementAndGet();
+                if(count > 1000){
+                    System.out.println("Server is running");
+                    statsFileWriter = new StatsFileWriter(true);
+                    statsCounter.set(0);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
